@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Multichannel Sales Platform — одностраничник</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+@page{size:A4;margin:0}
+@media print{body{background:white!important;padding:0!important} .page{box-shadow:none!important;border:none!important}}
+body{font-family:'Inter',sans-serif;background:#e8e4dc;display:flex;justify-content:center;padding:20px}
+.page{width:210mm;min-height:297mm;background:#0c0f14;color:#e2e0d8;overflow:hidden;position:relative;border-radius:4px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+
+/* Gold accent line top */
+.page::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#7a5037,#c8932b,#7a5037)}
+
+/* Header */
+.hdr{padding:28px 36px 20px;display:flex;justify-content:space-between;align-items:flex-start}
+.hdr-left{flex:1}
+.hdr .tag{display:inline-block;background:#c8932b22;color:#c8932b;font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;padding:4px 10px;border-radius:12px;border:1px solid #c8932b33;margin-bottom:10px}
+.hdr h1{font-family:'Fraunces',serif;font-size:24px;line-height:1.15;color:#f5f0e4}
+.hdr h1 em{font-style:normal;color:#c8932b}
+.hdr .sub{font-size:11px;color:#8a8778;margin-top:6px;line-height:1.5}
+.hdr-right{text-align:right;flex-shrink:0;margin-left:20px}
+.hdr-right .big{font-family:'Fraunces',serif;font-size:36px;color:#c8932b;font-weight:700;line-height:1}
+.hdr-right .small{font-size:10px;color:#8a8778;margin-top:2px}
+
+/* 3 blocks: для чего / что даёт / как */
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin:0 36px;border:1px solid #1e222b;border-radius:12px;overflow:hidden}
+.block{padding:18px 16px;border-right:1px solid #1e222b}
+.block:last-child{border-right:none}
+.block .icon{font-size:22px;margin-bottom:6px}
+.block h3{font-family:'Fraunces',serif;font-size:13px;color:#c8932b;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.block p{font-size:10.5px;color:#a09e94;line-height:1.6;margin-bottom:6px}
+.block ul{list-style:none;padding:0}
+.block li{font-size:10.5px;color:#c8c6bc;padding:3px 0;padding-left:14px;position:relative;line-height:1.4}
+.block li::before{content:'›';position:absolute;left:0;color:#c8932b;font-weight:700}
+
+/* Financial strip */
+.fin-strip{margin:14px 36px 0;background:#14171e;border:1px solid #1e222b;border-radius:12px;padding:16px 20px}
+.fin-strip h3{font-family:'Fraunces',serif;font-size:12px;color:#f5f0e4;margin-bottom:10px}
+.fin-row{display:flex;gap:0;margin-bottom:2px}
+.fin-cell{flex:1;text-align:center;padding:8px 4px;border-right:1px solid #1e222b1a}
+.fin-cell:last-child{border-right:none}
+.fin-cell .num{font-family:'Fraunces',serif;font-size:16px;font-weight:700}
+.fin-cell .num.gold{color:#c8932b}
+.fin-cell .num.green{color:#4ade80}
+.fin-cell .num.blue{color:#60a5fa}
+.fin-cell .lbl{font-size:8.5px;color:#8a8778;margin-top:2px;line-height:1.3}
+
+/* Conversion funnel */
+.funnel{margin:14px 36px 0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.funnel-left,.funnel-right{background:#14171e;border:1px solid #1e222b;border-radius:12px;padding:14px 16px}
+.funnel-left h3,.funnel-right h3{font-family:'Fraunces',serif;font-size:11px;color:#f5f0e4;margin-bottom:10px}
+
+/* Metric rows */
+.m-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.m-label{width:80px;font-size:9px;color:#8a8778;text-align:right;flex-shrink:0}
+.m-track{flex:1;height:14px;background:#1e222b;border-radius:3px;overflow:hidden;position:relative}
+.m-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:5px;font-size:8px;font-weight:600;color:#0c0f14}
+.m-fill.gold{background:#c8932b}
+.m-fill.green{background:#4ade80}
+.m-fill.blue{background:#60a5fa}
+.m-val{font-size:9px;color:#c8c6bc;width:46px;text-align:right;flex-shrink:0}
+
+/* Comparison table */
+.cmp-tbl{width:100%;font-size:9.5px;border-collapse:collapse}
+.cmp-tbl th{text-align:left;font-weight:600;color:#8a8778;padding:4px 0;border-bottom:1px solid #1e222b;font-size:8.5px;text-transform:uppercase;letter-spacing:.3px}
+.cmp-tbl td{padding:4px 0;border-bottom:1px solid #1e222b1a;color:#c8c6bc}
+.cmp-tbl td:nth-child(2){text-align:center;color:#f87171;font-weight:500}
+.cmp-tbl td:nth-child(3){text-align:center;color:#4ade80;font-weight:600}
+.cmp-tbl td:nth-child(4){text-align:center;color:#c8932b;font-weight:700;font-size:10px}
+
+/* Revenue streams */
+.streams{margin:14px 36px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stream{background:#14171e;border:1px solid #1e222b;border-radius:10px;padding:12px 14px;text-align:center}
+.stream .icon{font-size:18px;margin-bottom:4px}
+.stream .name{font-size:10px;font-weight:600;color:#f5f0e4;margin-bottom:4px}
+.stream .val{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:#c8932b}
+.stream .desc{font-size:8.5px;color:#8a8778;margin-top:2px;line-height:1.3}
+
+/* Timeline */
+.timeline{margin:14px 36px 0;background:#14171e;border:1px solid #1e222b;border-radius:12px;padding:14px 16px}
+.timeline h3{font-family:'Fraunces',serif;font-size:11px;color:#f5f0e4;margin-bottom:10px}
+.tl-bar{display:flex;gap:2px;margin-bottom:6px}
+.tl-seg{flex:1;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:600;color:#0c0f14}
+.tl-seg.done{background:#4ade80}
+.tl-seg.active{background:#c8932b}
+.tl-seg.future{background:#1e222b;color:#8a8778}
+.tl-labels{display:flex;gap:2px}
+.tl-labels span{flex:1;text-align:center;font-size:7.5px;color:#8a8778}
+.tl-legend{display:flex;gap:12px;margin-top:8px;justify-content:center;font-size:8px;color:#8a8778}
+.tl-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:3px;vertical-align:middle}
+
+/* Footer */
+.ftr{margin:14px 36px 20px;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:#c8932b;border-radius:10px}
+
+/* Support tiers */
+.support{margin:14px 36px 0;background:#14171e;border:1px solid #1e222b;border-radius:12px;padding:16px 18px}
+.support h3{font-family:'Fraunces',serif;font-size:12px;color:#f5f0e4;margin-bottom:4px}
+.support .note{font-size:9px;color:#8a8778;margin-bottom:10px;line-height:1.4}
+.sup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sup-card{border:1px solid #1e222b;border-radius:10px;padding:12px;position:relative;overflow:hidden}
+.sup-card.pop{border-color:#c8932b55}
+.sup-card.pop::before{content:'рекомендуем';position:absolute;top:0;right:0;background:#c8932b;color:#0c0f14;font-size:7px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:0 0 0 6px}
+.sup-card .tier{font-family:'Fraunces',serif;font-size:13px;color:#f5f0e4;font-weight:600;margin-bottom:2px}
+.sup-card .price{font-family:'Fraunces',serif;font-size:18px;color:#c8932b;font-weight:700;margin-bottom:6px}
+.sup-card .price small{font-size:10px;color:#8a8778;font-weight:400}
+.sup-card ul{list-style:none;padding:0;margin:0}
+.sup-card li{font-size:9px;color:#a09e94;padding:2.5px 0;padding-left:12px;position:relative;line-height:1.35}
+.sup-card li::before{content:'✓';position:absolute;left:0;color:#4ade80;font-size:8px;font-weight:700}
+.sup-card li.extra::before{content:'★';color:#c8932b}
+.sup-incl{margin-top:10px;font-size:9px;color:#8a8778;line-height:1.5;text-align:center;border-top:1px solid #1e222b;padding-top:8px}
+.ftr-left{color:#0c0f14}
+.ftr-left .line1{font-family:'Fraunces',serif;font-size:14px;font-weight:700}
+.ftr-left .line2{font-size:10px;opacity:.7;margin-top:2px}
+.ftr-right{display:flex;gap:16px}
+.ftr-stat{text-align:center}
+.ftr-stat .n{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:#0c0f14}
+.ftr-stat .l{font-size:8px;color:#0c0f1499}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div style="font-size:12px;color:#7a5037;margin-bottom:8px"><a href="lucklyrics-ru.html" style="color:#7a5037;text-decoration:none">← LuckLyrics</a> · <a href="investitsionnyy-proekt.html" style="color:#7a5037">Полная версия →</a></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="tag">Инвестиционный проект · с учётом поддержки</div>
+    <h1>Multichannel Sales Platform<br>для <em>крафтового бизнеса</em></h1>
+    <div class="sub">Пятиканальная система продаж: Telegram · Сайт · Instagram · VK · Max<br>ИИ-консультант · Кабинет продавца (формат Ozon) · White-label лицензирование</div>
+  </div>
+  <div class="hdr-right">
+    <div class="big">6.5</div>
+    <div class="small">месяцев<br>окупаемость с поддержкой</div>
+  </div>
+</div>
+
+<!-- ДЛЯ ЧЕГО / ЧТО ДАЁТ / КАК -->
+<div class="three">
+  <div class="block">
+    <div class="icon">🎯</div>
+    <h3>Для чего</h3>
+    <p>Крафтовый бизнес теряет до 70% потенциальных заказов из-за ручного приёма через DM и сарафанное радио.</p>
+    <ul>
+      <li>Нет автоматизации — каждый заказ вручную</li>
+      <li>Один канал — одна аудитория</li>
+      <li>Нет повторных покупок без напоминаний</li>
+      <li>Контент не конвертирует в заказы</li>
+      <li>Невозможно масштабировать</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="icon">🚀</div>
+    <h3>Что даёт</h3>
+    <ul>
+      <li>5 каналов продаж в одной системе</li>
+      <li>Рост заказов с 28 до 130/мес (+364%)</li>
+      <li>Рост выручки с 34K до 189K ₽/мес (+455%)</li>
+      <li>Средний чек +21% (AI-upsell)</li>
+      <li>Повторные заказы ×3 (рассылка + подписки)</li>
+      <li>Конверсия воронки ×10 (1.2–3.5%)</li>
+      <li>Кабинет продавца в формате Ozon</li>
+      <li>White-label: продавай платформу другим</li>
+      <li>Reels-фабрика: контент как сервис</li>
+    </ul>
+  </div>
+  <div class="block">
+    <div class="icon">⚙️</div>
+    <h3>Как работает</h3>
+    <p>Единое ядро (бот + сайт + AI + аналитика) настраивается через config.json. Контент уникален, код общий.</p>
+    <ul>
+      <li>Волна 0: бот + сайт + Reels ✅</li>
+      <li>Волна 1: DNS + деплой + запуск</li>
+      <li>Волна 2: автоматика + рассылка</li>
+      <li>Волна 3: SEO + WordPress + блог</li>
+      <li>Волна 3.5: кабинет Ozon/WB</li>
+      <li>Волна 4: VK + Max каналы</li>
+      <li>Волна 5: локализация + 1-й клиент</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FINANCIAL KPIs -->
+<div class="fin-strip">
+  <h3>Финансовые показатели проекта (с учётом поддержки)</h3>
+  <div class="fin-row">
+    <div class="fin-cell"><div class="num gold">450K ₽</div><div class="lbl">Разработка<br>(единоразово)</div></div>
+    <div class="fin-cell"><div class="num gold">15K ₽</div><div class="lbl">Поддержка<br>₽/мес (Стандарт)</div></div>
+    <div class="fin-cell"><div class="num gold">615K ₽</div><div class="lbl">TCO год 1<br>разработка+поддержка</div></div>
+    <div class="fin-cell"><div class="num blue">2.85M ₽</div><div class="lbl">Доп. выручка<br>за 12 мес</div></div>
+    <div class="fin-cell"><div class="num blue">1.50M ₽</div><div class="lbl">Доп. прибыль<br>за 12 мес (чист.)</div></div>
+    <div class="fin-cell"><div class="num green">6.5</div><div class="lbl">Окупаемость<br>мес (с поддержкой)</div></div>
+    <div class="fin-cell"><div class="num green">244%</div><div class="lbl">ROI<br>год 1 (чистый)</div></div>
+  </div>
+</div>
+
+<!-- CTR + CONVERSION -->
+<div class="funnel">
+  <div class="funnel-left">
+    <h3>Рост CTR и конверсии</h3>
+    <table class="cmp-tbl">
+      <thead><tr><th>Метрика</th><th>До</th><th>После</th><th>Δ</th></tr></thead>
+      <tbody>
+        <tr><td>CTR Reels → профиль</td><td>1.5%</td><td>4.2%</td><td>+180%</td></tr>
+        <tr><td>CTR профиль → taplink</td><td>6%</td><td>20%</td><td>+233%</td></tr>
+        <tr><td>Конверсия бот → заказ</td><td>12%</td><td>30%</td><td>+150%</td></tr>
+        <tr><td>End-to-end воронка</td><td>0.2%</td><td>2.4%</td><td>+1100%</td></tr>
+        <tr><td>Повторные заказы</td><td>7%</td><td>25%</td><td>+257%</td></tr>
+        <tr><td>Средний чек</td><td>1 200₽</td><td>1 450₽</td><td>+21%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="funnel-right">
+    <h3>Воронка: 1 Reels (10K просмотров)</h3>
+    <div class="m-row"><div class="m-label">Просмотры</div><div class="m-track"><div class="m-fill gold" style="width:100%">10 000</div></div><div class="m-val">100%</div></div>
+    <div class="m-row"><div class="m-label">→ профиль</div><div class="m-track"><div class="m-fill gold" style="width:42%">420</div></div><div class="m-val">4.2%</div></div>
+    <div class="m-row"><div class="m-label">→ taplink</div><div class="m-track"><div class="m-fill gold" style="width:8.4%">84</div></div><div class="m-val">20%</div></div>
+    <div class="m-row"><div class="m-label">→ бот / сайт</div><div class="m-track"><div class="m-fill blue" style="width:2.9%">29</div></div><div class="m-val">35%</div></div>
+    <div class="m-row"><div class="m-label">→ заказ</div><div class="m-track"><div class="m-fill green" style="width:0.9%">9</div></div><div class="m-val">30%</div></div>
+    <div class="m-row"><div class="m-label">→ повтор</div><div class="m-track"><div class="m-fill green" style="width:0.2%"></div></div><div class="m-val">25%</div></div>
+    <p style="font-size:9px;color:#8a8778;margin-top:8px;margin-bottom:0">9 заказов × 1 450₽ = <span style="color:#c8932b;font-weight:700">13 050₽</span> с одного Reels<br>4 Reels/мес = <span style="color:#4ade80;font-weight:700">~52 000₽</span> доп. выручки только от Instagram</p>
+  </div>
+</div>
+
+<!-- 3 REVENUE STREAMS -->
+<div class="streams">
+  <div class="stream">
+    <div class="icon">🍞</div>
+    <div class="name">Собственные продажи</div>
+    <div class="val">1.29M ₽</div>
+    <div class="desc">Доп. выручка за 12 мес<br>28 → 130 заказов/мес</div>
+  </div>
+  <div class="stream">
+    <div class="icon">🏭</div>
+    <div class="name">White-label лицензии</div>
+    <div class="val">1.2M ₽</div>
+    <div class="desc">6 клиентов × 200K ₽<br>Подключение за 1–2 дня</div>
+  </div>
+  <div class="stream">
+    <div class="icon">🎬</div>
+    <div class="name">Reels-фабрика</div>
+    <div class="val">360K ₽</div>
+    <div class="desc">Контент как сервис<br>15–25K ₽ за Reels, маржа 75%</div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline">
+  <h3>План запуска: 6 волн → платформенный бизнес</h3>
+  <div class="tl-bar">
+    <div class="tl-seg done">W0</div>
+    <div class="tl-seg active">W1</div>
+    <div class="tl-seg active">W2</div>
+    <div class="tl-seg active">W3</div>
+    <div class="tl-seg future">W3.5</div>
+    <div class="tl-seg future">W4</div>
+    <div class="tl-seg future">W5</div>
+  </div>
+  <div class="tl-labels">
+    <span>Фундамент<br>80ч ✅</span>
+    <span>Запуск<br>4ч</span>
+    <span>Автоматика<br>15ч</span>
+    <span>SEO<br>20ч</span>
+    <span>Кабинет<br>15ч</span>
+    <span>VK+Max<br>25ч</span>
+    <span>Scale<br>20ч</span>
+  </div>
+  <div class="tl-legend">
+    <span><i style="background:#4ade80"></i> Готово</span>
+    <span><i style="background:#c8932b"></i> Запуск пекарни (мес 1–3)</span>
+    <span><i style="background:#1e222b;border:1px solid #333"></i> Платформа + масштаб (мес 4–6)</span>
+  </div>
+</div>
+
+<!-- SUPPORT -->
+<div class="support">
+  <h3>Постпродажная поддержка и сопровождение</h3>
+  <div class="note">Первый месяц поддержки включён в стоимость разработки. Далее — по выбранному тарифу.</div>
+  <div class="sup-grid">
+    <div class="sup-card">
+      <div class="tier">Базовый</div>
+      <div class="price">5 000 ₽ <small>/мес</small></div>
+      <ul>
+        <li>Мониторинг работоспособности 24/7</li>
+        <li>Исправление багов — до 48 ч</li>
+        <li>Обновление библиотек и API</li>
+        <li>Резервное копирование данных</li>
+        <li>Telegram-чат с разработчиком</li>
+        <li>Отчёт о работе системы — 1×/мес</li>
+      </ul>
+    </div>
+    <div class="sup-card pop">
+      <div class="tier">Стандарт</div>
+      <div class="price">15 000 ₽ <small>/мес</small></div>
+      <ul>
+        <li>Всё из Базового</li>
+        <li>Исправление багов — до 12 ч</li>
+        <li extra>Создание 2 Reels/мес по референсу</li>
+        <li class="extra">Ежемесячный аудит конверсии</li>
+        <li class="extra">A/B тесты промокодов и CTA</li>
+        <li class="extra">Обновление каталога и цен</li>
+        <li class="extra">Настройка новых рассылок</li>
+        <li class="extra">Аналитический отчёт по каналам</li>
+      </ul>
+    </div>
+    <div class="sup-card">
+      <div class="tier">Премиум</div>
+      <div class="price">30 000 ₽ <small>/мес</small></div>
+      <ul>
+        <li>Всё из Стандарта</li>
+        <li>Исправление багов — до 4 ч</li>
+        <li class="extra">4 Reels/мес + контент-стратегия</li>
+        <li class="extra">Новые фичи — до 8 ч разработки/мес</li>
+        <li class="extra">Подключение новых каналов и интеграций</li>
+        <li class="extra">Персональный менеджер проекта</li>
+        <li class="extra">Еженедельный call + стратегия роста</li>
+        <li class="extra">Приоритетная техподдержка в выходные</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sup-incl">Включено в стоимость разработки: <strong style="color:#c8c6bc">1-й месяц по тарифу Стандарт</strong> + обучение команды + документация + передача доступов</div>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="ftr">
+  <div class="ftr-left">
+    <div class="line1">Готовы обсудить проект?</div>
+    <div class="line2">TCO 615K/год (разработка + Стандарт) · ROI 244% · 3 потока выручки · поддержка включена</div>
+  </div>
+  <div class="ftr-right">
+    <div class="ftr-stat"><div class="n">244%</div><div class="l">ROI</div></div>
+    <div class="ftr-stat"><div class="n">6.5</div><div class="l">мес окуп.</div></div>
+    <div class="ftr-stat"><div class="n">3</div><div class="l">потока</div></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
