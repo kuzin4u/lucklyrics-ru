@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KUZIN4U — Платформа многоканальных продаж для малого бизнеса</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --night:#0D1117;
+  --night-2:#161B22;
+  --night-3:#21262D;
+  --cream:#F6EEE0;
+  --cream-2:#EFE2C8;
+  --gold:#D4A843;
+  --gold-dim:rgba(212,168,67,0.15);
+  --gold-glow:rgba(212,168,67,0.3);
+  --green:#2AA05C;
+  --green-dim:rgba(42,160,92,0.12);
+  --text:#F0EAE0;
+  --muted:rgba(240,234,224,0.5);
+  --border:rgba(240,234,224,0.08);
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--night);color:var(--text);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(13,17,23,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--cream);letter-spacing:-0.5px}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:32px;font-size:14px;color:var(--muted)}
+.nav-links a{color:var(--muted);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--cream)}
+.nav-cta{padding:10px 24px;background:var(--gold);color:var(--night);border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;transition:all .15s}
+.nav-cta:hover{background:#e0b44e;transform:translateY(-1px)}
+@media(max-width:768px){.nav-links{display:none}.nav{padding:14px 20px}}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(212,168,67,0.08),transparent 70%)}
+.hero-content{position:relative;max-width:800px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.3);border-radius:20px;padding:6px 16px;font-size:13px;font-weight:600;color:var(--gold);margin-bottom:24px;letter-spacing:.5px}
+.hero-title{font-family:'Fraunces',serif;font-size:clamp(40px,7vw,80px);font-weight:900;line-height:1.05;color:var(--cream);margin-bottom:24px;letter-spacing:-2px}
+.hero-title em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,2.5vw,20px);color:var(--muted);max-width:560px;margin:0 auto 40px;line-height:1.6}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.btn-primary{padding:16px 36px;background:var(--gold);color:var(--night);border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 24px var(--gold-glow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--gold-glow)}
+.btn-secondary{padding:16px 36px;border:1px solid var(--border);color:var(--cream);border-radius:10px;font-size:16px;font-weight:600;text-decoration:none;transition:all .2s;background:rgba(255,255,255,.04)}
+.btn-secondary:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.07)}
+
+/* Live counter */
+.live-counter{display:flex;gap:32px;justify-content:center;flex-wrap:wrap}
+.counter-item{text-align:center}
+.counter-val{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,48px);font-weight:700;color:var(--gold);line-height:1}
+.counter-label{font-size:12px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.counter-live{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--green);margin-top:2px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-live 2s ease-in-out infinite}
+@keyframes pulse-live{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ─── SECTION BASE ─── */
+section{padding:100px 20px}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.section-title{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--cream);line-height:1.15;margin-bottom:16px;letter-spacing:-1px}
+.section-sub{font-size:17px;color:var(--muted);max-width:560px;line-height:1.6}
+
+/* ─── PROBLEM ─── */
+.problem{background:var(--night-2)}
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+@media(max-width:768px){.problem-grid{grid-template-columns:1fr}}
+.problem-card{background:var(--night-3);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden}
+.problem-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.problem-ico{font-size:32px;margin-bottom:16px}
+.problem-title{font-size:16px;font-weight:700;color:var(--cream);margin-bottom:8px}
+.problem-text{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ─── SOLUTION ─── */
+.solution-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px}
+@media(max-width:900px){.solution-layout{grid-template-columns:1fr}}
+.solution-features{display:flex;flex-direction:column;gap:24px}
+.feat{display:flex;gap:16px;align-items:flex-start}
+.feat-ico{width:44px;height:44px;border-radius:10px;background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.feat-title{font-size:15px;font-weight:700;color:var(--cream);margin-bottom:4px}
+.feat-text{font-size:13px;color:var(--muted);line-height:1.5}
+.solution-visual{background:var(--night-2);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative}
+.mockup-topbar{background:var(--night-3);border-radius:8px;padding:10px 16px;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.mockup-dot{width:10px;height:10px;border-radius:50%}
+.mockup-title{font-size:12px;color:var(--muted);margin-left:8px}
+.mockup-metric{background:var(--night-3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.mm-label{font-size:11px;color:var(--muted)}
+.mm-val{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--gold)}
+.mockup-bar{background:var(--night-3);border:1px solid var(--border);border-radius:8px;padding:14px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px}
+.bar-row:last-child{margin:0}
+.bar-label{width:60px;color:var(--muted)}
+.bar-track{flex:1;height:6px;background:var(--night);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;background:var(--gold)}
+.bar-val{width:30px;text-align:right;color:var(--muted)}
+
+/* ─── CASE STUDY ─── */
+.case{background:var(--night-2)}
+.case-header{display:flex;align-items:center;gap:20px;margin-bottom:48px;flex-wrap:wrap}
+.case-logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#3E2A1E,#6B4F2A);display:flex;align-items:center;justify-content:center;font-size:28px}
+.case-meta h3{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--cream)}
+.case-meta p{font-size:14px;color:var(--muted)}
+.case-results{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
+@media(max-width:768px){.case-results{grid-template-columns:repeat(2,1fr)}}
+.result-card{background:var(--night-3);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.result-num{font-family:'Fraunces',serif;font-size:36px;font-weight:700;color:var(--gold)}
+.result-label{font-size:12px;color:var(--muted);margin-top:4px}
+.case-quote{background:var(--gold-dim);border:1px solid rgba(212,168,67,0.2);border-radius:var(--radius);padding:28px;position:relative}
+.case-quote::before{content:'"';font-family:'Fraunces',serif;font-size:80px;color:var(--gold);opacity:.3;position:absolute;top:-10px;left:20px;line-height:1}
+.case-quote p{font-size:17px;color:var(--cream);line-height:1.6;font-style:italic;position:relative}
+.case-quote-author{font-size:13px;color:var(--gold);margin-top:12px;font-weight:600}
+
+/* ─── PACKAGES ─── */
+.packages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+@media(max-width:900px){.packages-grid{grid-template-columns:1fr}}
+.pkg{background:var(--night-2);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;transition:transform .2s,box-shadow .2s}
+.pkg:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.pkg.featured{border-color:rgba(212,168,67,0.4);background:linear-gradient(135deg,var(--night-2),rgba(212,168,67,0.04))}
+.pkg-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--night);font-size:11px;font-weight:700;padding:4px 14px;border-radius:12px;white-space:nowrap}
+.pkg-name{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--cream);margin-bottom:6px}
+.pkg-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.pkg-price{font-family:'Fraunces',serif;font-size:42px;font-weight:700;color:var(--gold);line-height:1}
+.pkg-price span{font-size:16px;font-weight:400;color:var(--muted)}
+.pkg-period{font-size:13px;color:var(--muted);margin-bottom:24px}
+.pkg-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.pkg-features li{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.pkg-features li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.pkg-features li.premium::before{content:'⭐';color:var(--gold)}
+.pkg-cta{display:block;width:100%;padding:14px;border-radius:10px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;transition:all .15s;cursor:pointer;border:none;font-family:inherit}
+.pkg-cta-primary{background:var(--gold);color:var(--night)}
+.pkg-cta-primary:hover{background:#e0b44e}
+.pkg-cta-secondary{background:transparent;border:1px solid var(--border);color:var(--cream)}
+.pkg-cta-secondary:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.05)}
+
+/* ─── CTA SECTION ─── */
+.cta-section{text-align:center;padding:100px 20px;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(212,168,67,0.07),transparent 70%)}
+.cta-content{position:relative;max-width:600px;margin:0 auto}
+.cta-title{font-family:'Fraunces',serif;font-size:clamp(32px,5vw,56px);font-weight:700;color:var(--cream);margin-bottom:16px;letter-spacing:-1px}
+.cta-sub{font-size:17px;color:var(--muted);margin-bottom:40px}
+.cta-form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap}
+.cta-input{flex:1;min-width:200px;padding:14px 18px;background:var(--night-2);border:1px solid var(--border);border-radius:10px;color:var(--cream);font-size:15px;font-family:inherit;outline:none;transition:border .15s}
+.cta-input:focus{border-color:rgba(212,168,67,0.5)}
+.cta-input::placeholder{color:var(--muted)}
+.cta-submit{padding:14px 28px;background:var(--gold);color:var(--night);border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.cta-submit:hover{background:#e0b44e;transform:translateY(-1px)}
+.cta-note{font-size:12px;color:var(--muted);margin-top:12px}
+.cta-hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* ─── FOOTER ─── */
+footer{padding:40px 20px;border-top:1px solid var(--border);text-align:center;font-size:13px;color:var(--muted)}
+footer a{color:var(--gold);text-decoration:none}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KUZIN<span>4U</span></div>
+  <div class="nav-links">
+    <a href="#solution">Платформа</a>
+    <a href="#case">Кейс</a>
+    <a href="#packages">Пакеты</a>
+    <a href="lucklyrics-ru.html">LuckLyrics</a>
+  </div>
+  <a class="nav-cta" href="#contact">Получить демо</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="live-dot"></span>
+      Работает в production · Масса Матере, Москва
+    </div>
+    <h1 class="hero-title">
+      Магазин, бот и кабинет —<br><em>за один день</em>
+    </h1>
+    <p class="hero-sub">
+      Платформа многоканальных продаж для малого бизнеса. Telegram, сайт, Instagram, VK, Max — из одного места. Без разработчика.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#contact">Запустить бесплатно</a>
+      <a class="btn-secondary" href="https://massamadre.ru" target="_blank">Посмотреть демо →</a>
+    </div>
+    <div class="live-counter">
+      <div class="counter-item">
+        <div class="counter-val" id="cntOrders">—</div>
+        <div class="counter-label">Заказов принято</div>
+        <div class="counter-live"><span class="live-dot"></span> live</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-val" id="cntRevenue">—</div>
+        <div class="counter-label">Выручка за месяц</div>
+        <div class="counter-live"><span class="live-dot"></span> live</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-val">5</div>
+        <div class="counter-label">Каналов продаж</div>
+      </div>
+      <div class="counter-item">
+        <div class="counter-val">1 день</div>
+        <div class="counter-label">До запуска</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-label reveal">Зачем это нужно</div>
+    <h2 class="section-title reveal">Малый бизнес теряет продажи<br>из-за разрозненных инструментов</h2>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-ico">📱</div>
+        <div class="problem-title">Заказы в разных местах</div>
+        <div class="problem-text">В WhatsApp одно, в Telegram другое, на сайте третье. Путаница, пропущенные заказы, недовольные клиенты.</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-ico">📊</div>
+        <div class="problem-title">Нет аналитики</div>
+        <div class="problem-text">Непонятно какой канал приносит деньги, какой товар лучше продаётся и почему клиенты уходят.</div>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-ico">💸</div>
+        <div class="problem-title">Дорогая разработка</div>
+        <div class="problem-text">Нормальный магазин стоит от 300К ₽ и полгода. Малому бизнесу это недоступно.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="container">
+    <div class="section-label reveal">Решение</div>
+    <h2 class="section-title reveal">Одна платформа для всех каналов</h2>
+    <p class="section-sub reveal">Каталог товаров, бот в Telegram и VK, сайт с корзиной, кабинет продавца и аналитика — всё связано и работает из одного Google Sheets.</p>
+    <div class="solution-layout">
+      <div class="solution-features">
+        <div class="feat reveal">
+          <div class="feat-ico">🤖</div>
+          <div><div class="feat-title">AI-бот в Telegram и VK</div><div class="feat-text">Принимает заказы, отвечает на вопросы, отправляет рассылки накануне выпечки, напоминает о брошенной корзине.</div></div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-ico">🛒</div>
+          <div><div class="feat-title">Сайт-каталог в Ozon-формате</div><div class="feat-text">Карточки товаров, корзина, синхронизация с ботом. Покупатель выбирает на сайте — заказ видит в боте.</div></div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-ico">📋</div>
+          <div><div class="feat-title">Кабинет продавца</div><div class="feat-text">Pipeline заказов как на Ozon. Новый → Готовится → Доставляется → Доставлен. Данные из Google Sheets в реальном времени.</div></div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-ico">📊</div>
+          <div><div class="feat-title">Аналитика</div><div class="feat-text">Выручка по каналам, продажи по SKU, средний чек, воронка. Всё обновляется автоматически.</div></div>
+        </div>
+        <div class="feat reveal">
+          <div class="feat-ico">📸</div>
+          <div><div class="feat-title">Instagram-воронка</div><div class="feat-text">Reels по вирусному референсу, Taplink, промокоды с трекингом конверсий по каждому ролику.</div></div>
+        </div>
+      </div>
+      <div class="solution-visual reveal">
+        <div class="mockup-topbar">
+          <div class="mockup-dot" style="background:#ff5f57"></div>
+          <div class="mockup-dot" style="background:#febc2e"></div>
+          <div class="mockup-dot" style="background:#28c840"></div>
+          <div class="mockup-title">Кабинет продавца — live данные</div>
+        </div>
+        <div class="mockup-metric">
+          <div><div class="mm-label">Заказов за неделю</div></div>
+          <div class="mm-val" id="mockupOrders">47</div>
+        </div>
+        <div class="mockup-metric">
+          <div><div class="mm-label">Выручка за неделю</div></div>
+          <div class="mm-val" id="mockupRevenue">22 325 ₽</div>
+        </div>
+        <div class="mockup-bar">
+          <div class="bar-row"><span class="bar-label">Telegram</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">55%</span></div>
+          <div class="bar-row"><span class="bar-label">Сайт</span><div class="bar-track"><div class="bar-fill" style="width:23%;background:#3b82f6"></div></div><span class="bar-val">23%</span></div>
+          <div class="bar-row"><span class="bar-label">VK</span><div class="bar-track"><div class="bar-fill" style="width:14%;background:#8b5cf6"></div></div><span class="bar-val">14%</span></div>
+          <div class="bar-row"><span class="bar-label">Instagram</span><div class="bar-track"><div class="bar-fill" style="width:8%;background:#e1306c"></div></div><span class="bar-val">8%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section class="case" id="case">
+  <div class="container">
+    <div class="section-label reveal">Живой кейс</div>
+    <div class="case-header reveal">
+      <div class="case-logo">🍞</div>
+      <div class="case-meta">
+        <h3>Масса Матере</h3>
+        <p>Пекарня на закваске · Москва · Запуск за 1 день</p>
+      </div>
+    </div>
+    <div class="case-results">
+      <div class="result-card reveal"><div class="result-num">5</div><div class="result-label">Каналов продаж</div></div>
+      <div class="result-card reveal"><div class="result-num" id="caseOrders">47</div><div class="result-label">Заказов в неделю</div></div>
+      <div class="result-card reveal"><div class="result-num">475₽</div><div class="result-label">Средний чек</div></div>
+      <div class="result-card reveal"><div class="result-num">1 день</div><div class="result-label">Время запуска</div></div>
+    </div>
+    <div class="case-quote reveal">
+      <p>Раньше заказы приходили в личку Instagram, в WhatsApp и в Telegram — я их всё время путал. Теперь всё в одном кабинете, я просто меняю статус и получаю аналитику по каждому каналу.</p>
+      <div class="case-quote-author">— Серёжа, основатель Масса Матере</div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages">
+  <div class="container">
+    <div class="section-label reveal">Пакеты</div>
+    <h2 class="section-title reveal">Выберите формат запуска</h2>
+    <p class="section-sub reveal">Все пакеты включают исходный код, инструкцию по деплою и от 30 дней поддержки. Каналы подключаются последовательно.</p>
+    <div class="packages-grid">
+      <div class="pkg reveal">
+        <div class="pkg-name">Старт</div>
+        <div class="pkg-sub">Telegram. Быстрый запуск.</div>
+        <div class="pkg-price" style="font-size:26px">По запросу</div>
+        <div class="pkg-period">2–3 недели</div>
+        <ul class="pkg-features">
+          <li>Telegram-бот: каталог, корзина, заказ</li>
+          <li>AI-консультант в боте</li>
+          <li>Уведомление администратору</li>
+          <li>Google Таблица — база заказов</li>
+          <li>Деплой на Render</li>
+          <li>30 дней поддержки</li>
+        </ul>
+        <a class="pkg-cta pkg-cta-secondary" href="#contact">Выбрать →</a>
+      </div>
+      <div class="pkg featured reveal">
+        <div class="pkg-badge">Популярный</div>
+        <div class="pkg-name">Бизнес</div>
+        <div class="pkg-sub">+ Сайт + Instagram. Три канала.</div>
+        <div class="pkg-price" style="font-size:26px">По запросу</div>
+        <div class="pkg-period">5–8 недель</div>
+        <ul class="pkg-features">
+          <li>Всё из пакета «Старт»</li>
+          <li>Сайт-каталог в Ozon-формате</li>
+          <li>ИИ-консультант на сайте, корзина синхр. с ботом</li>
+          <li>Instagram-воронка: Reels + Stories</li>
+          <li>Reels по вирусному референсу (AI-видео + монтаж)</li>
+          <li>Taplink-страница, промокоды с трекингом</li>
+          <li>Карточки товаров (до 20 SKU)</li>
+          <li>60 дней поддержки</li>
+        </ul>
+        <a class="pkg-cta pkg-cta-primary" href="#contact">Выбрать →</a>
+      </div>
+      <div class="pkg reveal">
+        <div class="pkg-name">Премиум</div>
+        <div class="pkg-sub">+ VK + Max. Пять каналов.</div>
+        <div class="pkg-price" style="font-size:26px">По запросу</div>
+        <div class="pkg-period">8–12 недель</div>
+        <ul class="pkg-features">
+          <li>Всё из пакета «Бизнес»</li>
+          <li>ВКонтакте: группа, Market, Клипы, бот</li>
+          <li>Max-бот (адаптер Telegram API)</li>
+          <li class="premium">Кабинет продавца — формат Ozon Seller</li>
+          <li class="premium">Витрина-киоск + админ-панель</li>
+          <li class="premium">Ваш домен и брендинг</li>
+          <li class="premium">Мультиязычность (RU/EN/PT)</li>
+          <li class="premium">Неограниченные SKU</li>
+          <li class="premium">90 дней поддержки</li>
+        </ul>
+        <a class="pkg-cta pkg-cta-secondary" href="#contact">Выбрать →</a>
+      </div>
+    </div>
+    <p class="section-sub reveal" style="text-align:center;margin-top:20px">Нужен детальный расчёт и вопросник для ТЗ? <a href="kommercheskoe-predlozhenie.docx">Коммерческое предложение</a> · <a href="roadmap-i-raschet-stoimosti.docx">Roadmap</a> · <a href="voprosnik-tz.docx">Вопросник</a></p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-content">
+    <h2 class="cta-title reveal">Запустить за один день</h2>
+    <p class="cta-sub reveal">Оставьте телефон и email — свяжемся в течение часа и покажем демо на вашем товаре.</p>
+    <div class="cta-form reveal">
+      <input class="cta-input" type="tel" placeholder="+7 9XX XXX-XX-XX" id="ctaPhone"/>
+      <input class="cta-input" type="email" placeholder="email@example.com" id="ctaEmail"/>
+      <button class="cta-submit" onclick="submitLead()">Получить демо</button>
+    </div>
+    <div class="cta-hint reveal">Достаточно телефона — email нужен, если удобнее написать, а не звонить</div>
+    <div class="cta-note reveal">Или напишите напрямую: <a href="https://t.me/Sourdough_Bakery_Bot" target="_blank">Telegram</a> · <a href="mailto:sergey.kuzin@list.ru">sergey.kuzin@list.ru</a> · <a href="tel:+79253781481">+7 925 378-14-81</a> · <a href="https://kuzin4u.ru" target="_blank">kuzin4u.ru</a></div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 KUZIN4U Platform · <a href="https://massamadre.ru" target="_blank">Масса Матере</a> — живой кейс · платформа: <a href="lucklyrics-ru.html">LuckLyrics</a></p>
+</footer>
+
+<script>
+const API = '__REVIEWS_API_URL__';           // Masa Madre — статистика/отзывы (существующая таблица)
+const LEADS_API = '__LEADS_API_URL__';        // KUZIN4U/LuckLyrics — заявки с этого сайта (отдельная таблица)
+
+// ─── Live counter from Sheets ───
+async function loadStats() {
+  if(!API || API===('__REVIEWS_API'+'_URL__')) return;
+  try{
+    const r = await fetch(API+'?action=stats');
+    const s = await r.json();
+    if(s && !s.error){
+      document.getElementById('cntOrders').textContent = s.total || '—';
+      document.getElementById('cntRevenue').textContent = s.monthRevenue
+        ? Math.round(s.monthRevenue).toLocaleString('ru-RU')+' ₽'
+        : '—';
+      document.getElementById('caseOrders').textContent = s.weekOrders || '—';
+      document.getElementById('mockupOrders').textContent = s.weekOrders || '47';
+      if(s.weekRevenue){
+        document.getElementById('mockupRevenue').textContent =
+          Math.round(s.weekRevenue).toLocaleString('ru-RU')+' ₽';
+      }
+    }
+  }catch(e){console.warn('Stats load error:',e)}
+}
+loadStats();
+
+// ─── Lead form ───
+function submitLead(){
+  const phoneEl = document.getElementById('ctaPhone');
+  const emailEl = document.getElementById('ctaEmail');
+  const phone = phoneEl.value.trim();
+  const email = emailEl.value.trim();
+  phoneEl.style.borderColor = '';
+  emailEl.style.borderColor = '';
+
+  if(!phone){ phoneEl.style.borderColor='var(--gold)'; phoneEl.focus(); return; }
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    emailEl.style.borderColor='var(--gold)'; emailEl.focus(); return;
+  }
+
+  const btn = document.querySelector('.cta-submit');
+  const originalText = btn.textContent;
+  btn.textContent = '✓ Отправлено!';
+  btn.style.background = 'var(--green)';
+  btn.disabled = true;
+  // Отправка в Sheets
+  if(LEADS_API && LEADS_API!==('__LEADS_API'+'_URL__')){
+    fetch(LEADS_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({_type:'lead',channel:'Landing KUZIN4U',
+        name:'Лид',phone,email,status:'Новый лид',
+        createdAt:new Date().toISOString()})
+    }).catch(()=>{});
+  }
+
+  setTimeout(()=>{
+    btn.textContent = originalText;
+    btn.style.background = '';
+    btn.disabled = false;
+    phoneEl.value = '';
+    emailEl.value = '';
+  }, 4000);
+}
+
+// ─── Scroll reveal ───
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
