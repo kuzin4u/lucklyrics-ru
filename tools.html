@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бесплатная модель прибыли Ozon — LuckLyrics</title>
+<meta name="description" content="Бесплатная интерактивная модель юнит-экономики для селлера Ozon. Мгновенно видите чистую прибыль, узкое место воронки и главный рычаг — а мы построим вам магазин.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0D1117; --cream:#F6EEE0; --gold:#D4A843; --gold-dim:rgba(212,168,67,0.12);
+  --gold-glow:rgba(212,168,67,0.25); --green:#2AA05C; --green-dim:rgba(42,160,92,0.12);
+  --purple:#8B5CF6; --blue:#3B82F6; --text:#F0EAE0; --muted:rgba(240,234,224,0.5); --border:rgba(240,234,224,0.08);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+a{color:var(--gold);text-decoration:none}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:700;line-height:1.12;letter-spacing:-.01em}
+
+/* nav */
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;
+  border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(13,17,23,.92);
+  backdrop-filter:blur(10px);z-index:50}
+.nav-logo{font-family:'Fraunces',serif;font-weight:900;font-size:21px;color:var(--cream)}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{color:var(--text);font-size:14px;font-weight:500;opacity:.85}
+.nav-links a:hover{opacity:1;color:var(--gold)}
+.nav-actions{display:flex;gap:14px;align-items:center}
+.nav-lang{color:var(--muted);font-size:13px;font-weight:600}
+.nav-cta{background:var(--gold);color:var(--night);padding:9px 18px;border-radius:8px;
+  font-size:14px;font-weight:600;white-space:nowrap}
+.nav-cta:hover{filter:brightness(1.08)}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* hero */
+.hero{padding:64px 0 40px;text-align:center}
+.eyebrow{display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-glow);
+  padding:6px 14px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:clamp(30px,5vw,50px);color:var(--cream);margin:0 auto 18px;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,2vw,19px);color:var(--muted);max-width:62ch;margin:0 auto 12px;line-height:1.5}
+.hero-free{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;color:var(--green);
+  font-weight:600;background:var(--green-dim);padding:8px 16px;border-radius:20px}
+.hero-free::before{content:"●";font-size:9px}
+
+/* model frame */
+.model-section{padding:20px 0}
+.model-shell{background:#FCFCFB;border:1px solid var(--border);border-radius:16px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.model-topbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#16202B;
+  border-bottom:1px solid rgba(255,255,255,.06)}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
+.model-topbar .url{margin-left:12px;font-size:12.5px;color:#8A96A2;font-family:ui-monospace,Menlo,monospace}
+.model-frame{width:100%;height:1600px;border:0;display:block;background:#FCFCFB}
+.frame-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
+.frame-note a{border-bottom:1px solid var(--gold-glow)}
+
+/* lead capture */
+.capture{padding:56px 0 20px}
+.capture-card{background:linear-gradient(160deg,rgba(42,160,92,.08),rgba(212,168,67,.05));
+  border:1px solid var(--gold-glow);border-radius:20px;padding:clamp(28px,4vw,48px);
+  display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center}
+@media(max-width:820px){.capture-card{grid-template-columns:1fr;gap:26px}}
+.capture-left .eyebrow{margin-bottom:16px}
+.capture-left h2{font-size:clamp(23px,3.2vw,33px);color:var(--cream);margin:0 0 14px;line-height:1.15}
+.capture-left h2 em{font-style:normal;color:var(--gold)}
+.capture-left p{color:var(--muted);font-size:15.5px;margin:0 0 18px;line-height:1.55}
+.capture-points{list-style:none;padding:0;margin:0}
+.capture-points li{padding-left:28px;position:relative;font-size:14.5px;color:var(--text);margin-bottom:10px}
+.capture-points li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+.capture-form{background:rgba(13,17,23,.5);border:1px solid var(--border);border-radius:14px;padding:26px 24px}
+.capture-form h3{font-size:19px;color:var(--cream);margin:0 0 6px}
+.capture-form .fnote{font-size:13px;color:var(--muted);margin:0 0 18px}
+.cf-field{margin-bottom:14px}
+.cf-field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:500}
+.cf-field input,.cf-field select{width:100%;font-family:inherit;font-size:14.5px;color:var(--text);
+  background:rgba(240,234,224,.04);border:1px solid var(--border);border-radius:8px;padding:11px 13px}
+.cf-field input:focus,.cf-field select:focus{outline:2px solid var(--gold-glow);outline-offset:-1px;
+  border-color:var(--gold)}
+.cf-field input::placeholder{color:rgba(240,234,224,.35)}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.cf-row{grid-template-columns:1fr}}
+.cf-submit{width:100%;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--night);
+  background:var(--gold);border:none;border-radius:10px;padding:14px;cursor:pointer;margin-top:6px}
+.cf-submit:hover{filter:brightness(1.08)}
+.cf-privacy{font-size:12px;color:var(--muted);text-align:center;margin:12px 0 0}
+.cf-success{display:none;text-align:center;padding:30px 10px}
+.cf-success.on{display:block}
+.cf-success .big{font-size:44px;margin-bottom:10px}
+.cf-success h3{color:var(--green);margin:0 0 8px}
+.cf-success p{color:var(--muted);font-size:14.5px;margin:0}
+
+/* bridge */
+.bridge{padding:56px 0 20px}
+.bridge-head{text-align:center;margin-bottom:44px}
+.bridge-head h2{font-size:clamp(25px,3.5vw,37px);color:var(--cream);margin:0 auto 14px;max-width:22ch}
+.bridge-head p{color:var(--muted);max-width:62ch;margin:0 auto;font-size:16px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:820px){.steps{grid-template-columns:1fr}}
+.step{background:rgba(240,234,224,.02);border:1px solid var(--border);border-radius:14px;padding:26px 22px}
+.step-n{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--gold);
+  width:38px;height:38px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-glow);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.step h3{font-size:18px;color:var(--cream);margin:0 0 8px}
+.step p{color:var(--muted);font-size:14.5px;margin:0}
+
+/* offer */
+.offer{padding:56px 0}
+.offer-card{background:linear-gradient(160deg,rgba(212,168,67,.08),rgba(139,92,246,.05));
+  border:1px solid var(--gold-glow);border-radius:20px;padding:clamp(30px,5vw,56px);text-align:center}
+.offer-card .eyebrow{margin-bottom:18px}
+.offer-card h2{font-size:clamp(25px,4vw,38px);color:var(--cream);margin:0 auto 16px;max-width:24ch}
+.offer-card h2 em{font-style:normal;color:var(--gold)}
+.offer-card > p{color:var(--muted);max-width:60ch;margin:0 auto 28px;font-size:16.5px;line-height:1.55}
+.offer-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 30px;max-width:760px;margin:0 auto 34px;text-align:left}
+@media(max-width:640px){.offer-list{grid-template-columns:1fr}}
+.offer-list li{list-style:none;padding-left:30px;position:relative;font-size:15px;color:var(--text)}
+.offer-list li::before{content:"✦";position:absolute;left:0;color:var(--gold);font-size:15px}
+.offer-cta{display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-gold{background:var(--gold);color:var(--night);padding:15px 32px;border-radius:10px;
+  font-size:16px;font-weight:700}
+.btn-gold:hover{filter:brightness(1.08)}
+.btn-outline{border:1px solid var(--gold-glow);color:var(--cream);padding:15px 30px;border-radius:10px;
+  font-size:16px;font-weight:600}
+.btn-outline:hover{background:var(--gold-dim)}
+.offer-alt{margin-top:22px;font-size:14px;color:var(--muted)}
+
+/* footer */
+footer{border-top:1px solid var(--border);padding:40px 0;margin-top:20px}
+.foot-grid{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.foot-logo{font-family:'Fraunces',serif;font-weight:900;font-size:19px;color:var(--cream)}
+.foot-logo span{color:var(--gold)}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap}
+.foot-links a{color:var(--muted);font-size:14px}
+.foot-links a:hover{color:var(--gold)}
+.foot-note{color:var(--muted);font-size:12.5px;margin-top:16px;max-width:80ch}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:0">
+    <div class="nav-logo">Luck<span>Lyrics</span></div>
+    <div class="nav-links">
+      <a href="lucklyrics-ru.html#features">Платформа</a>
+      <a href="lucklyrics-ru.html#cases">Кейсы</a>
+      <a href="lucklyrics-ru.html#packages">Пакеты</a>
+      <a href="whitelabel_roadmap.html">Для селлеров Ozon/WB</a>
+      <a href="tools.html" style="color:var(--gold)">Инструменты</a>
+    </div>
+    <div class="nav-actions">
+      <a class="nav-lang" href="https://lucklyrics.com" target="_blank" rel="noopener">EN</a>
+      <a class="nav-cta" href="#offer">Построить магазин</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Бесплатный инструмент для селлеров Ozon</span>
+    <h1>Узнайте свою <em>реальную</em> прибыль на Ozon до следующей ставки в рекламе</h1>
+    <p class="hero-sub">Интерактивная модель юнит-экономики с формулой ранжирования Ozon и полной экономикой единицы —
+      комиссия, эквайринг, логистика, выкуп в ПВЗ. Двигаете любой рычаг — цену, ставку, конверсию, выкуп — и сразу
+      видите чистую прибыль, узкое место воронки и следующий шаг. Введите свои цифры или возьмите готовый пример.</p>
+    <div class="hero-free">Бесплатно · без регистрации · работает на телефоне</div>
+  </div>
+</header>
+
+<section class="model-section">
+  <div class="wrap">
+    <div class="model-shell">
+      <div class="model-topbar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="url">ozon-модель-прибыли · онлайн</span>
+      </div>
+      <iframe class="model-frame" id="modelFrame" src="OZON-Sales-Funnel.html" title="Воронка продаж и финансовая модель Ozon" loading="lazy"></iframe>
+    </div>
+    <p class="frame-note">Модель не загрузилась? <a href="OZON-Sales-Funnel.html" target="_blank">Открыть в новой вкладке →</a></p>
+  </div>
+</section>
+
+<section class="capture" id="get-model">
+  <div class="wrap">
+    <div class="capture-card">
+      <div class="capture-left">
+        <span class="eyebrow">Бесплатно · 30 секунд</span>
+        <h2>Получите модель <em>под свой товар</em></h2>
+        <p>Назовите товар и пару цифр — пришлём модель, уже настроенную под ваш SKU. Увидите реальную прибыль,
+          узкое место воронки и главный рычаг, а не обезличенный пример.</p>
+        <ul class="capture-points">
+          <li>Предзаполнена вашей ценой, себестоимостью и категорией</li>
+          <li>Узкое место воронки и сильнейший рычаг прибыли — найдены</li>
+          <li>Расчёт можно выгрузить и показать команде</li>
+        </ul>
+      </div>
+      <div class="capture-form">
+        <!-- ============================================================
+             ФОРМА TALLY — два способа подключения (выберите один):
+
+             ВАРИАНТ А (рекомендую) — встроить форму Tally:
+             1. Соберите форму на tally.so с полями: Email, Название товара,
+                Категория, Цена, Себестоимость.
+             2. Опубликуйте → Share → Embed → скопируйте ID формы (напр. "w4KxLe").
+             3. Вставьте embed-URL вашей формы в DATA-TALLY-SRC ниже:
+                https://tally.so/embed/ВАШ_ID_ФОРМЫ?transparentBackground=1
+             4. Удалите ручную форму <form> ниже.
+             Скрипт Tally уже подключён внизу страницы.
+        ============================================================ -->
+        <!--
+        <iframe data-tally-src="https://tally.so/embed/ВАШ_ID_ФОРМЫ?transparentBackground=1&dynamicHeight=1"
+                loading="lazy" width="100%" height="420" frameborder="0" title="Получить модель"></iframe>
+        -->
+
+        <!-- ВАРИАНТ Б — эта форма отправляется прямо в Tally / Formspree.
+             Замените адрес в action на ВАШ endpoint:
+             • Tally:    https://tally.so/r/ВАШ_ID
+             • Formspree: https://formspree.io/f/ВАШ_ID  -->
+        <form id="captureForm" action="https://formspree.io/f/ВАШ_ID_ФОРМЫ" method="POST">
+          <div id="cfBody">
+            <h3>Прислать мою модель</h3>
+            <p class="fnote">Без спама — только ваша модель и иногда полезное про продажи на Ozon.</p>
+            <div class="cf-field">
+              <label for="cf-email">Email *</label>
+              <input type="email" id="cf-email" name="email" placeholder="you@company.ru" required>
+            </div>
+            <div class="cf-field">
+              <label for="cf-product">Название товара</label>
+              <input type="text" id="cf-product" name="product" placeholder="напр. салфетки микрофибра">
+            </div>
+            <div class="cf-row">
+              <div class="cf-field">
+                <label for="cf-cat">Категория</label>
+                <select id="cf-cat" name="category">
+                  <option value="">Выберите…</option>
+                  <option>Дом и быт</option>
+                  <option>Электроника</option>
+                  <option>Красота и здоровье</option>
+                  <option>Одежда</option>
+                  <option>Детские товары</option>
+                  <option>Другое</option>
+                </select>
+              </div>
+              <div class="cf-field">
+                <label for="cf-price">Цена, ₽</label>
+                <input type="number" id="cf-price" name="price" placeholder="399" step="1">
+              </div>
+            </div>
+            <input type="hidden" name="_subject" value="Новый лид — запрос модели Ozon">
+            <button type="submit" class="cf-submit">Прислать мою модель →</button>
+            <p class="cf-privacy">Используем email только чтобы прислать модель и советы. Отписка в один клик.</p>
+          </div>
+          <div class="cf-success" id="cfSuccess">
+            <div class="big">✓</div>
+            <h3>Готово — проверьте почту</h3>
+            <p>Ваша модель уже в пути. Если не пришла за несколько минут — проверьте спам или напишите на sergey.kuzin@list.ru.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bridge">
+  <div class="wrap">
+    <div class="bridge-head">
+      <h2>Модель показывает, что не так. Мы строим — как исправить.</h2>
+      <p>Калькулятор находит, где утекает прибыль. Следующий шаг — витрина, воронка и автоматизация за этими
+        цифрами. Это и есть то, что мы делаем.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">1</div>
+        <h3>Найдите утечку</h3>
+        <p>По модели видно узкое место воронки и единственный рычаг, который двигает прибыль сильнее всего —
+          конверсия, выкуп, реклама или цена.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <h3>Мы строим решение</h3>
+        <p>Мультиканальная витрина — сайт, Telegram, WhatsApp — из одной панели, настроенная превращать в заказы
+          тот трафик, что ваша карточка на Ozon уже получает.</p>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <h3>Запуск за день</h3>
+        <p>Без разработчиков и месяцев работы. Свой брендовый канал продаж выходит быстро, а модель остаётся
+          вашим инструментом планирования.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="offer" id="offer">
+  <div class="wrap">
+    <div class="offer-card">
+      <span class="eyebrow">Для селлеров Ozon, готовых владеть своим каналом</span>
+      <h2>Перестаньте <em>арендовать</em> покупателя у маркетплейса</h2>
+      <p>Ozon владеет вашим покупателем, отзывами и частью маржи. Мы строим вам прямой канал продаж — витрину с
+        AI на сайте, в Telegram и WhatsApp — чтобы клиент и прибыль, которую показала модель выше, оставались у вас.</p>
+      <ul class="offer-list">
+        <li>Брендовая витрина за один день, без разработчиков</li>
+        <li>Продажи с сайта, Telegram и WhatsApp из одной панели</li>
+        <li>Та же интерактивная модель под ваши реальные SKU</li>
+        <li>По желанию — AI-ассистент, читающий ваши цифры</li>
+        <li>Ваша база клиентов, ваши отзывы, ваши повторные продажи</li>
+        <li>Сопровождение и обновление данных</li>
+      </ul>
+      <div class="offer-cta">
+        <a class="btn-gold" href="mailto:sergey.kuzin@list.ru?subject=Магазин%20для%20селлера%20Ozon%20—%20из%20модели%20прибыли">Построить магазин →</a>
+        <a class="btn-outline" href="lucklyrics-ru.html#packages">Смотреть пакеты</a>
+      </div>
+      <div class="offer-alt">Или напишите напрямую: <a href="mailto:sergey.kuzin@list.ru">sergey.kuzin@list.ru</a> · <a href="tel:+79253781481">+7 925 378-14-81</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-logo">Luck<span>Lyrics</span></div>
+      <div class="foot-links">
+        <a href="lucklyrics-ru.html#features">Платформа</a>
+        <a href="lucklyrics-ru.html#cases">Кейсы</a>
+        <a href="lucklyrics-ru.html#packages">Пакеты</a>
+        <a href="whitelabel_roadmap.html">Для селлеров Ozon/WB</a>
+        <a href="tools.html">Инструменты</a>
+        <a href="mailto:sergey.kuzin@list.ru">Контакты</a>
+      </div>
+    </div>
+    <p class="foot-note">Модель прибыли Ozon — бесплатный инструмент планирования. Все цифры — иллюстративные
+      допущения на основе публичной документации Ozon по ранжированию и комиссиям; всегда сверяйте точные
+      значения для своего товара в личном кабинете. LuckLyrics — AI-платформа мультиканальных продаж.</p>
+  </div>
+</footer>
+
+<script>
+  // авто-подгонка высоты iframe при совпадении домена (после заливки на lucklyrics.ru)
+  const frame = document.getElementById('modelFrame');
+  function fit(){
+    try{
+      const d = frame.contentDocument || frame.contentWindow.document;
+      const h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+      if(h>400) frame.style.height = h + 'px';
+    }catch(e){ /* другой домен до заливки — держим фикс. высоту */ }
+  }
+  frame.addEventListener('load', ()=>{ fit(); setTimeout(fit,600); setTimeout(fit,1500); });
+  window.addEventListener('resize', fit);
+
+  // ---- форма лида: отправка через fetch, успех показываем на месте ----
+  const cForm = document.getElementById('captureForm');
+  if(cForm){
+    cForm.addEventListener('submit', async (e)=>{
+      if(cForm.action.includes('ВАШ_ID')){
+        e.preventDefault();
+        alert('Укажите ваш endpoint Tally или Formspree в атрибуте action формы перед запуском.');
+        return;
+      }
+      e.preventDefault();
+      const btn = cForm.querySelector('.cf-submit');
+      btn.textContent = 'Отправляем…'; btn.disabled = true;
+      try{
+        const res = await fetch(cForm.action, {
+          method:'POST', body:new FormData(cForm), headers:{'Accept':'application/json'}
+        });
+        if(res.ok){
+          document.getElementById('cfBody').style.display='none';
+          document.getElementById('cfSuccess').classList.add('on');
+        } else { throw new Error('bad response'); }
+      }catch(err){
+        btn.textContent = 'Прислать мою модель →'; btn.disabled = false;
+        alert('Что-то пошло не так — напишите на sergey.kuzin@list.ru, и мы пришлём модель вручную.');
+      }
+    });
+  }
+</script>
+<!-- Скрипт Tally (нужен только при варианте с embed-iframe выше) -->
+<script async src="https://tally.so/widgets/embed.js"></script>
+</body>
+</html>

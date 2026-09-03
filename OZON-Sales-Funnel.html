@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Воронка продаж + финансовая модель — Салфетки микрофибра SKU 3775041192</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    background: #f4f6fa;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+}
+.container { max-width: 1280px; width: 100%; background: #fff; border-radius: 28px; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15); padding: 32px 28px 40px; }
+h1 { font-size: 25px; font-weight: 700; color: #0b1b32; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+.sku-badge { background: #eef2f7; color: #1e3a6b; font-size: 13px; font-weight: 500; padding: 4px 14px; border-radius: 40px; }
+.subhead { color: #4a5a72; font-size: 14.5px; margin-bottom: 26px; border-left: 4px solid #005bff; line-height: 1.5; padding: 12px 18px; background: #f0f5ff; border-radius: 0 12px 12px 0; }
+h2.section-title { font-size: 17px; font-weight: 700; color: #0b1b32; margin: 30px 0 14px; display: flex; align-items: center; gap: 10px; }
+h2.section-title .dot { width: 8px; height: 8px; border-radius: 50%; background: #005bff; display: inline-block; }
+
+.period-bar { display:flex; align-items:center; gap:14px; background:#fff7e6; border:1px solid #f3dca0; border-radius:16px; padding:12px 18px; margin-bottom:20px; }
+.period-bar label { font-size:13px; font-weight:600; color:#6b4f10; }
+.period-bar input { width:90px; border:1px solid #e3c87a; border-radius:10px; padding:6px 10px; font-size:14px; font-weight:600; }
+.period-bar .note { font-size:12.5px; color:#8a6a1f; }
+
+.computed-field { background:#eef2ff; border:1px solid #c9d6f7; border-radius:10px; padding:8px 10px; }
+.computed-field .cf-label { font-size:11.5px; font-weight:600; color:#2a405c; }
+.computed-field .cf-value { font-size:16px; font-weight:800; color:#0b1b32; margin-top:1px; }
+.computed-field .cf-tag { font-size:10.5px; color:#5c7392; }
+.rank-card { background:#f5f8ff; border:1px solid #d7e2fb; }
+.rank-card .stage-num { background:#dde8ff; color:#0b3fa6; }
+
+.stage-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom: 10px; }
+.stage-card { background:#f9faff; border:1px solid #e6edf6; border-radius:18px; padding:16px 16px 14px; display:flex; flex-direction:column; gap:10px; }
+.stage-card .stage-head { display:flex; align-items:center; justify-content:space-between; }
+.stage-card .stage-num { font-size:11px; font-weight:700; color:#005bff; background:#e7eefe; padding:2px 9px; border-radius:20px; }
+.stage-card .stage-name { font-size:14.5px; font-weight:700; color:#0b1b32; }
+.stage-card .goal { font-size:12px; color:#5c7392; margin-top:-6px; }
+.field { display:flex; flex-direction:column; gap:3px; }
+.field label { font-size:12px; font-weight:600; color:#2a405c; }
+.field input, .field select { background:white; border:1px solid #d0dbe8; border-radius:10px; padding:7px 10px; font-size:13.5px; font-weight:500; color:#0b1b32; width:100%; }
+.field input:focus, .field select:focus { border-color:#005bff; outline:none; box-shadow:0 0 0 3px rgba(0,91,255,0.15); }
+.field .hint { font-size:11px; color:#8095ad; }
+
+details.info { background:#fff; border:1px dashed #cfe0fb; border-radius:12px; padding:8px 12px; }
+details.info summary { cursor:pointer; font-size:12px; font-weight:600; color:#005bff; list-style:none; }
+details.info summary::-webkit-details-marker { display:none; }
+details.info summary::before { content:"💡 "; }
+details.info ul { margin:8px 0 2px 18px; font-size:12px; color:#3e5775; line-height:1.5; }
+details.info .src { font-size:11px; color:#8095ad; margin-top:6px; }
+
+.funnel-wrap { background:#f9faff; border:1px solid #e6edf6; border-radius:18px; padding:20px 22px; margin-bottom:24px; }
+.funnel-row { display:flex; align-items:center; gap:14px; margin-bottom:10px; }
+.funnel-row .f-label { width:150px; font-size:13px; font-weight:600; color:#2a405c; flex-shrink:0; }
+.funnel-row .f-bar-track { flex:1; background:#eef2f9; border-radius:8px; height:30px; position:relative; overflow:hidden; }
+.funnel-row .f-bar-fill { height:100%; border-radius:8px; background:linear-gradient(90deg,#005bff,#3a86ff); display:flex; align-items:center; padding-left:10px; color:#fff; font-size:12.5px; font-weight:700; white-space:nowrap; transition: width .25s; }
+.funnel-row .f-val { width:90px; text-align:right; font-size:13.5px; font-weight:700; color:#0b1b32; flex-shrink:0; }
+.funnel-conv { font-size:11.5px; color:#8095ad; margin:-4px 8px 8px 150px; white-space:normal; overflow-wrap:break-word; }
+.funnel-conv.low { color:#b13e3a; font-weight:700; }
+
+.result-cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap:18px; margin: 6px 0 20px; }
+@media (max-width: 700px) { .result-cards { grid-template-columns: 1fr; } }
+.card { background:#fff; border-radius:18px; padding:18px 20px 20px; box-shadow:0 4px 12px rgba(0,20,50,0.06); border:1px solid #e9eff6; }
+.card h3 { font-size:14px; font-weight:700; color:#1a3355; margin-bottom:12px; border-bottom:1px dashed #dce5ef; padding-bottom:8px; }
+.row { display:flex; justify-content:space-between; padding:5px 0; font-size:13.5px; border-bottom:1px solid #f0f4fa; }
+.row:last-child { border-bottom:none; }
+.row .label { color:#3e5775; }
+.row .value { font-weight:600; color:#0b1b32; }
+.row.total { margin-top:8px; padding-top:10px; border-top:2px solid #d0dbe8; font-weight:700; font-size:16px; }
+.row.total .value { color:#005bff; }
+.row.sub { color:#8095ad; font-size:12px; }
+
+.big-metric { background:#e3f5eb; border-radius:16px; padding:16px; text-align:center; margin-bottom:14px; }
+.big-metric.neg { background:#fee9e7; }
+.big-metric .lbl { font-size:12px; color:#2a405c; text-transform:uppercase; letter-spacing:.4px; }
+.big-metric .val { font-size:32px; font-weight:800; line-height:1.2; color:#0c6b4b; }
+.big-metric.neg .val { color:#b13e3a; }
+.big-metric .tag { font-size:13px; color:#3e5775; margin-top:2px; }
+
+.bottleneck { background:#fff4e5; border:1px solid #f3d49a; border-radius:14px; padding:12px 16px; font-size:13px; color:#6b4f10; margin-bottom:14px; }
+.bottleneck strong { color:#8a5a00; }
+
+.capacity-box { background:#fee9e7; border:1px solid #f3b3ad; border-radius:14px; padding:12px 16px; font-size:13px; color:#7a2620; margin-bottom:14px; }
+.capacity-box strong { color:#b13e3a; }
+.capacity-box.ok { display:none; }
+
+.row.penalty .value { color:#b13e3a; }
+.row.penalty .label { color:#7a2620; }
+
+.kpi-mini { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.kpi-mini div { background:#f4f8fe; border-radius:10px; padding:10px; text-align:center; }
+.kpi-mini .v { font-size:18px; font-weight:700; color:#1a3355; }
+.kpi-mini .l { font-size:11px; color:#5c7392; }
+
+.footnote { background:#f2f7fe; border-radius:16px; padding:18px 22px; margin-top:10px; font-size:13.5px; color:#1f3a5e; border-left:5px solid #005bff; line-height:1.6; }
+.footnote strong { color:#003d99; }
+.footnote h4 { font-size:14px; color:#003d99; margin:14px 0 6px; }
+.footnote table { width:100%; border-collapse:collapse; margin-top:8px; font-size:12.5px; }
+.footnote table th, .footnote table td { text-align:left; padding:6px 8px; border-bottom:1px solid #dbe7fb; vertical-align:top; }
+.footnote table th { color:#003d99; font-weight:700; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1><span>🧮 Воронка продаж + финансовая модель</span><span class="sku-badge">SKU 3775041192</span></h1>
+<div class="subhead">
+⚡ Салфетки для уборки из микрофибры 30×30 см, 3 шт · полный цикл: <strong>показы → клики → корзина → заказы → выкуп → повторные покупки</strong> · критерий оптимизации — <strong>чистая прибыль за период</strong>
+</div>
+
+<div class="period-bar">
+    <label>📅 Период расчёта (дней)</label>
+    <input type="number" id="periodInput" value="30" min="1" max="365">
+    <span class="note">Измените параметры любого этапа воронки ниже — все расчёты обновятся мгновенно. Цель — подобрать комбинацию, дающую максимальную прибыль за период.</span>
+</div>
+
+<h2 class="section-title"><span class="dot"></span>Формула ранжирования Ozon: вес органики vs вес продвижения</h2>
+<div class="stage-grid">
+
+    <div class="stage-card rank-card">
+        <div class="stage-head"><span class="stage-name">Веса формулы</span><span class="stage-num">2025–2026</span></div>
+        <div class="goal">Финальная оценка = Вес органики × Орг.оценка + Вес продвижения × Оценка продвижения</div>
+        <div class="field"><label>Вес органики, %</label><input type="number" id="rankWeightOrganic" value="70" step="5" min="0" max="100"></div>
+        <div class="field"><label>Вес продвижения, % (авто = 100 − органика)</label>
+            <div class="computed-field"><div class="cf-value" id="rankWeightPromoOut">30%</div></div>
+        </div>
+        <details class="info"><summary>Источник и допущения</summary>
+            <ul>
+                <li>Точные значения весов Ozon не публикует — это коммерческая тайна алгоритма</li>
+                <li>С 2025 года вес органики «значительно превышает» вес продвижения — направление подтверждено открытыми источниками</li>
+                <li>70/30 — модельное допущение по умолчанию, можно менять слайдером для сценарного анализа</li>
+            </ul>
+            <div class="src">Источник: «Как работает рекламный аукцион Ozon» (загруженный PDF), разделы 2025–2026</div>
+        </details>
+    </div>
+
+    <div class="stage-card rank-card">
+        <div class="stage-head"><span class="stage-name">Органическая оценка</span><span class="stage-num">бесплатно</span></div>
+        <div class="goal">6 факторов с весами из документации Ozon</div>
+        <div class="field"><label>Популярность, корзина+избранное (39%)</label><input type="number" id="orgPopularity" value="55" step="5" min="0" max="100"></div>
+        <div class="field"><label>Продажи за 60 дней (17%)</label>
+            <div class="computed-field"><div class="cf-value" id="orgSalesOut">—</div><div class="cf-tag">авторасчёт от текущих продаж модели (итерация по рендерам)</div></div>
+        </div>
+        <div class="field"><label>Текст. релевантность SEO (12%)</label>
+            <div class="computed-field"><div class="cf-value" id="orgRelevanceOut">—</div><div class="cf-tag">зависит от тоггла «SEO-ключи» в этапе 1</div></div>
+        </div>
+        <div class="field"><label>Цена конкурентна (7%)</label>
+            <div class="computed-field"><div class="cf-value" id="orgPriceOut">—</div><div class="cf-tag">зависит от тоггла «Индекс цены» в этапе 4</div></div>
+        </div>
+        <div class="field"><label>Отзывы / рейтинг (5%)</label>
+            <div class="computed-field"><div class="cf-value" id="orgReviewsOut">—</div><div class="cf-tag">зависит от тоггла «Рейтинг ≥4.8» в этапе 3</div></div>
+        </div>
+        <div class="field"><label>Персонализация (16%, не управляется продавцом)</label>
+            <div class="computed-field"><div class="cf-value">50</div></div>
+        </div>
+    </div>
+
+    <div class="stage-card rank-card">
+        <div class="stage-head"><span class="stage-name">Оценка продвижения</span><span class="stage-num">реклама</span></div>
+        <div class="goal">P(клик)×Ставка CPC + P(заказ)×Ставка CPO</div>
+        <div class="field"><label>Ставка CPO, % от цены заказа</label><input type="number" id="cpoRate" value="7" step="0.5" min="0" max="20"></div>
+        <div class="hint">P(клик) и P(заказ) берутся из CTR и CR заказа этапов 1 и 3 ниже</div>
+        <div class="field"><label>Объём показов категории/запроса за период</label><input type="number" id="categoryImpressions" value="2000000" step="50000" min="0"></div>
+        <div class="field"><label>Конкурентов в выдаче, шт</label><input type="number" id="competitorsCount" value="150" step="5" min="1"></div>
+        <div class="field"><label>Средний Final Score конкурентов (0-100)</label><input type="number" id="competitorAvgScore" value="50" step="1" min="0" max="100"></div>
+        <details class="info"><summary>Результат расчёта</summary>
+            <div class="computed-field" style="margin-top:4px"><div class="cf-label">Наш Final Score</div><div class="cf-value" id="finalScoreOut">—</div></div>
+            <div class="computed-field" style="margin-top:6px"><div class="cf-label">Расчётная позиция в выдаче</div><div class="cf-value" id="positionOut">—</div></div>
+            <div class="computed-field" style="margin-top:6px"><div class="cf-label">Расчётные показы за период</div><div class="cf-value" id="impressionsOut">—</div></div>
+        </details>
+    </div>
+
+</div>
+
+<h2 class="section-title"><span class="dot"></span>Параметры по этапам воронки</h2>
+
+<div class="stage-grid">
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">1. Охват</span><span class="stage-num">SEO + реклама</span></div>
+        <div class="goal">Цель: максимум показов целевой аудитории</div>
+        <div class="field"><label>Показы за период (расчёт по формуле ранжирования выше)</label>
+            <div class="computed-field"><div class="cf-value" id="impressionsOut2">—</div></div>
+        </div>
+        <div class="field"><label>CTR (клик/показ), %</label><input type="number" id="ctr" value="3" step="0.1" min="0" max="100"></div>
+        <div class="field"><label>CPC, ₽ (ставка за клик)</label><input type="number" id="cpc" value="8" step="0.5" min="0"></div>
+        <div class="field"><label>Использованы рекомендованные SEO-ключи?</label>
+            <select id="useSeoKeywords"><option value="yes">Да</option><option value="no">Нет</option></select>
+        </div>
+        <div class="field"><label>Доля рекл. бюджета на точные фразы, %</label><input type="number" id="exactPhraseShare" value="25" step="5" min="0" max="100"></div>
+        <div class="field"><label>Участие в акции «Скидки дня»?</label>
+            <select id="salesPromoActive"><option value="yes">Да</option><option value="no">Нет</option></select>
+        </div>
+        <details class="info"><summary>Рычаги этапа — оцифрованный эффект</summary>
+            <ul>
+                <li>SEO-ключи: +10% к CTR и Релевантность 85 вместо 40 в органической оценке</li>
+                <li>Точные фразы: до +30% к CR заказа при 100% доли бюджета на них</li>
+                <li>«Скидки дня»: +15% к показам (доп. подборка) и +10% к CR заказа</li>
+            </ul>
+            <div class="src">См. файл Ozon_SKU3775041192_Etap1_Ohvat, листы 0–5</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">2. Интерес</span><span class="stage-num">Карточка</span></div>
+        <div class="goal">Цель: удержать внимание, объяснить ценность</div>
+        <div class="field"><label>CR клик → корзина, %</label><input type="number" id="crCart" value="25" step="1" min="0" max="100"></div>
+        <details class="info"><summary>Рычаги этапа</summary>
+            <ul>
+                <li>5 фото rich-контента (УТП, сравнение, состав, сценарии)</li>
+                <li>Видео-обложка 20 сек — уборка без разводов</li>
+                <li>Описание блоками + сравнительная таблица A+</li>
+            </ul>
+            <div class="src">См. файл Ozon_SKU3775041192_Etap1_Ohvat, листы 6–9</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">3. Решение</span><span class="stage-num">Доверие</span></div>
+        <div class="goal">Цель: снять возражения, оформить заказ</div>
+        <div class="field"><label>CR корзина → заказ, % (база)</label><input type="number" id="crOrder" value="40" step="1" min="0" max="100"></div>
+        <div class="field"><label>Рейтинг карточки ≥ 4.8?</label>
+            <select id="ratingHigh"><option value="yes">Да</option><option value="no">Нет</option></select>
+        </div>
+        <details class="info"><summary>Рычаги этапа</summary>
+            <ul>
+                <li>Баллы за отзывы с фото/видео, быстрые ответы на негатив</li>
+                <li>7 готовых пар «Вопрос-ответ» закрывают возражения</li>
+                <li>Бейдж «Бестселлер» и скидка за объём набора</li>
+                <li>Рейтинг ≥4.8 даёт бонус 5% веса в органической оценке</li>
+            </ul>
+            <div class="src">См. файл Ozon_SKU3775041192_Etap1_Ohvat, листы 10–13</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">4. Покупка</span><span class="stage-num">P&amp;L заказа</span></div>
+        <div class="goal">Цель: убрать барьер цены и доступности</div>
+        <div class="field"><label>Цена продажи, ₽</label><input type="number" id="price" value="249" step="1" min="1"></div>
+        <div class="field"><label>Себестоимость, ₽</label><input type="number" id="cost" value="80" step="1" min="0"></div>
+        <div class="field"><label>Доля выкупа в ПВЗ, %</label><input type="number" id="buyoutRate" value="85" step="1" min="1" max="100"></div>
+        <div class="field"><label>Схема работы</label>
+            <select id="scheme"><option value="FBS">FBS (товар у себя)</option><option value="FBO">FBO (склад Ozon)</option></select>
+        </div>
+        <div class="field"><label>Регион доставки</label>
+            <select id="region">
+                <option value="local">Локальный кластер</option>
+                <option value="near" selected>Соседний кластер (+4%)</option>
+                <option value="far">Удалённый кластер (+8%)</option>
+            </select>
+        </div>
+        <details class="info"><summary>Рычаги этапа</summary>
+            <ul>
+                <li>Еженедельный мониторинг цены топ-3 конкурентов</li>
+                <li>Бейджи Premium / Быстрая доставка через перевод на FBO</li>
+                <li>Кросс-промо «Часто покупают вместе», остатки на 3-4 складах</li>
+            </ul>
+            <div class="src">См. файл Ozon_SKU3775041192_Etap1_Ohvat, листы 14–18</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">5. Удержание</span><span class="stage-num">LTV</span></div>
+        <div class="goal">Цель: превратить покупку в повторную</div>
+        <div class="field"><label>Доля повторных покупок, %</label><input type="number" id="repeatRate" value="20" step="1" min="0" max="200"></div>
+        <div class="field"><label>Доп. расходы на заказ, ₽</label><input type="number" id="packExtra" value="5" step="0.5" min="0">
+            <span class="hint">QR-вкладыш, открытка, инструкция</span>
+        </div>
+        <div class="field"><label>Налоговый режим</label>
+            <select id="tax">
+                <option value="usn_no_nds">УСН (доход &lt; 20 млн ₽, без НДС)</option>
+                <option value="usn_nds">УСН + НДС 5% (доход &gt; 20 млн ₽)</option>
+                <option value="osno">ОСНО (НДС 22%)</option>
+            </select>
+        </div>
+        <details class="info"><summary>Рычаги этапа</summary>
+            <ul>
+                <li>QR-код на упаковке с инструкцией по уходу и каталогом бренда</li>
+                <li>Открытка-вкладыш с просьбой об отзыве (без обмена на деньги)</li>
+                <li>Сопутствующие SKU и авто-отслеживание отзывов</li>
+            </ul>
+            <div class="src">См. файл Ozon_SKU3775041192_Etap1_Ohvat, листы 19–23</div>
+        </details>
+    </div>
+
+</div>
+
+<h2 class="section-title"><span class="dot"></span>Ограничения и штрафы кабинета</h2>
+
+<div class="stage-grid">
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">Лимиты обработки</span><span class="stage-num">Capacity</span></div>
+        <div class="goal">Сколько заказов кабинет физически может закрыть</div>
+        <div class="field"><label>Остаток на складе на период, шт</label><input type="number" id="stockLimit" value="600" step="10" min="0"></div>
+        <div class="field"><label>Лимит обработки, заказов/день</label><input type="number" id="dailyCapacity" value="20" step="1" min="0"></div>
+        <details class="info"><summary>Что это значит</summary>
+            <ul>
+                <li>Если спрос (выкупы) превышает остаток или дневной лимит — продажи и реклама «сливаются» в потерянные показы</li>
+                <li>Дневной лимит = ресурс упаковщика/курьера FBS или мощность приёмки FBO</li>
+            </ul>
+            <div class="src">Аналитика → Остатки на складах; Заказы → отчёт по обработке</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">Скорость отгрузки</span><span class="stage-num">Литер</span></div>
+        <div class="goal">Быстрый/медленный литер влияет на тариф и ранжирование</div>
+        <div class="field"><label>Литер отгрузки</label>
+            <select id="shipTier">
+                <option value="fast">Быстрый (≤1 дня)</option>
+                <option value="slow">Медленный (&gt;1 дня)</option>
+            </select>
+        </div>
+        <div class="field"><label>Доля заказов с просрочкой SLA при медленном литере, %</label><input type="number" id="lateRate" value="15" step="1" min="0" max="100"></div>
+        <div class="field"><label>Штраф за просрочку SLA, ₽/заказ</label><input type="number" id="slaPenalty" value="50" step="5" min="0"></div>
+        <div class="field"><label>Наценка логистики медленного литера, ₽/заказ</label><input type="number" id="slowSurcharge" value="10" step="1" min="0"></div>
+        <div class="field"><label>Снижение CTR при медленном литере, %</label><input type="number" id="ctrPenaltySlow" value="10" step="1" min="0" max="100"></div>
+        <details class="info"><summary>Что это значит</summary>
+            <ul>
+                <li>Медленная отгрузка снижает ранжирование карточки — Ozon показывает её реже</li>
+                <li>Штраф за просрочку начисляется по фактам нарушения срока передачи в доставку</li>
+            </ul>
+            <div class="src">Аналитика → Индекс продавца / Скорость обработки заказов</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">Отмены и возвраты</span><span class="stage-num">Штрафы</span></div>
+        <div class="goal">Операционные потери по вине продавца</div>
+        <div class="field"><label>Доля отмен по вине продавца, %</label><input type="number" id="cancelRate" value="2" step="0.5" min="0" max="100"></div>
+        <div class="field"><label>Штраф за отмену, ₽/заказ</label><input type="number" id="cancelPenalty" value="100" step="10" min="0"></div>
+        <div class="field"><label>Доля возвратов после выкупа, %</label><input type="number" id="returnRate" value="5" step="0.5" min="0" max="100"></div>
+        <div class="field"><label>Логистика возврата, ₽/возврат</label><input type="number" id="returnLogisticsCost" value="60" step="5" min="0"></div>
+        <details class="info"><summary>Что это значит</summary>
+            <ul>
+                <li>Отмена по вине продавца — фиксированный штраф Ozon + потерянный заказ</li>
+                <li>Возврат после выкупа — обратная логистика и потеря себестоимости товара</li>
+            </ul>
+            <div class="src">Заказы → Отмены; Возвраты и отмены → отчёт по причинам</div>
+        </details>
+    </div>
+
+    <div class="stage-card">
+        <div class="stage-head"><span class="stage-name">Индекс цены</span><span class="stage-num">Ранжирование</span></div>
+        <div class="goal">Цена выше рынка снижает показы алгоритма</div>
+        <div class="field"><label>Цена выше среднерыночной?</label>
+            <select id="priceAboveMarket">
+                <option value="no">Нет, цена конкурентна</option>
+                <option value="yes">Да, цена выше рынка</option>
+            </select>
+        </div>
+        <div class="field"><label>Штраф к показам/CTR при превышении, %</label><input type="number" id="priceIndexPenalty" value="15" step="1" min="0" max="100"></div>
+        <details class="info"><summary>Что это значит</summary>
+            <ul>
+                <li>Индекс цены Ozon сравнивает цену с другими площадками и снижает видимость при завышении</li>
+                <li>Контролируется через мониторинг конкурентов (см. лист 14 файла воронки)</li>
+            </ul>
+            <div class="src">Цены и акции → Индекс цены</div>
+        </details>
+    </div>
+
+</div>
+
+<h2 class="section-title"><span class="dot"></span>Воронка: объёмы по этапам</h2>
+<div class="funnel-wrap" id="funnelWrap"></div>
+
+<h2 class="section-title"><span class="dot"></span>Финансовый результат периода</h2>
+<div id="capacityBox"></div>
+<div id="bottleneckBox"></div>
+<div class="result-cards" id="resultContainer"></div>
+
+<div class="footnote" id="footnoteBox">
+    <strong>📌 Как работает модель</strong><br>
+    • Показы × CTR = клики; клики × CR(корзина) = добавления в корзину; корзина × CR(заказ) = заказы; заказы × доля выкупа = фактические продажи (шт).<br>
+    • Повторные покупки увеличивают количество проданных единиц <strong>без дополнительного рекламного бюджета</strong> — это и есть эффект удержания (этап 5).<br>
+    • Удержания Ozon (комиссия 20%, эквайринг ~1.5%, логистика + наценка за кластер) считаются на единицу и умножаются на общее количество проданных единиц.<br>
+    • Рекламный бюджет периода = клики × CPC — тратится один раз на привлечение, не масштабируется на повторные покупки.<br>
+    • Налог считается от итоговой прибыли периода до налогообложения (при отрицательной базе — налог 0).<br>
+    • «Узкое место» — этап с наименьшей конверсией среди Охват→Интерес→Решение→Покупка; это точка, где небольшое улучшение даёт наибольший прирост итоговых продаж.<br>
+    • <strong>Ограничения мощности</strong> — если расчётный спрос (выкупы) превышает остаток на складе или дневной лимит обработки, продажи и реклама ограничиваются физическим потолком кабинета.<br>
+    • <strong>Медленный литер отгрузки</strong> добавляет наценку к логистике, штраф за просрочку SLA и снижает CTR (хуже ранжирование) — модель применяет все три эффекта одновременно.<br>
+    • <strong>Отмены по вине продавца</strong> уменьшают число выкупов и добавляют фиксированный штраф; <strong>возвраты</strong> после выкупа добавляют обратную логистику и потерю себестоимости товара.<br>
+    • <strong>Индекс цены</strong> — превышение среднерыночной цены штрафует показы/CTR независимо от литера отгрузки.
+
+    <h4>⚙ Формула ранжирования и расчёт показов (новое)</h4>
+    • <strong>Финальная оценка = Вес органики × Орг.оценка + Вес продвижения × Оценка продвижения.</strong> Ozon не публикует точные веса — это коммерческая тайна; модель использует допущение 70/30 (органика/продвижение) по умолчанию, отражающее изменения алгоритма 2025–2026 годов, и позволяет менять это соотношение слайдером для сценарного анализа.<br>
+    • <strong>Органическая оценка</strong> — взвешенная сумма 6 факторов из документации Ozon: Популярность 39%, Продажи за 60 дней 17%, Персонализация 16% (не управляется продавцом), Текстовая релевантность 12%, Цена 7%, Отзывы 5% (сумма весов ≈96%, модель нормализует до 100%).<br>
+    • <strong>Оценка продвижения</strong> = P(клик) × нормированная ставка CPC + P(заказ) × нормированная ставка CPO — чем выше ставка и чем лучше CTR/конверсия карточки, тем выше оценка при той же ставке.<br>
+    • <strong>Позиция и показы</strong> — Final Score сравнивается со средним по конкурентам; чем больше преимущество, тем выше расчётная позиция. Показы распределяются между конкурентами по экспоненциальному затуханию позиции (модельное допущение: верхние позиции получают на порядок больше показов, чем нижние) и масштabируются на заданный объём показов категории.<br>
+    • <strong>Итеративная обратная связь</strong> — фактор «Продажи за 60 дней» в органической оценке на каждый пересчёт берёт объём продаж из <em>предыдущего</em> расчёта модели: чем больше вы продаёте, тем выше «Популярность/Продажи» в следующей итерации → выше показы. Это намеренно: изменение любого параметра запускает новый цикл подбора, как и в реальном алгоритме Ozon.
+
+    <h4>🔢 Оцифрованные рычаги этапов (количественные допущения)</h4>
+    <table>
+        <tr><th>Рычаг</th><th>Эффект в модели</th><th>Где задаётся</th></tr>
+        <tr><td>SEO-заголовок и ключевые слова</td><td>+10% к CTR (вероятность клика); Текстовая релевантность 85 вместо 40 в органической оценке</td><td>Этап 1, тоггл «SEO-ключи»</td></tr>
+        <tr><td>Группы фраз в Продвижении (точные/средние/широкие)</td><td>До +30% к CR заказа при 100% доли бюджета на точные фразы (линейно от доли)</td><td>Этап 1, «Доля бюджета на точные фразы»</td></tr>
+        <tr><td>Баннеры Трафareas и акция «Скидки дня»</td><td>+15% к показам (доп. канал охвата) и +10% к CR заказа</td><td>Этап 1, тоггл «Скидки дня»</td></tr>
+        <tr><td>Цена выше среднерыночной (индекс цены)</td><td>Штраф к CTR/показам (этап 4) + цена-фактор органики падает с 80 до 30</td><td>Этап 4, тоггл «Индекс цены»</td></tr>
+        <tr><td>Рейтинг карточки ≥4.8</td><td>Отзывы-фактор органики растёт с 45 до 85</td><td>Этап 3, тоггл «Рейтинг ≥4.8»</td></tr>
+        <tr><td>Медленный литер отгрузки</td><td>−CTR, +штраф SLA, +наценка логистики (см. блок ограничений)</td><td>Раздел «Скорость отгрузки»</td></tr>
+    </table>
+    <div style="font-size:11.5px;color:#8095ad;margin-top:6px;">Все коэффициенты — модельные допущения для иллюстрации направления и масштаба эффекта (Ozon не публикует точные эластичности). Корректируйте проценты при появлении собственных A/B-данных по карточке.</div>
+
+    <h4>📋 Какие данные Ozon нужны для калибровки модели и где их брать</h4>
+    <table>
+        <tr><th>Параметр модели</th><th>Источник в Ozon Seller</th><th>Как получить</th></tr>
+        <tr><td>Позиция карточки, CTR/CR по запросам, ставки CPC/CPO конкурентов</td><td>Продвижение → Аукцион/Аналитика по запросам</td><td>Отчёт по ключевым запросам показывает позицию, показы и клики по карточке; ставки конкурентов напрямую не публикуются, оцениваются по факту победы/проигрыша в аукционе</td></tr>
+        <tr><td>Показы, клики, CTR</td><td>Аналитика → Воронка продаж</td><td>Отчёт по карточке за выбранный период, экспорт в Excel</td></tr>
+        <tr><td>CR клик→корзина, CR корзина→заказ</td><td>Аналитика → Воронка продаж</td><td>Тот же отчёт — показывает все промежуточные конверсии по карточке</td></tr>
+        <tr><td>CPC, расход на рекламу, заказы с рекламы</td><td>Продвижение → Статистика кампаний</td><td>Отчёт по кампании «Продвижение в поиске» / Трафareas за период</td></tr>
+        <tr><td>Доля выкупа в ПВЗ</td><td>Аналитика → Заказы / Финансы</td><td>Отчёт «Заказы» — соотношение выкупленных к оформленным; либо «FBO/FBS» отчёт по отменам и возвратам</td></tr>
+        <tr><td>Фактическая комиссия, логистика, эквайринг</td><td>Финансы → Отчёт о реализации</td><td>Детализация начислений по каждому заказу — сверка с расчётной моделью</td></tr>
+        <tr><td>Цены конкурентов и индекс цены</td><td>Цены и акции → Индекс цены; открытая выдача категории</td><td>Кабинет показывает собственный индекс цены; ручной мониторинг топ-3 карточек еженедельно (см. лист 14 файла воронки)</td></tr>
+        <tr><td>Рейтинг, количество и динамика отзывов</td><td>Отзывы и вопросы</td><td>Раздел в кабинете, фильтр по периоду и оценке</td></tr>
+        <tr><td>Остатки и оборачиваемость по складам</td><td>Аналитика → Остатки на складах (FBO)</td><td>Отчёт по складам — для расчёта лимита по остаткам и риска out-of-stock</td></tr>
+        <tr><td>Скорость обработки заказов, доля просрочек SLA</td><td>Аналитика → Индекс продавца</td><td>Кабинет показывает % своевременной отгрузки и историю штрафов за просрочку</td></tr>
+        <tr><td>Доля отмен по вине продавца и штрафы за них</td><td>Заказы → Отмены; Финансы → Начисления</td><td>Отчёт по отменам с указанием инициатора; детализация штрафов в финансовом отчёте</td></tr>
+        <tr><td>Доля возвратов и причины</td><td>Возвраты и отмены</td><td>Отчёт по возвратам с разбивкой по причинам и стоимостью обратной логистики</td></tr>
+        <tr><td>Повторные покупки / LTV</td><td>Аналитика → Покупатели (если доступно) либо внутренний CRM</td><td>Ozon не всегда показывает LTV по SKU — фиксировать вручную через выгрузку заказов по ID покупателя или собственный учёт</td></tr>
+        <tr><td>Себестоимость, упаковка, открытка, QR</td><td>Внутренние данные продавца</td><td>Не предоставляется Ozon — берётся из закупочных документов и затрат на печать/упаковку</td></tr>
+    </table>
+</div>
+
+</div>
+
+<script>
+(function(){
+    const ids = ['periodInput','ctr','cpc','crCart','crOrder','price','cost','buyoutRate','scheme','region','repeatRate','packExtra','tax',
+        'stockLimit','dailyCapacity','shipTier','lateRate','slaPenalty','slowSurcharge','ctrPenaltySlow','cancelRate','cancelPenalty','returnRate','returnLogisticsCost','priceAboveMarket','priceIndexPenalty',
+        'rankWeightOrganic','orgPopularity','cpoRate','categoryImpressions','competitorsCount','competitorAvgScore',
+        'useSeoKeywords','exactPhraseShare','salesPromoActive','ratingHigh'];
+    const el = {};
+    ids.forEach(id => el[id] = document.getElementById(id));
+
+    const COMMISSION_RATE = 0.20;
+    const ACQUIRING_RATE = 0.015;
+    const LOGISTICS_FBS_BASE = 25;
+    const LOGISTICS_FBO_BASE = 35;
+    const CLUSTER_MAP = { local: 0, near: 0.04, far: 0.08 };
+    const TAX_RATES = { usn_no_nds: 0, usn_nds: 0.05, osno: 0.22 };
+
+    // Organic-score sub-weights per the document (Ozon ranking, 2025-2026)
+    const W_POP = 0.39, W_SALES = 0.17, W_PERSONAL = 0.16, W_RELEVANCE = 0.12, W_PRICE = 0.07, W_REVIEWS = 0.05;
+    const W_SUM = W_POP + W_SALES + W_PERSONAL + W_RELEVANCE + W_PRICE + W_REVIEWS; // ≈0.96, normalize to 100
+
+    // Feedback memory across renders: yesterday's sales feed today's "Продажи за 60 дней" organic factor
+    let prevSales60 = 500; // initial benchmark assumption
+
+    function fmt(n){ return Number(n).toLocaleString('ru-RU',{maximumFractionDigits:0}); }
+    function fmt2(n){ return Number(n).toLocaleString('ru-RU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+    function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+    function render(){
+        const period = parseFloat(el.periodInput.value) || 30;
+        const ctrInput = parseFloat(el.ctr.value) || 0;
+        const cpc = parseFloat(el.cpc.value) || 0;
+        const crCart = parseFloat(el.crCart.value) || 0;
+        const crOrderInput = parseFloat(el.crOrder.value) || 0;
+        const price = parseFloat(el.price.value) || 0;
+        const cost = parseFloat(el.cost.value) || 0;
+        const buyoutRate = parseFloat(el.buyoutRate.value) || 0;
+        const scheme = el.scheme.value;
+        const regionKey = el.region.value;
+        const repeatRate = parseFloat(el.repeatRate.value) || 0;
+        const packExtra = parseFloat(el.packExtra.value) || 0;
+        const taxKey = el.tax.value;
+
+        const stockLimit = parseFloat(el.stockLimit.value) || 0;
+        const dailyCapacity = parseFloat(el.dailyCapacity.value) || 0;
+        const shipTier = el.shipTier.value;
+        const lateRate = parseFloat(el.lateRate.value) || 0;
+        const slaPenaltyRub = parseFloat(el.slaPenalty.value) || 0;
+        const slowSurcharge = parseFloat(el.slowSurcharge.value) || 0;
+        const ctrPenaltySlow = parseFloat(el.ctrPenaltySlow.value) || 0;
+        const cancelRate = parseFloat(el.cancelRate.value) || 0;
+        const cancelPenaltyRub = parseFloat(el.cancelPenalty.value) || 0;
+        const returnRate = parseFloat(el.returnRate.value) || 0;
+        const returnLogisticsCost = parseFloat(el.returnLogisticsCost.value) || 0;
+        const priceAboveMarket = el.priceAboveMarket.value === 'yes';
+        const priceIndexPenalty = parseFloat(el.priceIndexPenalty.value) || 0;
+
+        const wOrganic = clamp(parseFloat(el.rankWeightOrganic.value) || 0, 0, 100);
+        const wPromotion = 100 - wOrganic;
+        const orgPopularity = clamp(parseFloat(el.orgPopularity.value) || 0, 0, 100);
+        const cpoRate = parseFloat(el.cpoRate.value) || 0;
+        const categoryImpressions = parseFloat(el.categoryImpressions.value) || 0;
+        const competitorsCount = Math.max(1, parseFloat(el.competitorsCount.value) || 1);
+        const competitorAvgScore = parseFloat(el.competitorAvgScore.value) || 0;
+        const useSeo = el.useSeoKeywords.value === 'yes';
+        const exactPhraseShare = clamp(parseFloat(el.exactPhraseShare.value) || 0, 0, 100);
+        const salesPromoActive = el.salesPromoActive.value === 'yes';
+        const ratingHigh = el.ratingHigh.value === 'yes';
+
+        // ---------- Digitized lever effects ----------
+        // SEO keywords: +10% CTR, organic text-relevance 85 vs 40
+        const ctrAfterSeo = ctrInput * (useSeo ? 1.10 : 1.0);
+        const orgRelevance = useSeo ? 85 : 40;
+        // Exact-phrase budget share: up to +30% relative CR uplift at 100% share
+        // "Скидки дня": +15% impressions, +10% relative CR uplift
+        const crOrderEff = crOrderInput * (1 + exactPhraseShare/100*0.3) * (salesPromoActive ? 1.10 : 1.0);
+        // Price index (reused from stage 4 toggle) drives organic price-score
+        const orgPrice = priceAboveMarket ? 30 : 80;
+        // Rating toggle (stage 3) drives organic reviews-score
+        const orgReviews = ratingHigh ? 85 : 45;
+        // Sales-60d organic factor — fed from previous render's computed sales (iterative feedback)
+        const sales60Benchmark = 800; // assumed category "good" pace, units/60 days
+        const orgSales = clamp((prevSales60 / sales60Benchmark) * 100, 0, 100);
+
+        // ---------- Organic score ----------
+        const organicRaw = W_POP*orgPopularity + W_SALES*orgSales + W_PERSONAL*50 + W_RELEVANCE*orgRelevance + W_PRICE*orgPrice + W_REVIEWS*orgReviews;
+        const organicScore = organicRaw / W_SUM; // normalize back to 0-100
+
+        // ---------- Promotion score ----------
+        const pClick = clamp(ctrAfterSeo,0,100)/100;
+        const pOrder = clamp(crOrderEff,0,100)/100;
+        const cpcNorm = clamp((cpc/30)*100, 0, 100);   // 30₽ treated as a high-end CPC ceiling
+        const cpoNorm = clamp((cpoRate/9)*100, 0, 100); // 9% treated as the upper CPO tier
+        const promotionScore = clamp((pClick*cpcNorm + pOrder*cpoNorm)/2, 0, 100);
+
+        // ---------- Final score & position ----------
+        const finalScore = (wOrganic/100)*organicScore + (wPromotion/100)*promotionScore;
+        const scoreAdvantage = finalScore - competitorAvgScore;
+        let position = Math.round(clamp(50 - scoreAdvantage, 1, competitorsCount));
+        position = Math.max(1, position);
+
+        // Impression share via exponential position decay, normalized across competitors
+        let weightSum = 0;
+        for (let i=1;i<=competitorsCount;i++){ weightSum += Math.exp(-i/30); }
+        const ourWeight = Math.exp(-position/30);
+        let impressions = categoryImpressions * (ourWeight/weightSum);
+        if (salesPromoActive) impressions *= 1.15; // «Скидки дня» extra reach channel
+        impressions = Math.max(0, impressions);
+
+        // Effective CTR after ranking penalties (slow shipping tier + price index), applied on top of SEO-boosted CTR
+        let ctr = ctrAfterSeo;
+        if (shipTier === 'slow') ctr = ctr * (1 - ctrPenaltySlow/100);
+        if (priceAboveMarket) ctr = ctr * (1 - priceIndexPenalty/100);
+        ctr = Math.max(0, ctr);
+        const crOrder = crOrderEff;
+
+        // Funnel volumes (demand, before capacity cap)
+        const clicks = impressions * ctr/100;
+        const cartAdds = clicks * crCart/100;
+        const ordersDemand = cartAdds * crOrder/100;
+
+        // Cancellations by seller fault
+        const cancelledOrders = ordersDemand * cancelRate/100;
+        const ordersAfterCancel = ordersDemand - cancelledOrders;
+
+        // Buyouts (demand) before capacity cap
+        const buyoutsDemand = ordersAfterCancel * buyoutRate/100;
+
+        // Capacity constraint: stock limit and daily processing limit
+        const capacityLimit = Math.min(stockLimit || Infinity, (dailyCapacity || Infinity) * period);
+        const buyouts = Math.min(buyoutsDemand, capacityLimit);
+        const lostToCapacity = Math.max(0, buyoutsDemand - buyouts);
+
+        // Late shipments (only relevant for slow tier) — applied on actually shipped buyouts
+        const lateOrders = (shipTier === 'slow') ? buyouts * lateRate/100 : 0;
+
+        // Returns after buyout
+        const returns = buyouts * returnRate/100;
+        const soldUnits = buyouts - returns;
+
+        // Repeat purchases from satisfied (non-returned) customers
+        const repeatUnits = soldUnits * repeatRate/100;
+        const totalUnits = soldUnits + repeatUnits;
+
+        // Feed iterative organic "sales-60d" factor for next render
+        prevSales60 = totalUnits * (60/period);
+
+        // Per-unit Ozon deductions
+        const clusterRate = CLUSTER_MAP[regionKey] || 0;
+        const clusterAmount = price * clusterRate;
+        const commission = price * COMMISSION_RATE;
+        const acquiring = price * ACQUIRING_RATE;
+        let logistics = (scheme === 'FBS') ? LOGISTICS_FBS_BASE : LOGISTICS_FBO_BASE;
+        logistics += clusterAmount;
+        if (shipTier === 'slow') logistics += slowSurcharge;
+        const ozonDeductionsPerUnit = commission + acquiring + logistics;
+
+        // Period totals
+        const revenue = price * totalUnits;
+        const ozonDeductionsTotal = ozonDeductionsPerUnit * totalUnits;
+        const cogsTotal = cost * totalUnits;
+        const packagingTotal = packExtra * totalUnits;
+        const adSpend = clicks * cpc;
+
+        // Penalties & operational losses
+        const cancelPenaltyTotal = cancelledOrders * cancelPenaltyRub;
+        const slaPenaltyTotal = lateOrders * slaPenaltyRub;
+        const returnLogisticsTotal = returns * returnLogisticsCost;
+        const returnCogsLoss = returns * cost;
+        const penaltiesTotal = cancelPenaltyTotal + slaPenaltyTotal + returnLogisticsTotal + returnCogsLoss;
+
+        const profitBeforeTax = revenue - ozonDeductionsTotal - cogsTotal - packagingTotal - adSpend - penaltiesTotal;
+        const taxableBase = Math.max(0, profitBeforeTax);
+        const taxRate = TAX_RATES[taxKey] || 0;
+        const taxAmount = taxableBase * taxRate;
+        const netProfit = profitBeforeTax - taxAmount;
+
+        const romi = adSpend > 0 ? (profitBeforeTax / adSpend) * 100 : 0;
+        const margin = revenue > 0 ? (netProfit / revenue) * 100 : 0;
+
+        // ---------- Render ranking-formula outputs ----------
+        document.getElementById('rankWeightPromoOut').textContent = fmt2(wPromotion) + '%';
+        document.getElementById('orgSalesOut').textContent = fmt2(orgSales);
+        document.getElementById('orgRelevanceOut').textContent = orgRelevance;
+        document.getElementById('orgPriceOut').textContent = orgPrice;
+        document.getElementById('orgReviewsOut').textContent = orgReviews;
+        document.getElementById('finalScoreOut').textContent = fmt2(finalScore);
+        document.getElementById('positionOut').textContent = '№ ' + fmt(position) + ' из ' + fmt(competitorsCount);
+        document.getElementById('impressionsOut').textContent = fmt(impressions);
+        document.getElementById('impressionsOut2').textContent = fmt(impressions);
+
+        // Capacity warning
+        const capBox = document.getElementById('capacityBox');
+        if (lostToCapacity > 0.5) {
+            capBox.innerHTML = `<div class="capacity-box">⚠️ <strong>Лимит мощности кабинета превышен:</strong> спрос ${fmt(buyoutsDemand)} шт, доступно ${fmt(capacityLimit)} шт (склад/дневной лимит обработки). Упущено ≈ ${fmt(lostToCapacity)} шт, потенциальная недополученная выручка ≈ ${fmt(lostToCapacity*price)} ₽. Увеличьте остаток на складе или дневной лимит обработки.</div>`;
+        } else {
+            capBox.innerHTML = '';
+        }
+
+        // Funnel visualization
+        const stages = [
+            {label:'Показы (по формуле ранжирования)', value: impressions},
+            {label:'Клики', value: clicks},
+            {label:'Корзина', value: cartAdds},
+            {label:'Заказы (после отмен)', value: ordersAfterCancel},
+            {label:'Выкуп (с лимитом)', value: buyouts},
+            {label:'Вкл. повторные', value: totalUnits}
+        ];
+        const maxVal = Math.max(...stages.map(s=>s.value), 1);
+        const fw = document.getElementById('funnelWrap');
+        let fHtml = '';
+        const convPairs = [
+            {from:0,to:1,label:'CTR (SEO + штрафы)',value:ctr},
+            {from:1,to:2,label:'CR корзина',value:crCart},
+            {from:2,to:3,label:'CR заказ × (1-отмены)',value:crOrder*(1-cancelRate/100)},
+            {from:3,to:4,label:'Выкуп',value:buyoutRate}
+        ];
+        const minConv = Math.min(ctr, crCart, crOrder*(1-cancelRate/100), buyoutRate);
+        stages.forEach((s, i) => {
+            const widthPct = Math.max(3, (s.value / maxVal) * 100);
+            fHtml += `<div class="funnel-row"><div class="f-label">${s.label}</div><div class="f-bar-track"><div class="f-bar-fill" style="width:${widthPct}%"></div></div><div class="f-val">${fmt(s.value)}</div></div>`;
+            const pair = convPairs.find(p => p.to === i);
+            if (pair) {
+                const isLow = pair.value === minConv;
+                fHtml += `<div class="funnel-conv${isLow?' low':''}">↓ конверсия ${pair.label}: ${fmt2(pair.value)}%${isLow?' — самое узкое место':''}</div>`;
+            }
+        });
+        fw.innerHTML = fHtml;
+
+        // Bottleneck box
+        const bottleneckNames = {0:'1. Охват (CTR, с учётом SEO-бонуса и штрафов литера/индекса цены)',1:'2. Интерес (CR в корзину)',2:'3. Решение (CR в заказ за вычетом отмен)',3:'4. Покупка (доля выкупа)'};
+        const minIdx = [ctr, crCart, crOrder*(1-cancelRate/100), buyoutRate].indexOf(minConv);
+        document.getElementById('bottleneckBox').innerHTML = `<div class="bottleneck">🎯 <strong>Узкое место воронки:</strong> ${bottleneckNames[minIdx]} — конверсия ${fmt2(minConv)}%. Улучшение именно этого этапа обычно даёт наибольший прирост итоговых продаж и прибыли при той же сумме на рекламу.</div>`;
+
+        // Result cards
+        const regionLabel = el.region.options[el.region.selectedIndex]?.text || '—';
+        const schemeLabel = el.scheme.options[el.scheme.selectedIndex]?.text || '—';
+        const taxLabel = el.tax.options[el.tax.selectedIndex]?.text || '—';
+        const tierLabel = el.shipTier.options[el.shipTier.selectedIndex]?.text || '—';
+
+        const card1 = `
+            <div class="card">
+                <h3>📊 Воронка за период (${fmt(period)} дн.)</h3>
+                <div class="row"><span class="label">Позиция в выдаче / Final Score</span><span class="value">№${fmt(position)} · ${fmt2(finalScore)}</span></div>
+                <div class="row"><span class="label">Показы (расчёт по формуле)</span><span class="value">${fmt(impressions)}</span></div>
+                <div class="row"><span class="label">Клики (после SEO-бонуса и штрафов CTR)</span><span class="value">${fmt(clicks)}</span></div>
+                <div class="row"><span class="label">Добавления в корзину</span><span class="value">${fmt(cartAdds)}</span></div>
+                <div class="row"><span class="label">Заказы (спрос)</span><span class="value">${fmt(ordersDemand)}</span></div>
+                <div class="row penalty"><span class="label">− отмены по вине продавца</span><span class="value">−${fmt(cancelledOrders)}</span></div>
+                <div class="row"><span class="label">Выкуп (спрос, до лимита)</span><span class="value">${fmt(buyoutsDemand)}</span></div>
+                <div class="row penalty"><span class="label">− упущено из-за лимита мощности</span><span class="value">−${fmt(lostToCapacity)}</span></div>
+                <div class="row penalty"><span class="label">− возвраты после выкупа</span><span class="value">−${fmt(returns)}</span></div>
+                <div class="row sub"><span class="label">+ повторные покупки (${fmt2(repeatRate)}%)</span><span class="value">+${fmt(repeatUnits)}</span></div>
+                <div class="row total"><span class="label">Всего продано, шт</span><span class="value">${fmt(totalUnits)}</span></div>
+            </div>`;
+
+        const card2 = `
+            <div class="card">
+                <h3>💰 P&amp;L периода <span style="font-weight:400;font-size:12px;color:#3e5775;">${schemeLabel} · ${tierLabel}</span></h3>
+                <div class="row"><span class="label">Выручка</span><span class="value">${fmt(revenue)} ₽</span></div>
+                <div class="row"><span class="label">Удержания Ozon (вкл. наценку литера)</span><span class="value">−${fmt(ozonDeductionsTotal)} ₽</span></div>
+                <div class="row"><span class="label">Себестоимость</span><span class="value">−${fmt(cogsTotal)} ₽</span></div>
+                <div class="row"><span class="label">Упаковка/QR/открытка</span><span class="value">−${fmt(packagingTotal)} ₽</span></div>
+                <div class="row"><span class="label">Рекламный бюджет</span><span class="value">−${fmt(adSpend)} ₽</span></div>
+                <div class="row penalty"><span class="label">Штрафы и операционные потери</span><span class="value">−${fmt(penaltiesTotal)} ₽</span></div>
+                <div class="row"><span class="label">Прибыль до налога</span><span class="value">${fmt(profitBeforeTax)} ₽</span></div>
+                <div class="row"><span class="label">Налог (${taxLabel})</span><span class="value">−${fmt(taxAmount)} ₽</span></div>
+                <div class="row total"><span class="label">Чистая прибыль</span><span class="value">${fmt(netProfit)} ₽</span></div>
+            </div>`;
+
+        const card3 = `
+            <div class="card">
+                <h3>🚫 Штрафы и потери — детализация</h3>
+                <div class="row penalty"><span class="label">Отмены по вине продавца (${fmt(cancelledOrders)} шт)</span><span class="value">−${fmt(cancelPenaltyTotal)} ₽</span></div>
+                <div class="row penalty"><span class="label">SLA-штраф за просрочку (${fmt(lateOrders)} шт)</span><span class="value">−${fmt(slaPenaltyTotal)} ₽</span></div>
+                <div class="row penalty"><span class="label">Обратная логистика возвратов (${fmt(returns)} шт)</span><span class="value">−${fmt(returnLogisticsTotal)} ₽</span></div>
+                <div class="row penalty"><span class="label">Потеря себестоимости по возвратам</span><span class="value">−${fmt(returnCogsLoss)} ₽</span></div>
+                <div class="row total"><span class="label">Итого штрафов и потерь</span><span class="value">−${fmt(penaltiesTotal)} ₽</span></div>
+                <div class="row sub"><span class="label">Доля штрафов в выручке</span><span class="value">${revenue>0?fmt2((penaltiesTotal/revenue)*100):'0'}%</span></div>
+            </div>`;
+
+        const profitPositive = netProfit >= 0;
+        const card4 = `
+            <div class="card">
+                <h3>📈 Итог <span style="font-weight:400;font-size:12px;color:#3e5775;">регион: ${regionLabel}</span></h3>
+                <div class="big-metric${profitPositive?'':' neg'}">
+                    <div class="lbl">Чистая прибыль за период</div>
+                    <div class="val">${fmt(netProfit)} ₽</div>
+                    <div class="tag">${profitPositive ? '✅ Маржинально' : '❌ Убыточно — измените параметры'}</div>
+                </div>
+                <div class="kpi-mini">
+                    <div><div class="v">${fmt2(romi)}%</div><div class="l">ROMI (прибыль/реклама)</div></div>
+                    <div><div class="v">${fmt2(margin)}%</div><div class="l">Чистая маржа</div></div>
+                </div>
+            </div>`;
+
+        document.getElementById('resultContainer').innerHTML = card1 + card2 + card3 + card4;
+    }
+
+    ids.forEach(id => { el[id].addEventListener('input', render); el[id].addEventListener('change', render); });
+    render();
+    render(); // second pass so the iterative organic-sales feedback reflects the initial defaults immediately
+})();
+</script>
+</body>
+</html>
