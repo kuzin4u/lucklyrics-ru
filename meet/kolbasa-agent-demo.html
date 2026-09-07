@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-помощник по покупкам — демо для Мясницкий ряд</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#8c1c1c; --brand-d:#6d1414; --brand-l:#f6e9e9; --accent:#c8962c;
+  --ink:#241a1a; --soft:#6b5c5c; --rule:#e6dcdc; --rule2:#f1ebeb;
+  --paper:#faf6f5; --card:#ffffff; --gold:#8a6810; --gold-bg:#fbf4e3;
+  --sans:'Inter',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{background:var(--brand);color:#fff;padding:12px 0}
+header .wrap{display:flex;align-items:center;gap:14px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.logo .m{width:30px;height:30px;background:var(--accent);color:var(--brand-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800}
+.logo small{display:block;font-size:10.5px;font-weight:500;opacity:.75;letter-spacing:.02em}
+.h-tag{margin-left:auto;font-size:12.5px;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;font-family:var(--mono)}
+
+.hero{text-align:center;padding:40px 0 26px}
+.hero .eyebrow{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);background:#fbf3e2;border:1px solid #ecd9a8;padding:5px 13px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.04em}
+.hero h1{font-size:clamp(26px,3.6vw,38px);margin:0 auto 12px;max-width:22ch;font-weight:800;letter-spacing:-.02em;line-height:1.14}
+.hero p{color:var(--soft);max-width:62ch;margin:0 auto;font-size:16px}
+
+.demos{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:24px 0 8px}
+.demos button{font-family:inherit;font-size:14px;font-weight:600;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:24px;padding:9px 18px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.tab-ic{width:18px;height:18px;flex:none}
+.demos button:hover{border-color:var(--brand)}
+.demos button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+
+.layout{display:grid;grid-template-columns:1fr 360px;gap:22px;padding:14px 0 60px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+.chat{background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:520px}
+.chat-head{background:var(--brand-l);padding:13px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--rule)}
+.ai-ava{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.chat-head .t{font-weight:700;font-size:15px}
+.chat-head .s{font-size:12px;color:var(--soft)}
+.chat-head .demo{margin-left:auto;font-size:10.5px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);padding:3px 9px;border-radius:4px}
+.clear-chat{margin-left:auto;font-family:inherit;font-size:12px;color:var(--brand);background:#fff;border:1px solid var(--rule);border-radius:16px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.clear-chat:hover{border-color:var(--brand);background:var(--brand-l)}
+.chat-head .demo{margin-left:8px}
+.chat-log{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:560px}
+.msg{max-width:88%;font-size:14px;line-height:1.5;padding:11px 14px;border-radius:14px}
+.msg.user{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--brand-l);color:var(--ink);border-bottom-left-radius:4px}
+.msg.bot b{color:var(--brand-d)}
+.msg.bot .cart-add{margin-top:9px;display:flex;flex-direction:column;gap:6px}
+.msg.bot .ci{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:6px 10px}
+.msg.bot .ci .nm{flex:1}
+.msg.bot .ci .qt{color:var(--soft);font-size:12px;white-space:nowrap}
+.msg.bot .ci .pr{font-weight:700;font-family:var(--mono);white-space:nowrap}
+.msg.bot .repl{font-size:12.5px;color:var(--accent);margin-top:7px}
+.chat-input{border-top:1px solid var(--rule);padding:12px;display:flex;gap:8px}
+.chat-input input{flex:1;font-family:inherit;font-size:14px;border:1px solid var(--rule);border-radius:24px;padding:11px 16px}
+.chat-input input:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:var(--brand)}
+.chat-input button{font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:24px;padding:11px 20px;cursor:pointer}
+.chat-input button:hover{background:var(--brand-d)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips-top{display:flex;align-items:flex-start;gap:8px;padding:11px 16px;border-bottom:1px solid var(--rule);background:#fdfaf9;flex-wrap:wrap}
+.chips-label{font-size:12px;color:var(--soft);font-weight:600;padding-top:5px;flex:none}
+.chips button{font-family:inherit;font-size:12px;color:var(--brand-d);background:var(--brand-l);border:1px solid transparent;border-radius:14px;padding:5px 11px;cursor:pointer}
+.chips button:hover{border-color:var(--brand)}
+
+.cart{position:sticky;top:16px;background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden}
+.cart-head{background:var(--ink);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:9px}
+.cart-head .ic{font-size:18px}
+.cart-head .t{font-weight:700}
+.cart-head .cnt{margin-left:auto;font-size:12px;color:#cbb9b9;font-family:var(--mono)}
+.cart-body{padding:12px;max-height:none;overflow-y:visible}
+.cart-empty{text-align:center;color:var(--soft);font-size:13.5px;padding:40px 16px}
+.cart-empty .big{font-size:34px;margin-bottom:8px;opacity:.4}
+.cart-item{display:flex;gap:10px;align-items:flex-start;padding:9px 6px;border-bottom:1px solid var(--rule2)}
+.pic{width:34px;height:34px;border-radius:8px;background:var(--brand-l);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pic svg{width:20px;height:20px}
+.ci .pic{width:26px;height:26px;border-radius:6px}
+.ci .pic svg{width:15px;height:15px}
+.cart-item .info{flex:1}
+.cart-item .nm{font-size:13px;font-weight:500;line-height:1.3}
+.cart-item .meta{font-size:11.5px;color:var(--soft);margin-top:2px}
+.cart-item .pr{font-family:var(--mono);font-weight:700;font-size:13px;white-space:nowrap}
+.cart-item .rm{background:none;border:none;color:var(--soft);cursor:pointer;font-size:16px;line-height:1;padding:0 2px}
+.cart-item .rm:hover{color:var(--brand)}
+.cart-foot{padding:14px 18px;border-top:2px solid var(--rule)}
+.cart-row{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);margin-bottom:5px}
+.cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin-top:8px}
+.cart-total .v{font-family:var(--mono)}
+.cart-note{font-size:11.5px;color:var(--soft);margin-top:8px;line-height:1.4}
+.cart-cta{width:100%;margin-top:12px;font-family:inherit;font-size:15px;font-weight:700;color:var(--brand-d);background:var(--accent);border:none;border-radius:10px;padding:13px;cursor:pointer}
+.cart-cta:hover{filter:brightness(1.05)}
+.checkout-note{display:none;margin-top:10px;font-size:12px;line-height:1.45;color:#6b520c;background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:9px 11px}
+.checkout-note.on{display:block}
+.checkout-note b{color:var(--ink)}
+.cart-clear{width:100%;margin-top:7px;font-family:inherit;font-size:12.5px;color:var(--soft);background:none;border:none;cursor:pointer}
+
+.explain{margin-top:24px;border-top:2px solid var(--ink);padding-top:20px}
+.explain h2{font-size:18px;margin:0 0 12px}
+.explain h3{font-size:14px;color:var(--brand-d);margin:16px 0 6px}
+.explain p,.explain li{font-size:13.5px;color:#39433d;max-width:92ch}
+.explain ul{padding-left:18px}
+.explain li{margin-bottom:5px}
+.disclaim{background:var(--gold-bg);border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 6px 6px 0;font-size:13px;color:#6b520c;margin:14px 0}
+.disclaim b{color:var(--ink)}
+
+footer{padding:24px 0 50px;color:var(--soft);font-size:12px;border-top:1px solid var(--rule);margin-top:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="m">М</span><span>МЯСНИЦКИЙ РЯД<small>интернет-магазин</small></span></div>
+    <span class="h-tag">AI-помощник · демо</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Демонстрация · AI-агент для сайта</span>
+    <h1>Соберём мясной стол одной фразой</h1>
+    <p>Помощник понимает задачу словами — «мясная нарезка на 6 гостей», «шашлык на компанию», «набор к завтраку» —
+      и сам собирает корзину из реальных деликатесов «Мясницкого ряда», считает сумму и предлагает замены.
+      Попробуйте пример или напишите свой запрос.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="demos" id="demos">
+    <button data-demo="platter" aria-pressed="true"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a5 5 0 0 1 5-5c3 0 5 2 6 4l2-1 1 2-2 1c0 3-2 5-5 5a6 6 0 0 1-6-4l-2 1-1-2z"/><circle cx="9.5" cy="14.5" r="1"/></svg>Мясная тарелка к столу</button>
+    <button data-demo="bbq" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 21 4"/><circle cx="8" cy="15" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="16" cy="7" r="2"/></svg>Шашлык на компанию</button>
+    <button data-demo="breakfast" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4c0 1-1 2-2 2v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6c-1 0-2-1-2-2z"/></svg>Набор к завтраку</button>
+  </div>
+
+  <div class="layout">
+    <div class="chat">
+      <div class="chat-head">
+        <div class="ai-ava">AI</div>
+        <div><div class="t">Помощник по покупкам</div><div class="s" id="chatSub">Соберу мясной стол под ваш повод</div></div>
+        <button class="clear-chat" id="clearChat" title="Очистить чат">↺ Очистить чат</button>
+        <span class="demo">демо</span>
+      </div>
+      <div class="chips-top"><span class="chips-label">Примеры:</span><div class="chips" id="chips"></div></div>
+      <div class="chat-log" id="chatLog"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="напр. мясная нарезка на 6 гостей" autocomplete="off">
+        <button id="chatSend">Собрать</button>
+      </div>
+    </div>
+
+    <div class="cart">
+      <div class="cart-head"><span class="ic">🛒</span><span class="t">Корзина</span><span class="cnt" id="cartCnt">0 товаров</span></div>
+      <div class="cart-body" id="cartBody"></div>
+      <div class="cart-foot" id="cartFoot" style="display:none">
+        <div class="cart-row"><span>Товары</span><span class="v" id="sumGoods">0 ₽</span></div>
+        <div class="cart-row"><span>Доставка</span><span id="sumDelivery">—</span></div>
+        <div class="cart-total"><span>Итого</span><span class="v" id="sumTotal">0 ₽</span></div>
+        <div class="cart-note" id="cartNote"></div>
+        <button class="cart-cta" id="checkoutBtn">Оформить заказ</button>
+        <div class="checkout-note" id="checkoutNote">
+          <b>Это демонстрация.</b> В рабочей версии здесь оформление заказа — оплата, выбор доставки и передача заказа в систему магазина. Собранную корзину агент отправляет прямо в оформление.
+        </div>
+        <button class="cart-clear" id="cartClear">Очистить корзину</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>Как это работает и что нужно для боевой версии</h2>
+    <p>Это демонстрационная витрина. Помощник разбирает запрос, подбирает деликатесы под повод и число гостей,
+      собирает корзину и считает сумму — на реальных товарах и ценах «Мясницкого ряда». Числа берутся из каталога,
+      а не выдумываются.</p>
+    <h3>Что показывает демо</h3>
+    <ul>
+      <li><b>Повод → корзина.</b> «Мясная нарезка на 6 гостей» превращается в готовый набор деликатесов, а не список ссылок.</li>
+      <li><b>Расчёт по гостям.</b> Помощник считает вес нарезки и сопутствующее (сыр, хлеб, соус) под число персон.</li>
+      <li><b>Замены.</b> Если позиции нет в наличии, предлагает аналог из того же ряда деликатесов.</li>
+      <li><b>Сопутствующие товары.</b> К мясу подбирает сыр, хлеб, соус — растит средний чек естественно.</li>
+    </ul>
+    <div class="disclaim">
+      <b>Демонстрация, не боевая система.</b> Каталог здесь — срез реальных товаров «Мясницкого ряда», зафиксированный
+      для показа. В рабочей версии агент подключается к живому каталогу с актуальными остатками и ценами через API,
+      использует настоящую языковую модель на сервере и кладёт товары в реальную корзину. Цены могут отличаться от
+      текущих — сверяйтесь на shop.kolbasa.ru.
+    </div>
+    <h3>Что нужно для внедрения на сайт</h3>
+    <ul>
+      <li>Доступ к каталогу и остаткам (API или выгрузка) — чтобы агент видел реальные товары и наличие.</li>
+      <li>Языковая модель на сервере — для разбора свободных запросов покупателя.</li>
+      <li>Интеграция с корзиной платформы — чтобы подбор попадал в реальный заказ.</li>
+      <li>Логика подбора под ассортимент «Мясницкого ряда» — нарезки, наборы к поводу, замены, сопутствующее.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Демонстрационный AI-помощник по покупкам · товары и цены — срез каталога «Мясницкий ряд» для показа.
+    Не является официальным сервисом магазина. Реальный заказ — на shop.kolbasa.ru.
+  </div>
+</footer>
+
+<script>
+/* ============ КАТАЛОГ (реальные товары «Мясницкий ряд», срез для демо) ============ */
+// price — руб/кг (unit 'кг') или руб/шт (unit 'шт'); pack — примерный вес упаковки (кг)
+const CATALOG = [
+  // деликатесы / нарезка
+  {id:'buzhenina', name:'Буженина запечённая', cat:'деликатесы', price:960, unit:'кг', pack:0.3, stock:true, tags:['буженина','нарезка','деликатес','мясо']},
+  {id:'karbonad', name:'Карбонад копчёно-варёный «Российский»', cat:'деликатесы', price:699, unit:'кг', pack:0.3, stock:true, tags:['карбонад','нарезка','деликатес']},
+  {id:'balyk', name:'Балык сырокопчёный «Свиной»', cat:'деликатесы', price:1290, unit:'кг', pack:0.25, stock:true, tags:['балык','нарезка','деликатес']},
+  {id:'sheika', name:'Шейка копчёно-варёная «Московская»', cat:'деликатесы', price:890, unit:'кг', pack:0.3, stock:true, tags:['шейка','нарезка','деликатес']},
+  {id:'indeika_grill', name:'Индейка Гриль копчёно-варёная', cat:'деликатесы', price:730, unit:'кг', pack:0.25, stock:true, tags:['индейка','нарезка','деликатес','птица']},
+  {id:'rulet_kur', name:'Рулет «Куриный» копчёно-варёный', cat:'деликатесы', price:750, unit:'кг', pack:0.25, stock:true, tags:['рулет','курица','нарезка','деликатес']},
+  // сырокопчёные колбасы
+  {id:'salyami', name:'Колбаса сырокопчёная «Салями Бурбонская»', cat:'колбасы', price:1430, unit:'кг', pack:0.25, stock:true, tags:['салями','колбаса','нарезка','сырокопчёная']},
+  {id:'starorus', name:'Колбаса сырокопчёная «Старорусская трапеза»', cat:'колбасы', price:990, unit:'кг', pack:0.25, stock:true, tags:['сырокопчёная','колбаса','нарезка']},
+  {id:'servelat', name:'Сервелат «Московский» варёно-копчёный', cat:'колбасы', price:490, unit:'кг', pack:0.3, stock:true, tags:['сервелат','колбаса','нарезка']},
+  {id:'moskovskaya', name:'Колбаса варёно-копчёная «Московская» ГОСТ', cat:'колбасы', price:1080, unit:'кг', pack:0.3, stock:true, tags:['московская','колбаса','нарезка']},
+  {id:'pepperoni', name:'Колбаса сырокопчёная «Пепперони», 200 г', cat:'колбасы', price:249, unit:'шт', pack:0.2, stock:true, tags:['пепперони','колбаса','снек','пицца']},
+  // варёные колбасы
+  {id:'doktorskaya', name:'Колбаса варёная «Докторская» ГОСТ, 400 г', cat:'колбасы', price:189, unit:'шт', pack:0.4, stock:true, tags:['докторская','колбаса','бутерброд','завтрак']},
+  {id:'doktorskaya_nat', name:'Колбаса варёная «Докторская» в натуральной оболочке', cat:'колбасы', price:970, unit:'кг', pack:0.4, stock:true, tags:['докторская','колбаса','бутерброд','завтрак']},
+  {id:'vetchina', name:'Ветчина «Мясницкая» с карбонадом, 350 г', cat:'колбасы', price:199, unit:'шт', pack:0.35, stock:true, tags:['ветчина','бутерброд','завтрак','нарезка']},
+  // сосиски / сардельки / гриль
+  {id:'sosiski_mol', name:'Сосиски «Молочные» ГОСТ', cat:'сосиски', price:650, unit:'кг', pack:0.5, stock:true, tags:['сосиски','молочные','завтрак','дети']},
+  {id:'sosiski_myas', name:'Сосиски «Мясницкие», 420 г', cat:'сосиски', price:179, unit:'шт', pack:0.42, stock:true, tags:['сосиски','завтрак']},
+  {id:'sardelki', name:'Сардельки «Телячьи»', cat:'сосиски', price:690, unit:'кг', pack:0.5, stock:true, tags:['сардельки','гриль']},
+  {id:'kolbaski_baffalo', name:'Колбаски для гриля «Куриные с соусом Баффало»', cat:'гриль', price:490, unit:'кг', pack:0.5, stock:true, tags:['колбаски','гриль','курица','шашлык']},
+  // шашлык
+  {id:'shashlyk_okorok', name:'Шашлык из свиного окорока', cat:'шашлык', price:480, unit:'кг', pack:1, stock:true, tags:['шашлык','свинина','гриль']},
+  {id:'sheya_svin', name:'Шея свиная', cat:'шашлык', price:499, unit:'кг', pack:1, stock:true, tags:['шея','свинина','шашлык','гриль']},
+  {id:'okorok_bezkosti', name:'Окорок свиной без кости', cat:'шашлык', price:349, unit:'кг', pack:1, stock:true, tags:['окорок','свинина','шашлык']},
+  // сопутствующее
+  {id:'syr_ross', name:'Сыр Российский 45%, 200 г', cat:'сыры', price:189, unit:'шт', pack:0.2, stock:true, tags:['сыр','нарезка','бутерброд','завтрак']},
+  {id:'syr_maasdam', name:'Сыр Маасдам, 200 г', cat:'сыры', price:249, unit:'шт', pack:0.2, stock:true, tags:['сыр','нарезка','бутерброд']},
+  {id:'hleb', name:'Хлеб бородинский, 400 г', cat:'хлеб', price:69, unit:'шт', pack:0.4, stock:true, tags:['хлеб','бутерброд','завтрак']},
+  {id:'baton', name:'Батон нарезной, 400 г', cat:'хлеб', price:55, unit:'шт', pack:0.4, stock:true, tags:['батон','хлеб','завтрак','бутерброд']},
+  {id:'lavash', name:'Лаваш тонкий, 2 шт', cat:'хлеб', price:79, unit:'шт', pack:0.2, stock:true, tags:['лаваш','шашлык']},
+  {id:'sous_med', name:'Соус «Медово-горчичный», 330 г', cat:'соусы', price:129, unit:'шт', pack:0.33, stock:true, tags:['соус','горчичный','нарезка']},
+  {id:'sous_bbq', name:'Соус для шашлыка, 350 г', cat:'соусы', price:139, unit:'шт', pack:0.35, stock:true, tags:['соус','шашлык','гриль']},
+  {id:'gorchica', name:'Горчица русская, 170 г', cat:'соусы', price:69, unit:'шт', pack:0.17, stock:true, tags:['горчица','завтрак']},
+  {id:'ovoshi_gril', name:'Овощи для гриля (набор)', cat:'овощи', price:299, unit:'шт', pack:0.7, stock:true, tags:['овощи','гриль','шашлык']},
+  {id:'luk_marinad', name:'Лук маринованный, 300 г', cat:'овощи', price:99, unit:'шт', pack:0.3, stock:true, tags:['лук','шашлык','маринованный']},
+  {id:'kvas', name:'Квас живой «Муромский», 2 л', cat:'напитки', price:219, unit:'шт', pack:2, stock:true, tags:['квас','напиток','шашлык']},
+  {id:'maslo', name:'Масло сливочное 82,5%, 180 г', cat:'молочка', price:199, unit:'шт', pack:0.18, stock:true, tags:['масло','завтрак']},
+  {id:'yaica', name:'Яйца куриные С1, 10 шт', cat:'молочка', price:99, unit:'шт', pack:0.6, stock:true, tags:['яйца','завтрак','яичница']},
+  // нет в наличии (для демонстрации замены)
+  {id:'prosciutto', name:'Прошутто сыровяленое, 100 г', cat:'деликатесы', price:449, unit:'шт', pack:0.1, stock:false, tags:['прошутто','нарезка','деликатес'], repl:'balyk'},
+  {id:'basturma', name:'Бастурма говяжья, 150 г', cat:'деликатесы', price:399, unit:'шт', pack:0.15, stock:false, tags:['бастурма','нарезка','деликатес'], repl:'sheika'}
+];
+const byId = Object.fromEntries(CATALOG.map(p=>[p.id,p]));
+
+/* ============ ВСТРОЕННЫЕ SVG-ИКОНКИ КАТЕГОРИЙ ============ */
+const S=(p)=>`<span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+const ICONS={
+  // деликатесы — окорок/нарезка
+  'деликатесы':S('<path d="M7 14a5 5 0 0 1 5-5c3 0 5 2 6 4l2-1 1 2-2 1c0 3-2 5-5 5a6 6 0 0 1-6-4l-2 1-1-2z"/><circle cx="9.5" cy="14.5" r="1"/>'),
+  // колбасы — батон колбасы
+  'колбасы':S('<rect x="3" y="8" width="18" height="8" rx="4"/><path d="M6 11h.01M9 13h.01M12 11h.01M15 13h.01M18 11h.01"/>'),
+  // сосиски
+  'сосиски':S('<path d="M5 9c0-2 2-3 4-3s3 1 3 3 1 3 3 3 4 1 4 3-2 3-4 3-3-1-3-3-1-3-3-3-4-1-4-3z"/>'),
+  // гриль/шашлык — шампур
+  'гриль':S('<path d="M3 20 21 4"/><circle cx="8" cy="15" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="16" cy="7" r="2"/>'),
+  'шашлык':S('<path d="M3 20 21 4"/><circle cx="8" cy="15" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="16" cy="7" r="2"/>'),
+  // сыр
+  'сыры':S('<path d="M3 11 13 5l8 4v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="8" cy="14" r="1"/><circle cx="13" cy="15" r="1"/>'),
+  // хлеб
+  'хлеб':S('<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4c0 1-1 2-2 2v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6c-1 0-2-1-2-2z"/>'),
+  'молочка':S('<path d="M8 3h8l-1 3v3l2 4v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6l2-4V6z"/>'),
+  // овощи — лист
+  'овощи':S('<path d="M4 20C4 11 11 4 20 4c0 9-7 16-16 16z"/><path d="M4 20 14 10"/>'),
+  // соусы — бутылка
+  'соусы':S('<path d="M10 2h4v3l1 2v13a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2V7l1-2z"/><path d="M9 12h6"/>'),
+  // напитки — стакан
+  'напитки':S('<path d="M6 4h12l-1.5 16a1 1 0 0 1-1 1H8.5a1 1 0 0 1-1-1z"/><path d="M6.5 9h11"/>')
+};
+function catIcon(cat){ return ICONS[cat] || S('<circle cx="12" cy="12" r="9"/>'); }
+
+
+/* ============ НАБОРЫ ПОД ПОВОД ============ */
+const SETS = {
+  // Простая мясная нарезка — колбасы и доступные деликатесы, тонко нарезано
+  platter: {title:'Мясная нарезка', per:{doktorskaya_nat:0.1, servelat:0.1, karbonad:0.1, moskovskaya:0.1}, base:{syr_ross:1, hleb:1, sous_med:1}},
+  // Премиальное ассорти деликатесов — балык, сырокопчёная салями, шейка, дороже и разнообразнее
+  deluxe: {title:'Ассорти деликатесов', per:{balyk:0.09, salyami:0.09, sheika:0.09, buzhenina:0.09, indeika_grill:0.08}, base:{syr_maasdam:1, syr_ross:1, hleb:1, sous_med:1}},
+  // Праздничный стол — деликатесы + колбасы + сыры + хлеб + соусы, самый широкий
+  feast: {title:'Праздничный стол', per:{buzhenina:0.08, balyk:0.08, salyami:0.08, servelat:0.08, sheika:0.07, indeika_grill:0.07}, base:{syr_maasdam:1, syr_ross:1, hleb:1, baton:1, sous_med:1, sous_bbq:1}},
+  bbq: {title:'Шашлык на компанию', per:{sheya_svin:0.35}, base:{ovoshi_gril:1, luk_marinad:1, sous_bbq:1, lavash:1, kvas:1}},
+  breakfast: {title:'Набор к завтраку', per:{}, base:{doktorskaya:1, vetchina:1, sosiski_mol:0.5, syr_ross:1, baton:1, maslo:1, yaica:1}}
+};
+
+let cart = {};
+let currentDemo = 'platter';
+const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const $ = id => document.getElementById(id);
+function lineCost(p, qty){ return p.price*qty; }
+
+function addToCart(id, qty){
+  const p = byId[id]; if(!p) return null;
+  let used=p, replaced=null;
+  if(!p.stock && p.repl && byId[p.repl]){ replaced=p; used=byId[p.repl]; id=used.id; }
+  if(!cart[id]) cart[id]={qty:0};
+  cart[id].qty += qty;
+  return {used, replaced, qty};
+}
+
+function qlabel(p,q){ return p.unit==='кг' ? (q>=1? q.toFixed(2).replace(/\.?0+$/,'')+' кг' : Math.round(q*1000)+' г') : q+' шт'; }
+
+function renderCart(){
+  const body=$('cartBody'), foot=$('cartFoot');
+  const ids=Object.keys(cart).filter(id=>cart[id].qty>0);
+  if(!ids.length){
+    body.innerHTML=`<div class="cart-empty"><div class="big">🛒</div>Корзина пуста.<br>Попробуйте пример слева или напишите запрос.</div>`;
+    foot.style.display='none'; $('cartCnt').textContent='0 товаров'; return;
+  }
+  let goods=0;
+  body.innerHTML=ids.map(id=>{
+    const p=byId[id], q=cart[id].qty; const cost=lineCost(p,q); goods+=cost;
+    return `<div class="cart-item">
+      ${catIcon(p.cat)}
+      <div class="info"><div class="nm">${p.name}</div><div class="meta">${qlabel(p,q)} · ${p.unit==='кг'?rub(p.price)+'/кг':rub(p.price)+'/шт'}</div></div>
+      <div class="pr">${rub(cost)}</div>
+      <button class="rm" data-rm="${id}" title="Убрать">✕</button>
+    </div>`;
+  }).join('');
+  const cnt=ids.length;
+  $('cartCnt').textContent=cnt+' '+plural(cnt,['товар','товара','товаров']);
+  const MIN=1500;
+  const delivery = goods>=3000?0:250;
+  $('sumGoods').textContent=rub(goods);
+  $('sumDelivery').textContent = delivery===0?'бесплатно':rub(delivery);
+  $('sumTotal').textContent=rub(goods+delivery);
+  let note='';
+  if(goods<MIN) note=`До минимальной суммы заказа (${rub(MIN)}) не хватает ${rub(MIN-goods)}.`;
+  else if(goods<3000) note=`Добавьте на ${rub(3000-goods)} — и доставка станет бесплатной.`;
+  else note='Доставка бесплатная 🎉 · Доставим сегодня';
+  $('cartNote').textContent=note;
+  foot.style.display='block';
+  body.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{ delete cart[b.dataset.rm]; renderCart(); }));
+}
+function plural(n,f){ const n1=n%10,n2=n%100; if(n1===1&&n2!==11)return f[0]; if(n1>=2&&n1<=4&&(n2<10||n2>=20))return f[1]; return f[2]; }
+
+function botMsg(html){ const m=document.createElement('div'); m.className='msg bot'; m.innerHTML=html; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
+function userMsg(t){ const m=document.createElement('div'); m.className='msg user'; m.textContent=t; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
+
+function buildCartMsg(added, opts={}){
+  let html = opts.intro || 'Собрал корзину:';
+  html += '<div class="cart-add">';
+  let repls=[];
+  added.forEach(a=>{
+    const p=a.used, q=a.qty;
+    html+=`<div class="ci">${catIcon(p.cat)}<span class="nm">${p.name}</span><span class="qt">${qlabel(p,q)}</span><span class="pr">${rub(lineCost(p,q))}</span></div>`;
+    if(a.replaced) repls.push(`«${a.replaced.name}» нет в наличии — заменил на «${p.name}»`);
+  });
+  html+='</div>';
+  if(opts.budget!=null){
+    const goods=Object.keys(cart).reduce((s,id)=>s+lineCost(byId[id],cart[id].qty),0);
+    const left=opts.budget-goods;
+    html+=`<div style="margin-top:9px;font-size:13px">Сумма: <b>${rub(goods)}</b> из ${rub(opts.budget)}. ${left>=0?'Осталось '+rub(left)+'.':'Превышение на '+rub(-left)+'.'}</div>`;
+  }
+  if(repls.length) html+=`<div class="repl">↺ ${repls.join('; ')}.</div>`;
+  botMsg(html);
+}
+
+function parseGuests(t){ const m=t.match(/(?:на|для)\s*(\d+)\s*(гост|человек|персон|чел|люд)/); return m?parseInt(m[1]):6; }
+function parseBudget(t){ const m=t.match(/(\d[\d\s]{2,})\s*(руб|₽|р\b)/); if(m) return parseInt(m[1].replace(/\s/g,'')); const m2=t.match(/до\s*(\d[\d\s]{2,})/); return m2?parseInt(m2[1].replace(/\s/g,'')):null; }
+
+function buildSet(key, guests, budget){
+  const set=SETS[key]; cart={};
+  const added=[];
+  // per-guest позиции (вес × гости)
+  Object.entries(set.per||{}).forEach(([id,perKg])=>{
+    const a=addToCart(id, perKg*guests); if(a) added.push(a);
+  });
+  // базовые позиции, масштаб по гостям для завтрака/грубо
+  Object.entries(set.base||{}).forEach(([id,q])=>{
+    let qty=q;
+    if(byId[id] && byId[id].unit==='шт') qty=Math.max(1, Math.round(q*(guests/ (key==='breakfast'?2:6)) ));
+    const a=addToCart(id, qty); if(a) added.push(a);
+  });
+  renderCart();
+  return added;
+}
+
+function handle(q){
+  const t=q.toLowerCase();
+  const guests=parseGuests(t);
+  const budget=parseBudget(t);
+
+  // Праздничный стол — самый широкий (проверяем первым)
+  if(/(праздни|торжеств|на юбилей|на день рожден|новый год|застол|широк)/.test(t) && !/шашлык|гриль/.test(t)){
+    const added=buildSet('feast', guests, budget);
+    return buildCartMsg(added,{intro:`Праздничный стол на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — деликатесы, колбасы, два сыра, хлеб и соусы:`, budget});
+  }
+  // Ассорти деликатесов — премиальный набор (балык, сырокопчёная салями, шейка)
+  if(/(ассорти|деликатес|премиум|изысканн)/.test(t) && !/шашлык|гриль/.test(t)){
+    const added=buildSet('deluxe', guests, budget);
+    return buildCartMsg(added,{intro:`Ассорти деликатесов на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — балык, сырокопчёная салями, шейка и буженина, с сырами и соусом:`, budget});
+  }
+  // Простая мясная нарезка — колбасы и доступные деликатесы
+  if(/(нарезк|тарелк|к столу|на стол|гост)/.test(t) && !/шашлык|гриль/.test(t)){
+    const added=buildSet('platter', guests, budget);
+    return buildCartMsg(added,{intro:`Мясная нарезка на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — докторская, сервелат, карбонад и московская, плюс сыр, хлеб и соус:`, budget});
+  }
+  if(/(шашлык|гриль|мангал|на природ|на дач|пикник)/.test(t)){
+    const added=buildSet('bbq', guests, budget);
+    return buildCartMsg(added,{intro:`Шашлык на ${guests} ${plural(guests,['человека','человек','человек'])} — мясо, овощи, лаваш, соус и квас:`, budget});
+  }
+  if(/(завтрак|бутерброд|к чаю|перекус|на утро)/.test(t)){
+    const added=buildSet('breakfast', guests, budget);
+    return buildCartMsg(added,{intro:'Набор к завтраку — колбаса, ветчина, сосиски, сыр и хлеб:', budget});
+  }
+
+  // поиск по товару/тегу (включая не-в-наличии, чтобы показать замену)
+  const found=CATALOG.filter(p=>{
+    const key=p.name.toLowerCase().split(/[«,]/)[0].trim().split(' ')[0];
+    return t.includes(key) || p.tags.some(tag=>t.includes(tag));
+  });
+  if(found.length){
+    cart={};
+    const added=found.slice(0,6).map(p=>addToCart(p.id, p.unit==='кг'?p.pack:1)).filter(Boolean);
+    renderCart();
+    return buildCartMsg(added,{intro:'Нашёл по вашему запросу и добавил:'});
+  }
+  botMsg('Соберу набор под повод. Попробуйте: «мясная нарезка на 6 гостей», «шашлык на 8 человек», «набор к завтраку» — или назовите деликатес: буженина, салями, балык.');
+}
+
+const DEMO = {
+  platter: {sub:'Соберу мясную тарелку к столу',
+    chips:['мясная нарезка на 6 гостей','ассорти деликатесов к столу','что положить на праздничный стол'],
+    greet:'Здравствуйте! Скажите, на сколько гостей и по какому поводу — соберу мясную тарелку из деликатесов. Например: «мясная нарезка на 6 гостей».'},
+  bbq: {sub:'Соберу всё для шашлыка',
+    chips:['шашлык на 8 человек','мясо на мангал на компанию','что взять на пикник'],
+    greet:'Собираетесь на природу? Скажите, на сколько человек — подберу мясо, овощи, соус, лаваш и напитки. Попробуйте «шашлык на 8 человек».'},
+  breakfast: {sub:'Соберу набор к завтраку',
+    chips:['набор к завтраку','колбаса и сыр на бутерброды','сосиски и ветчина на утро'],
+    greet:'Соберу набор для завтраков — колбаса, ветчина, сосиски, сыр, хлеб. Напишите «набор к завтраку».'}
+};
+
+function setDemo(key){
+  currentDemo=key;
+  document.querySelectorAll('#demos button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.demo===key?'true':'false'));
+  const d=DEMO[key];
+  $('chatSub').textContent=d.sub;
+  $('chatLog').innerHTML=''; cart={}; renderCart();
+  botMsg(d.greet);
+  $('chips').innerHTML=d.chips.map(c=>`<button>${c}</button>`).join('');
+  $('chips').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ userMsg(b.textContent); handle(b.textContent); }));
+}
+
+$('demos').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) setDemo(b.dataset.demo); });
+$('chatSend').addEventListener('click',()=>{ const v=$('chatInput').value.trim(); if(!v)return; userMsg(v); $('chatInput').value=''; handle(v); });
+$('chatInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('chatSend').click(); });
+$('cartClear').addEventListener('click',()=>{ cart={}; renderCart(); });
+$('checkoutBtn').addEventListener('click',()=>{ $('checkoutNote').classList.toggle('on'); });
+$('clearChat').addEventListener('click',()=>{ setDemo(currentDemo); });
+
+setDemo('platter');
+renderCart();
+</script>
+</body>
+</html>
