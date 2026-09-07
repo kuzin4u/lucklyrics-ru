@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-помощник по вкусам — сублимированное мороженое</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#7b2ff7; --brand-d:#5f1fd6; --brand-l:#f0e9fe; --accent:#ff5fa2;
+  --ink:#241a33; --soft:#6b5f7a; --rule:#e6def2; --rule2:#f1ecf9;
+  --paper:#faf7ff; --card:#fff; --gold:#8a6810; --gold-bg:#fbf4e3; --green:#0B6B57;
+  --sans:'Inter',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{background:linear-gradient(120deg,var(--brand),var(--accent));color:#fff;padding:12px 0}
+header .wrap{display:flex;align-items:center;gap:14px}
+.logo{font-weight:800;font-size:19px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.logo .ic{width:32px;height:32px;background:#fff;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.logo small{display:block;font-size:10.5px;font-weight:500;opacity:.85}
+.h-tag{margin-left:auto;font-size:12.5px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:20px;font-family:var(--mono)}
+
+.hero{text-align:center;padding:38px 0 24px}
+.hero .eyebrow{display:inline-block;font-size:12.5px;font-weight:700;color:var(--brand-d);background:var(--brand-l);border:1px solid #d9c9fb;padding:5px 13px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.04em}
+.hero h1{font-size:clamp(26px,3.6vw,38px);margin:0 auto 6px;max-width:22ch;font-weight:800;letter-spacing:-.02em;line-height:1.14}
+
+.demos{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:22px 0 8px}
+.demos button{font-family:inherit;font-size:14px;font-weight:600;border:1px solid var(--rule);background:#fff;color:var(--ink);border-radius:24px;padding:9px 18px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px}
+.demos button:hover{border-color:var(--brand)}
+.demos button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tab-ic{width:18px;height:18px;flex:none}
+
+.layout{display:grid;grid-template-columns:1fr 360px;gap:22px;padding:14px 0 60px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+.chat{background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:520px}
+.chat-head{background:var(--brand-l);padding:13px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--rule)}
+.ai-ava{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.chat-head .t{font-weight:700;font-size:15px}
+.chat-head .s{font-size:12px;color:var(--soft)}
+.chat-head .demo{margin-left:8px;font-size:10.5px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);padding:3px 9px;border-radius:4px}
+.clear-chat{margin-left:auto;font-family:inherit;font-size:12px;color:var(--brand);background:#fff;border:1px solid var(--rule);border-radius:16px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.clear-chat:hover{border-color:var(--brand);background:var(--brand-l)}
+.chips-top{display:flex;align-items:flex-start;gap:8px;padding:11px 16px;border-bottom:1px solid var(--rule);background:#fdfcff;flex-wrap:wrap}
+.chips-label{font-size:12px;color:var(--soft);font-weight:600;padding-top:5px;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font-family:inherit;font-size:12px;color:var(--brand-d);background:var(--brand-l);border:1px solid transparent;border-radius:14px;padding:5px 11px;cursor:pointer}
+.chips button:hover{border-color:var(--brand)}
+.chat-log{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:520px}
+.msg{max-width:88%;font-size:14px;line-height:1.5;padding:11px 14px;border-radius:14px}
+.msg.user{align-self:flex-end;background:var(--brand);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--brand-l);color:var(--ink);border-bottom-left-radius:4px}
+.msg.bot b{color:var(--brand-d)}
+.msg.bot .cart-add{margin-top:9px;display:flex;flex-direction:column;gap:6px}
+.msg.bot .ci{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:6px 10px}
+.msg.bot .ci .nm{flex:1}
+.msg.bot .ci .pr{font-weight:700;font-family:var(--mono);white-space:nowrap}
+.msg.bot .save{font-size:12.5px;color:var(--green);margin-top:7px;font-weight:600}
+.chat-input{border-top:1px solid var(--rule);padding:12px;display:flex;gap:8px}
+.chat-input input{flex:1;font-family:inherit;font-size:14px;border:1px solid var(--rule);border-radius:24px;padding:11px 16px}
+.chat-input input:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:var(--brand)}
+.chat-input button{font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:24px;padding:11px 20px;cursor:pointer}
+.chat-input button:hover{background:var(--brand-d)}
+
+.cart{position:sticky;top:16px;background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden}
+.cart-head{background:var(--ink);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:9px}
+.cart-head .t{font-weight:700}
+.cart-head .cnt{margin-left:auto;font-size:12px;color:#bcafd0;font-family:var(--mono)}
+.cart-body{padding:12px;max-height:none;overflow-y:visible}
+.cart-empty{text-align:center;color:var(--soft);font-size:13.5px;padding:40px 16px}
+.cart-empty .big{font-size:34px;margin-bottom:8px;opacity:.4}
+.cart-item{display:flex;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px solid var(--rule2)}
+.pic{width:34px;height:34px;border-radius:8px;background:var(--brand-l);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pic svg{width:20px;height:20px}
+.cart-item .info{flex:1}
+.cart-item .nm{font-size:13px;font-weight:500;line-height:1.3}
+.cart-item .meta{font-size:11.5px;color:var(--soft);margin-top:2px}
+.cart-item .pr{font-family:var(--mono);font-weight:700;font-size:13px;white-space:nowrap}
+.cart-item .rm{background:none;border:none;color:var(--soft);cursor:pointer;font-size:16px;line-height:1;padding:0 2px}
+.cart-item .rm:hover{color:var(--accent)}
+.cart-foot{padding:14px 18px;border-top:2px solid var(--rule)}
+.cart-row{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);margin-bottom:5px}
+.cart-row.disc{color:var(--green);font-weight:600}
+.cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin-top:8px}
+.cart-total .v{font-family:var(--mono)}
+.cart-note{font-size:11.5px;color:var(--soft);margin-top:8px;line-height:1.4}
+.cart-note.win{color:var(--green);font-weight:600}
+.cart-cta{width:100%;margin-top:12px;font-family:inherit;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:10px;padding:13px;cursor:pointer}
+.cart-cta:hover{filter:brightness(1.05)}
+.checkout-note{display:none;margin-top:10px;font-size:12px;line-height:1.45;color:#6b520c;background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:9px 11px}
+.checkout-note.on{display:block}
+.checkout-note b{color:var(--ink)}
+.cart-clear{width:100%;margin-top:7px;font-family:inherit;font-size:12.5px;color:var(--soft);background:none;border:none;cursor:pointer}
+
+.explain{margin-top:24px;border-top:2px solid var(--ink);padding-top:20px}
+.explain h2{font-size:18px;margin:0 0 12px}
+.explain h3{font-size:14px;color:var(--brand-d);margin:16px 0 6px}
+.explain p,.explain li{font-size:13.5px;color:#39335d;max-width:92ch}
+.explain ul{padding-left:18px}
+.explain li{margin-bottom:5px}
+.disclaim{background:var(--gold-bg);border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 6px 6px 0;font-size:13px;color:#6b520c;margin:14px 0}
+.disclaim b{color:var(--ink)}
+footer{padding:24px 0 50px;color:var(--soft);font-size:12px;border-top:1px solid var(--rule);margin-top:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo">
+      <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7b2ff7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10a5 5 0 0 1 10 0"/><path d="M6 10h12l-5 11a1 1 0 0 1-2 0z"/><path d="M9 10 8 6M15 10l1-4"/></svg></span>
+      <span>у нас вкусно<small>сублимированное мороженое</small></span>
+    </div>
+    <span class="h-tag">AI-помощник · демо</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Демонстрация · AI-агент для магазина на Ozon</span>
+    <h1>Соберите набор вкусов одной фразой</h1>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="demos" id="demos">
+    <button data-demo="mix" aria-pressed="true"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10a5 5 0 0 1 10 0"/><path d="M6 10h12l-5 11a1 1 0 0 1-2 0z"/></svg>Микс вкусов</button>
+    <button data-demo="occasion" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7C10 7 8 4 12 2c4 2 2 5 0 5z"/></svg>Под повод</button>
+    <button data-demo="budget" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1 1-1.5 2.5-1.5s2.5.5 2.5 1.5-1 1.5-2.5 1.5-2.5.5-2.5 1.5 1 1.5 2.5 1.5 2.5-.5 2.5-1.5"/></svg>Под бюджет</button>
+  </div>
+
+  <div class="layout">
+    <div class="chat">
+      <div class="chat-head">
+        <div class="ai-ava">AI</div>
+        <div><div class="t">Помощник по вкусам</div><div class="s" id="chatSub">Соберу набор под ваш запрос</div></div>
+        <button class="clear-chat" id="clearChat" title="Очистить чат">↺ Очистить чат</button>
+        <span class="demo">демо</span>
+      </div>
+      <div class="chips-top"><span class="chips-label">Примеры:</span><div class="chips" id="chips"></div></div>
+      <div class="chat-log" id="chatLog"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="напр. набор из 6 вкусов" autocomplete="off">
+        <button id="chatSend">Собрать</button>
+      </div>
+    </div>
+
+    <div class="cart">
+      <div class="cart-head"><span class="t">🍨 Ваш набор</span><span class="cnt" id="cartCnt">0 вкусов</span></div>
+      <div class="cart-body" id="cartBody"></div>
+      <div class="cart-foot" id="cartFoot" style="display:none">
+        <div class="cart-row"><span>Товары</span><span class="v" id="sumGoods">0 ₽</span></div>
+        <div class="cart-row disc" id="discRow" style="display:none"><span id="discLabel">Скидка за набор</span><span class="v" id="sumDisc">0 ₽</span></div>
+        <div class="cart-total"><span>Итого</span><span class="v" id="sumTotal">0 ₽</span></div>
+        <div class="cart-note" id="cartNote"></div>
+        <button class="cart-cta" id="checkoutBtn">Оформить заказ</button>
+        <div class="checkout-note" id="checkoutNote">
+          <b>Это демонстрация.</b> В рабочей версии здесь оформление заказа — оплата, доставка и передача заказа продавцу. Собранный набор агент отправляет прямо в оформление.
+        </div>
+        <button class="cart-clear" id="cartClear">Очистить набор</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>Как это работает и что нужно для боевой версии</h2>
+    <p>Помощник разбирает запрос, подбирает вкусы под задачу, повод или бюджет, собирает набор и считает сумму со
+      скидкой за количество — на реальном ассортименте магазина «у нас вкусно». Числа берутся из каталога, а не выдумываются.</p>
+    <h3>Что показывает демо</h3>
+    <ul>
+      <li><b>Микс-конструктор.</b> «Набор из 6 вкусов», «только фруктовые», «шоколадные» — агент собирает набор из подходящих позиций.</li>
+      <li><b>Под повод.</b> Детский набор (яркие вкусы), подарочный (премиальные), ПП-перекус (фрукты/ягоды).</li>
+      <li><b>Под бюджет.</b> «Максимум вкусов на 2000 ₽» — подбор укладывается в сумму.</li>
+      <li><b>Скидка за набор.</b> Чем больше вкусов, тем ниже цена — стимул взять больше, виден прямо в корзине.</li>
+    </ul>
+    <div class="disclaim">
+      <b>Демонстрация, не боевая система.</b> Каталог — срез витрины магазина на Ozon, зафиксированный для показа.
+      Ступенчатая скидка (от 3 шт −5%, от 6 шт −10%, от 10 шт −15%) — модельное допущение; замените на реальные условия магазина.
+      В рабочей версии агент подключается к актуальному каталогу с ценами и остатками и оформляет заказ.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Демонстрационный AI-помощник · товары и цены — срез витрины «у нас вкусно» на Ozon для показа. Не является официальным сервисом Ozon.</div>
+</footer>
+
+<script>
+/* ============ КАТАЛОГ (витрина «у нас вкусно», Ozon) ============ */
+// cat: 'ice' мороженое | 'fruit' фрукты/ягоды | 'meat' мясо
+// flavor-теги для подбора: choc(шоколад), berry(ягода), fruit(фрукт), classic, kids(яркие), nut(орех), premium
+const CATALOG=[
+ {id:'ice_choc', name:'Пломбир «Шоколадное», 35 г', price:737, cat:'ice', tags:['шоколад','choc','kids']},
+ {id:'ice_fist', name:'Пломбир «Фисташка», 35 г', price:277, cat:'ice', tags:['фисташка','nut']},
+ {id:'ice_klub', name:'Пломбир «Клубника», 35 г', price:446, cat:'ice', tags:['клубника','berry','fruit','kids']},
+ {id:'ice_crumb', name:'Пломбир «С шоколадной крошкой», 35 г', price:474, cat:'ice', tags:['шоколад','choc','kids']},
+ {id:'ice_plain', name:'Пломбир классический, 35 г', price:458, cat:'ice', tags:['классика','classic']},
+ {id:'ice_brule', name:'Пломбир «Крем-брюле», 35 г', price:367, cat:'ice', tags:['карамель','classic']},
+ {id:'ice_caramel', name:'Пломбир «Солёная карамель», 35 г', price:642, cat:'ice', tags:['карамель','premium']},
+ {id:'ice_banan', name:'Пломбир «Банан», 35 г', price:510, cat:'ice', tags:['банан','fruit','kids']},
+ {id:'ice_bubble', name:'Пломбир «Бабл-гам», 35 г', price:377, cat:'ice', tags:['баблгам','kids']},
+ {id:'ice_smorod', name:'Пломбир «Чёрная смородина», 35 г', price:438, cat:'ice', tags:['смородина','berry']},
+ {id:'ice_vish', name:'Пломбир «Вишня», 35 г', price:637, cat:'ice', tags:['вишня','berry','fruit']},
+ {id:'ice_tira', name:'Мороженое «Тирамису», 35 г', price:447, cat:'ice', tags:['тирамису','premium']},
+ {id:'ice_dyn', name:'Мороженое «Дыня», 35 г', price:568, cat:'ice', tags:['дыня','fruit']},
+ {id:'ice_chocmal', name:'Мороженое «Шоколадное с малиной», 35 г', price:483, cat:'ice', tags:['шоколад','малина','choc','berry','premium']},
+ {id:'ice_fistkesh', name:'Мороженое «Фисташковая паста с кешью», 35 г', price:464, cat:'ice', tags:['фисташка','кешью','nut','premium']},
+ {id:'ice_lesn', name:'Мороженое «Лесные ягоды», 35 г', price:534, cat:'ice', tags:['ягоды','berry','fruit']},
+ {id:'ice_greh', name:'Мороженое «С грецким орехом и сиропом», 35 г', price:564, cat:'ice', tags:['орех','nut','premium']},
+ {id:'ice_klukva', name:'Десерт-щербет «Клюква», сублим.', price:347, cat:'ice', tags:['клюква','berry','fruit']},
+ // фрукты/ягоды
+ {id:'fr_abr', name:'Абрикос сублим. (слайс), 30 г', price:335, cat:'fruit', tags:['абрикос','fruit','pp']},
+ {id:'fr_pers', name:'Персик сублим., 20 г', price:175, cat:'fruit', tags:['персик','fruit','pp']},
+ {id:'fr_yabl', name:'Яблоко сублим., 25 г', price:741, cat:'fruit', tags:['яблоко','fruit','pp']},
+ {id:'fr_klub_sl', name:'Клубника сублим. (слайсами), 20 г', price:476, cat:'fruit', tags:['клубника','berry','fruit','pp']},
+ {id:'fr_klub_c', name:'Клубника сублим. (целая), 30 г', price:1211, cat:'fruit', tags:['клубника','berry','fruit','pp','premium']},
+ {id:'fr_cher', name:'Черешня сублим., 50 г', price:556, cat:'fruit', tags:['черешня','berry','fruit','pp']},
+ // мясо
+ {id:'me_kur', name:'Куриная грудка сублим., запечённая, 50 г', price:1170, cat:'meat', tags:['курица','мясо','pp','поход']},
+ {id:'me_gov', name:'Говядина сублим., в духовке, 50 г', price:2133, cat:'meat', tags:['говядина','мясо','поход']},
+];
+const byId=Object.fromEntries(CATALOG.map(p=>[p.id,p]));
+
+/* ===== скидка за набор (ступенчатая) — замените пороги/проценты под магазин ===== */
+const DISCOUNT_TIERS=[{min:10,pct:15},{min:6,pct:10},{min:3,pct:5}];
+function discountPct(n){ for(const t of DISCOUNT_TIERS){ if(n>=t.min) return t.pct; } return 0; }
+
+/* ===== иконки категорий ===== */
+const S=(p)=>`<span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+const ICONS={
+  'ice':S('<path d="M7 10a5 5 0 0 1 10 0"/><path d="M6 10h12l-5 11a1 1 0 0 1-2 0z"/>'),
+  'fruit':S('<path d="M12 7c-3-2-7 0-7 5 0 4 3 7 5 7 1 0 1-.5 2-.5s1 .5 2 .5c2 0 5-3 5-7 0-5-4-7-7-5z"/><path d="M12 7c0-2 1-3 3-4"/>'),
+  'meat':S('<path d="M7 14a5 5 0 0 1 5-5c3 0 5 2 6 4l2-1 1 2-2 1c0 3-2 5-5 5a6 6 0 0 1-6-4l-2 1-1-2z"/><circle cx="9.5" cy="14.5" r="1"/>')
+};
+function catIcon(cat){ return ICONS[cat]||S('<circle cx="12" cy="12" r="9"/>'); }
+
+let cart={}; // id -> qty
+let currentDemo='mix';
+const rub=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
+const $=id=>document.getElementById(id);
+
+function addToCart(id,q=1){ if(!byId[id])return null; cart[id]=(cart[id]||0)+q; return byId[id]; }
+function plural(n,f){const n1=n%10,n2=n%100;if(n1===1&&n2!==11)return f[0];if(n1>=2&&n1<=4&&(n2<10||n2>=20))return f[1];return f[2];}
+
+function renderCart(){
+  const body=$('cartBody'),foot=$('cartFoot');
+  const ids=Object.keys(cart).filter(id=>cart[id]>0);
+  if(!ids.length){
+    body.innerHTML=`<div class="cart-empty"><div class="big">🍨</div>Набор пуст.<br>Попробуйте пример слева или напишите запрос.</div>`;
+    foot.style.display='none'; $('cartCnt').textContent='0 вкусов'; return;
+  }
+  let goods=0,count=0;
+  body.innerHTML=ids.map(id=>{
+    const p=byId[id],q=cart[id]; const cost=p.price*q; goods+=cost; count+=q;
+    return `<div class="cart-item">${catIcon(p.cat)}
+      <div class="info"><div class="nm">${p.name}</div><div class="meta">${q} ${plural(q,['шт','шт','шт'])} · ${rub(p.price)}/шт</div></div>
+      <div class="pr">${rub(cost)}</div>
+      <button class="rm" data-rm="${id}" title="Убрать">✕</button></div>`;
+  }).join('');
+  const pct=discountPct(count);
+  const disc=Math.round(goods*pct/100);
+  const total=goods-disc;
+  $('cartCnt').textContent=count+' '+plural(count,['вкус','вкуса','вкусов']);
+  $('sumGoods').textContent=rub(goods);
+  const dr=$('discRow');
+  if(pct>0){ dr.style.display='flex'; $('discLabel').textContent=`Скидка за набор −${pct}%`; $('sumDisc').textContent='−'+rub(disc); }
+  else dr.style.display='none';
+  $('sumTotal').textContent=rub(total);
+  // подсказка про следующий порог
+  const note=$('cartNote');
+  const next=[...DISCOUNT_TIERS].reverse().find(t=>count<t.min);
+  if(pct>=15){ note.className='cart-note win'; note.textContent='Максимальная скидка 15% 🎉'; }
+  else if(next){ note.className='cart-note'; const need=next.min-count; note.textContent=`Добавьте ещё ${need} ${plural(need,['вкус','вкуса','вкусов'])} — и скидка вырастет до ${next.pct}%.`; }
+  else note.textContent='';
+  foot.style.display='block';
+  body.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{ delete cart[b.dataset.rm]; renderCart(); }));
+}
+
+function botMsg(html){const m=document.createElement('div');m.className='msg bot';m.innerHTML=html;$('chatLog').appendChild(m);$('chatLog').scrollTop=$('chatLog').scrollHeight;}
+function userMsg(t){const m=document.createElement('div');m.className='msg user';m.textContent=t;$('chatLog').appendChild(m);$('chatLog').scrollTop=$('chatLog').scrollHeight;}
+
+function buildMsg(list,intro){
+  let html=intro+'<div class="cart-add">';
+  list.forEach(p=>{ html+=`<div class="ci">${catIcon(p.cat)}<span class="nm">${p.name}</span><span class="pr">${rub(p.price)}</span></div>`; });
+  html+='</div>';
+  const count=Object.values(cart).reduce((a,b)=>a+b,0);
+  const goods=Object.keys(cart).reduce((s,id)=>s+byId[id].price*cart[id],0);
+  const pct=discountPct(count);
+  if(pct>0) html+=`<div class="save">Со скидкой за набор −${pct}%: ${rub(goods*(1-pct/100))} вместо ${rub(goods)}.</div>`;
+  botMsg(html);
+}
+
+function parseCount(t){ const m=t.match(/(\d+)\s*(вкус|шт|позиц|штук)/); if(m)return parseInt(m[1]); const m2=t.match(/из\s*(\d+)/); return m2?parseInt(m2[1]):null; }
+function parseBudget(t){ const m=t.match(/(\d[\d\s]{2,})\s*(руб|₽|р\b)/); if(m)return parseInt(m[1].replace(/\s/g,'')); const m2=t.match(/до\s*(\d[\d\s]{2,})/); return m2?parseInt(m2[1].replace(/\s/g,'')):null; }
+
+function pickBy(filterFn, n){
+  const pool=CATALOG.filter(filterFn);
+  return pool.slice(0, n);
+}
+
+function handle(q){
+  const t=q.toLowerCase();
+  const n=parseCount(t)||6;
+  const budget=parseBudget(t);
+
+  // под бюджет
+  if(budget){
+    cart={};
+    // берём мороженое от дешёвых к дорогим, пока влезает
+    const sorted=CATALOG.filter(p=>p.cat==='ice').sort((a,b)=>a.price-b.price);
+    let sum=0, list=[];
+    for(const p of sorted){ if(sum+p.price<=budget){ addToCart(p.id); list.push(p); sum+=p.price; } }
+    renderCart();
+    return buildMsg(list, `Максимум вкусов на ${rub(budget)} — набрал ${list.length} ${plural(list.length,['вкус','вкуса','вкусов'])}:`);
+  }
+
+  // тематические миксы
+  const themes=[
+    {re:/(шоколад|choc)/, tag:'choc', label:'шоколадный набор'},
+    {re:/(ягод|берри|клубник|вишн|смородин|черешн|малин)/, tag:'berry', label:'ягодный набор'},
+    {re:/(фрукт|фруктов)/, tag:'fruit', label:'фруктовый набор'},
+    {re:/(орех|фисташк|кешью|грецк)/, tag:'nut', label:'ореховый набор'},
+    {re:/(премиум|подароч|изысканн|дорог)/, tag:'premium', label:'подарочный набор премиум-вкусов'},
+    {re:/(детск|ярк|ребён|ребен|дет)/, tag:'kids', label:'детский набор ярких вкусов'},
+    {re:/(пп|перекус|полезн|фитнес|поход|похуд)/, tag:'pp', label:'ПП-набор сублимированных фруктов и ягод'},
+  ];
+  const th=themes.find(x=>x.re.test(t));
+  if(th){
+    cart={};
+    const list=pickBy(p=>p.tags.includes(th.tag), n);
+    list.forEach(p=>addToCart(p.id));
+    renderCart();
+    return buildMsg(list, `Собрал ${th.label} — ${list.length} ${plural(list.length,['вкус','вкуса','вкусов'])}:`);
+  }
+
+  // мясо/поход
+  if(/(мяс|курин|говядин)/.test(t)){
+    cart={};
+    const list=CATALOG.filter(p=>p.cat==='meat');
+    list.forEach(p=>addToCart(p.id));
+    renderCart();
+    return buildMsg(list, 'Сублимированное мясо — курица и говядина, в поход или для белкового перекуса:');
+  }
+
+  // общий микс из N вкусов (мороженое, разнообразно)
+  if(/(микс|набор|ассорти|вкус|попроб|разн)/.test(t) || parseCount(t)){
+    cart={};
+    // берём разнообразные вкусы мороженого
+    const ice=CATALOG.filter(p=>p.cat==='ice');
+    const list=ice.slice(0, Math.min(n, ice.length));
+    list.forEach(p=>addToCart(p.id));
+    renderCart();
+    return buildMsg(list, `Набор из ${list.length} ${plural(list.length,['вкуса','вкусов','вкусов'])} мороженого:`);
+  }
+
+  // поиск по конкретному вкусу
+  const found=CATALOG.filter(p=>p.tags.some(tag=>t.includes(tag)) || t.includes(p.name.toLowerCase().split('«')[1]?.split('»')[0]||'###'));
+  if(found.length){
+    cart={};
+    found.slice(0,8).forEach(p=>addToCart(p.id));
+    renderCart();
+    return buildMsg(found.slice(0,8), 'Нашёл по вашему запросу:');
+  }
+
+  botMsg('Соберу набор вкусов. Попробуйте: «набор из 6 вкусов», «только шоколадные», «ягодный набор», «детский набор», «ПП-перекус» или «максимум вкусов на 2000 ₽».');
+}
+
+const DEMO={
+  mix:{sub:'Соберу микс вкусов мороженого',
+    chips:['набор из 6 вкусов','только шоколадные','ягодный набор','ореховый набор'],
+    greet:'Привет! Скажите, какой набор собрать — «набор из 6 вкусов», «только шоколадные», «ягодный набор». Соберу и посчитаю со скидкой за количество.'},
+  occasion:{sub:'Соберу набор под повод',
+    chips:['детский набор','подарочный набор','ПП-перекус','сублимированное мясо в поход'],
+    greet:'Под какой повод собрать? «Детский набор» (яркие вкусы), «подарочный» (премиум), «ПП-перекус» (фрукты и ягоды).'},
+  budget:{sub:'Соберу максимум вкусов под бюджет',
+    chips:['максимум вкусов на 2000 ₽','набор на 1500 ₽','набор на 3000 ₽'],
+    greet:'Назовите бюджет — подберу максимум вкусов, чтобы уложиться. Например: «максимум вкусов на 2000 ₽».'}
+};
+
+function setDemo(key){
+  currentDemo=key;
+  document.querySelectorAll('#demos button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.demo===key?'true':'false'));
+  const d=DEMO[key];
+  $('chatSub').textContent=d.sub;
+  $('chatLog').innerHTML=''; cart={}; renderCart();
+  botMsg(d.greet);
+  $('chips').innerHTML=d.chips.map(c=>`<button>${c}</button>`).join('');
+  $('chips').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ userMsg(b.textContent); handle(b.textContent); }));
+}
+
+$('demos').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setDemo(b.dataset.demo);});
+$('chatSend').addEventListener('click',()=>{const v=$('chatInput').value.trim();if(!v)return;userMsg(v);$('chatInput').value='';handle(v);});
+$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('chatSend').click();});
+$('cartClear').addEventListener('click',()=>{cart={};renderCart();});
+$('checkoutBtn').addEventListener('click',()=>{$('checkoutNote').classList.toggle('on');});
+$('clearChat').addEventListener('click',()=>{setDemo(currentDemo);});
+
+setDemo('mix');
+renderCart();
+</script>
+</body>
+</html>
