@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-помощник по покупкам — демо для ГЛОБУС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --globus:#F39200; --globus-d:#E07B00; --globus-l:#FFF3E0; --accent:#FFB627;
+  --ink:#1a2b23; --soft:#5c6b63; --rule:#e0e7e3; --rule2:#eef2f0;
+  --paper:#f7faf8; --card:#ffffff; --gold:#8a6810; --gold-bg:#fbf4e3;
+  --sans:'Inter',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+header{background:var(--globus);color:#fff;padding:12px 0}
+header .wrap{display:flex;align-items:center;gap:14px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.logo .globe{width:26px;height:26px;background:#fff;color:var(--globus);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800}
+.h-tag{margin-left:auto;font-size:12.5px;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;font-family:var(--mono)}
+
+.hero{text-align:center;padding:40px 0 26px}
+.hero .eyebrow{display:inline-block;font-size:12.5px;font-weight:700;color:var(--accent);background:#fff3ec;border:1px solid #ffd9c2;padding:5px 13px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.04em}
+.hero h1{font-size:clamp(26px,3.6vw,38px);margin:0 auto 12px;max-width:20ch;font-weight:800;letter-spacing:-.02em;line-height:1.14}
+.hero-desc{max-width:66ch;margin:0 auto;color:var(--soft);font-size:15px;line-height:1.5}
+.hero p{color:var(--soft);max-width:60ch;margin:0 auto;font-size:16px}
+
+.demos button{justify-content:flex-start;width:100%}
+.demos{display:flex;flex-direction:column;gap:7px;padding:14px 14px;border-right:1px solid var(--rule);background:#fff}
+.tab-ic{width:18px;height:18px;flex:none}
+.demos button{font-family:inherit;font-size:14px;font-weight:600;border:1px solid var(--rule);background:#fff;display:inline-flex;align-items:center;gap:7px;
+  color:var(--ink);border-radius:24px;padding:9px 18px;cursor:pointer;transition:all .15s}
+.demos button:hover{border-color:var(--globus)}
+.demos button[aria-pressed="true"]{background:var(--globus);color:#fff;border-color:var(--globus)}
+
+.layout{display:grid;grid-template-columns:1fr 360px;gap:22px;padding:14px 0 60px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* chat */
+.chat{background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;min-height:520px}
+.chat-head{background:var(--globus-l);padding:13px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--rule)}
+.ai-ava{width:34px;height:34px;border-radius:50%;background:var(--globus);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.chat-head .t{font-weight:700;font-size:15px}
+.chat-head .s{font-size:12px;color:var(--soft)}
+.chat-head .demo{margin-left:auto;font-size:10.5px;font-family:var(--mono);color:var(--gold);background:var(--gold-bg);padding:3px 9px;border-radius:4px}
+.clear-chat{margin-left:auto;font-family:inherit;font-size:12px;color:var(--globus);background:#fff;border:1px solid var(--rule);border-radius:16px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.clear-chat:hover{border-color:var(--globus);background:var(--globus-l)}
+.chat-head .demo{margin-left:8px}
+.chat-greet{padding:16px 18px 12px;border-bottom:1px solid var(--rule);max-height:none!important;overflow:visible;flex:none}
+.chat-log{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:560px}
+.msg{max-width:88%;font-size:14px;line-height:1.5;padding:11px 14px;border-radius:14px}
+.msg.user{align-self:flex-end;background:var(--globus);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{align-self:flex-start;background:var(--globus-l);color:var(--ink);border-bottom-left-radius:4px}
+.msg.bot b{color:var(--globus-d)}
+.msg.bot .cart-add{margin-top:9px;display:flex;flex-direction:column;gap:6px}
+.msg.bot .ci{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:6px 10px}
+.msg.bot .ci .nm{flex:1}
+.msg.bot .ci .qt{color:var(--soft);font-size:12px;white-space:nowrap}
+.msg.bot .ci .pr{font-weight:700;font-family:var(--mono);white-space:nowrap}
+.msg.bot .repl{font-size:12.5px;color:var(--accent);margin-top:7px}
+.chat-input{border-bottom:1px solid var(--rule);padding:12px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:#fffdfa}
+.tabchips{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid var(--rule)}
+@media(max-width:560px){.tabchips{grid-template-columns:1fr}}
+.demos{display:flex;flex-direction:column;gap:7px;padding:14px 14px;border-right:1px solid var(--rule);background:#fff}
+@media(max-width:560px){.demos{border-right:none;border-bottom:1px solid var(--rule)}}
+.demos button{justify-content:flex-start;width:100%}
+.chips-col{display:flex;flex-direction:column;padding:14px 14px;background:#fffdfa;gap:2px}
+.chips-col .drop-item{text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:8px;border-radius:8px}
+.chips-col .drop-item:hover{background:var(--globus-l)}
+.chips-col .drop-item::before{content:"›";color:var(--globus);font-weight:700;font-size:15px}
+.chips-col .chips-hint{font-size:11px;color:var(--soft);padding:0 10px 4px;font-weight:600}
+.input-label{font-size:12.5px;font-weight:600;color:var(--soft);flex:none;margin-right:2px}
+.chat-input input{flex:1;font-family:inherit;font-size:14px;border:1px solid var(--rule);border-radius:24px;padding:11px 16px}
+.chat-input input:focus{outline:2px solid var(--globus);outline-offset:-1px;border-color:var(--globus)}
+.chat-input button{font-family:inherit;font-size:14px;font-weight:700;color:#fff;background:var(--globus);border:none;border-radius:24px;padding:11px 20px;cursor:pointer}
+.chat-input button:hover{background:var(--globus-d)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips-top{display:flex;align-items:flex-start;gap:8px;padding:11px 16px;border-bottom:1px solid var(--rule);background:#fffaf3;flex-wrap:wrap}
+.chips-label{font-size:12px;color:var(--soft);font-weight:600;padding-top:5px;flex:none}
+.chips button{font-family:inherit;font-size:12px;color:var(--globus-d);background:var(--globus-l);border:1px solid transparent;border-radius:14px;padding:5px 11px;cursor:pointer}
+.chips button:hover{border-color:var(--globus)}
+
+/* cart */
+.cart{position:sticky;top:16px;background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden}
+.cart-head{background:var(--ink);color:#fff;padding:14px 18px;display:flex;align-items:center;gap:9px}
+.cart-head .ic{font-size:18px}
+.cart-head .t{font-weight:700}
+.cart-head .cnt{margin-left:auto;font-size:12px;color:#b9c9c1;font-family:var(--mono)}
+.cart-body{padding:12px;max-height:none;overflow-y:visible}
+.cart-empty{text-align:center;color:var(--soft);font-size:13.5px;padding:40px 16px}
+.cart-empty .big{font-size:34px;margin-bottom:8px;opacity:.4}
+.cart-item{display:flex;gap:10px;align-items:flex-start;padding:9px 6px;border-bottom:1px solid var(--rule2)}
+.pic{width:34px;height:34px;border-radius:8px;background:var(--globus-l);color:var(--globus);display:inline-flex;align-items:center;justify-content:center;flex:none}
+.pic svg{width:20px;height:20px}
+.ci .pic{width:26px;height:26px;border-radius:6px}
+.ci .pic svg{width:15px;height:15px}
+.cart-item .info{flex:1}
+.cart-item .nm{font-size:13px;font-weight:500;line-height:1.3}
+.cart-item .meta{font-size:11.5px;color:var(--soft);margin-top:2px}
+.cart-item .pr{font-family:var(--mono);font-weight:700;font-size:13px;white-space:nowrap}
+.cart-item .rm{background:none;border:none;color:var(--soft);cursor:pointer;font-size:16px;line-height:1;padding:0 2px}
+.cart-item .rm:hover{color:var(--accent)}
+.cart-foot{padding:14px 18px;border-top:2px solid var(--rule)}
+.cart-row{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);margin-bottom:5px}
+.cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin-top:8px}
+.cart-total .v{font-family:var(--mono)}
+.cart-note{font-size:11.5px;color:var(--soft);margin-top:8px;line-height:1.4}
+.cart-cta{width:100%;margin-top:12px;font-family:inherit;font-size:15px;font-weight:700;color:#fff;background:var(--accent);border:none;border-radius:10px;padding:13px;cursor:pointer}
+.cart-cta:hover{filter:brightness(1.05)}
+.checkout-note{display:none;margin-top:10px;font-size:12px;line-height:1.45;color:#6b520c;background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:9px 11px}
+.checkout-note.on{display:block}
+.checkout-note b{color:var(--ink)}
+.cart-clear{width:100%;margin-top:7px;font-family:inherit;font-size:12.5px;color:var(--soft);background:none;border:none;cursor:pointer}
+
+.explain{margin-top:24px;border-top:2px solid var(--ink);padding-top:20px}
+.explain h2{font-size:18px;margin:0 0 12px}
+.explain h3{font-size:14px;color:var(--globus-d);margin:16px 0 6px}
+.explain p,.explain li{font-size:13.5px;color:#39433d;max-width:92ch}
+.explain ul{padding-left:18px}
+.explain li{margin-bottom:5px}
+.disclaim{background:var(--gold-bg);border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 6px 6px 0;font-size:13px;color:#6b520c;margin:14px 0}
+.disclaim b{color:var(--ink)}
+
+footer{padding:24px 0 50px;color:var(--soft);font-size:12px;border-top:1px solid var(--rule);margin-top:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><svg width="26" height="26" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block"><circle cx="17" cy="17" r="16" fill="#fff"/><circle cx="17" cy="17" r="13" fill="#F39200"/><path d="M4 17 L30 17 M8 9 Q17 13 26 9 M8 25 Q17 21 26 25" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.9"/><ellipse cx="17" cy="17" rx="6.5" ry="13" stroke="#fff" stroke-width="1.6" fill="none" opacity="0.9"/></svg>ГЛОБУС</div>
+    <span class="h-tag">AI-помощник · демо</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Демонстрация · AI-агент для сайта</span>
+    <h1>Соберите корзину одной фразой</h1>
+    <p class="hero-desc">Помощник понимает задачу обычными словами. Выберите сценарий — «ужин под бюджет», «рецепт» или «продукты на неделю» — и подсказка предложит готовые запросы, или напишите свой. Помощник соберёт корзину из реальных товаров ГЛОБУСа, посчитает сумму и предложит замены.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="layout">
+    <div class="chat">
+      <div class="chat-head">
+        <div class="ai-ava">AI</div>
+        <div><div class="t">Помощник по покупкам</div><div class="s" id="chatSub">Соберу корзину под вашу задачу</div></div>
+        <button class="clear-chat" id="clearChat" title="Очистить чат">↺ Очистить чат</button>
+        <span class="demo">демо</span>
+      </div>
+      <div class="chat-log chat-greet" id="chatGreet"></div>
+      <div class="chat-input">
+        <label class="input-label">Ваш запрос</label>
+        <input type="text" id="chatInput" placeholder="напр. ужин на 4 человек до 2000 рублей" autocomplete="off">
+        <button id="chatSend">Собрать</button>
+      </div>
+      <div class="tabchips">
+        <div class="demos" id="demos">
+          <button data-demo="dinner" aria-pressed="true"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3v7a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V3M6 12v9M18 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg>Ужин под бюджет</button>
+          <button data-demo="recipe" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4a2 2 0 0 1 2-2h11v18H7a2 2 0 0 0-2 2z"/><path d="M9 6h6M9 9h6M9 12h4"/></svg>Рецепт → корзина</button>
+          <button data-demo="week" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>Продукты на неделю</button>
+        </div>
+        <div class="chips-col" id="chipsDrop"></div>
+      </div>
+      <div class="chat-log" id="chatLog"></div>
+    </div>
+
+    <div class="cart">
+      <div class="cart-head"><span class="ic">🛒</span><span class="t">Корзина</span><span class="cnt" id="cartCnt">0 товаров</span></div>
+      <div class="cart-body" id="cartBody"></div>
+      <div class="cart-foot" id="cartFoot" style="display:none">
+        <div class="cart-row"><span>Товары</span><span class="v" id="sumGoods">0 ₽</span></div>
+        <div class="cart-row"><span>Доставка</span><span id="sumDelivery">—</span></div>
+        <div class="cart-total"><span>Итого</span><span class="v" id="sumTotal">0 ₽</span></div>
+        <div class="cart-note" id="cartNote"></div>
+        <button class="cart-cta" id="checkoutBtn">Оформить заказ</button>
+        <div class="checkout-note" id="checkoutNote">
+          <b>Это демонстрация.</b> В рабочей версии здесь оформление заказа — оплата, выбор доставки и передача заказа в систему магазина. Собранную корзину агент отправляет прямо в оформление.
+        </div>
+        <button class="cart-clear" id="cartClear">Очистить корзину</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="explain">
+    <h2>Как это работает и что нужно для боевой версии</h2>
+    <p>Это демонстрационная витрина. Помощник разбирает запрос, подбирает товары под задачу, бюджет и число персон,
+      собирает корзину и считает сумму — всё на реальных товарах и ценах из каталога ГЛОБУСа. Числа берутся из
+      каталога, а не выдумываются.</p>
+    <h3>Что показывает демо</h3>
+    <ul>
+      <li><b>Намерение → корзина.</b> «Ужин на 4 до 2000 ₽» превращается в наполненную корзину, а не в список ссылок.</li>
+      <li><b>Рецепт → ингредиенты.</b> Блюдо раскладывается на продукты в нужном количестве и кладётся в корзину.</li>
+      <li><b>Замены.</b> Если товара нет в наличии, помощник предлагает аналог — боль продуктовой доставки.</li>
+      <li><b>Бюджет.</b> Подбор укладывается в заданную сумму и показывает, сколько осталось.</li>
+    </ul>
+    <div class="disclaim">
+      <b>Демонстрация, не боевая система.</b> Каталог здесь — срез реальных товаров ГЛОБУСа, зафиксированный для показа.
+      В рабочей версии агент подключается к живому каталогу с актуальными остатками и ценами через API, использует
+      настоящую языковую модель на сервере и кладёт товары в реальную корзину платформы. Цены могут отличаться от
+      текущих — сверяйтесь на online.globus.ru.
+    </div>
+    <h3>Что нужно для внедрения на сайт</h3>
+    <ul>
+      <li>Доступ к каталогу и остаткам (API или выгрузка) — чтобы агент видел реальные товары и наличие.</li>
+      <li>Языковая модель на сервере — для разбора свободных запросов покупателя.</li>
+      <li>Интеграция с корзиной платформы — чтобы подбор попадал в реальный заказ.</li>
+      <li>Логика подбора под категории ГЛОБУСа — рецепты, наборы, замены, бюджет.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Демонстрационный AI-помощник по покупкам · товары и цены — срез каталога ГЛОБУС для показа.
+    Не является официальным сервисом ГЛОБУС. Реальный заказ — на online.globus.ru.
+  </div>
+</footer>
+
+<script>
+/* ============ КАТАЛОГ (реальные товары ГЛОБУС, срез для демо) ============ */
+// price — руб/шт или руб/кг; unit — 'шт' | 'кг'; weight — примерный вес упаковки (кг) для расчёта штуки
+const CATALOG = [
+  // мясо
+  {id:'beef_ground', name:'Фарш из постной говядины', cat:'мясо', price:479, unit:'кг', pack:0.7, stock:true, tags:['фарш','говядина','мясо']},
+  {id:'pork_ground', name:'Фарш котлетный свиной', cat:'мясо', price:339, unit:'кг', pack:0.7, stock:true, tags:['фарш','свинина','мясо']},
+  {id:'chicken_fillet', name:'Филе куриной грудки', cat:'мясо', price:399, unit:'кг', pack:0.8, stock:true, tags:['курица','филе','мясо','птица']},
+  {id:'chicken_thigh', name:'Бедро цыплёнка-бройлера охлаждённое', cat:'мясо', price:289, unit:'кг', pack:0.9, stock:true, tags:['курица','бедро','мясо','птица']},
+  {id:'beef_stew', name:'Говяжья лопатка без кости', cat:'мясо', price:609, unit:'кг', pack:0.6, stock:true, tags:['говядина','мясо','тушить']},
+  {id:'sausages', name:'Колбаски для жарки свиные Глобус', cat:'мясо', price:399, unit:'кг', pack:0.9, stock:true, tags:['колбаски','гриль','свинина']},
+  // овощи
+  {id:'potato', name:'Картофель, вес', cat:'овощи', price:39.99, unit:'кг', pack:1, stock:true, url:'https://www.globus.ru/products/kartofel-ves-26826_KG', tags:['картофель','картошка','овощи','борщ']},
+  {id:'onion', name:'Лук репчатый, вес', cat:'овощи', price:37.99, unit:'кг', pack:1, stock:true, url:'https://www.globus.ru/products/luk-repchatyj-ves-2550_KG', tags:['лук','овощи','борщ']},
+  {id:'carrot', name:'Морковь, вес', cat:'овощи', price:37.99, unit:'кг', pack:1, stock:true, url:'https://www.globus.ru/products/morkov-ves-100383_KG', tags:['морковь','овощи','борщ']},
+  {id:'beet', name:'Свёкла, вес', cat:'овощи', price:31.99, unit:'кг', pack:1, stock:true, url:'https://www.globus.ru/products/svyokla-ves-55712_KG', tags:['свёкла','свекла','овощи','борщ']},
+  {id:'cabbage', name:'Капуста белокочанная', cat:'овощи', price:35, unit:'кг', pack:1.2, stock:true, tags:['капуста','овощи','борщ']},
+  {id:'tomato', name:'Помидоры красные Южные, вес', cat:'овощи', price:259.99, unit:'кг', pack:0.6, stock:true, url:'https://www.globus.ru/products/pomidory-krasnye-yuzhnye-ves-368771_KG', tags:['помидоры','томаты','овощи','салат']},
+  {id:'cucumber', name:'Огурцы Луховицкие, вес', cat:'овощи', price:199.99, unit:'кг', pack:0.4, stock:true, url:'https://www.globus.ru/products/ogurcy-luxoviczkie-ves-369525_KG', tags:['огурцы','овощи','салат']},
+  {id:'garlic', name:'Чеснок отборный, вес', cat:'овощи', price:384.99, unit:'кг', pack:0.15, stock:true, url:'https://www.globus.ru/products/chesnok-otbornyj-ves-369527_KG', tags:['чеснок','овощи','борщ']},
+  {id:'dill', name:'Укроп свежий Глобус, 50 г', cat:'овощи', price:39, unit:'шт', pack:0.05, stock:true, tags:['укроп','зелень','салат','борщ']},
+  {id:'banana', name:'Банан', cat:'фрукты', price:93, unit:'кг', pack:0.6, stock:true, tags:['банан','фрукты','завтрак']},
+  {id:'apple', name:'Яблоки', cat:'фрукты', price:129, unit:'кг', pack:0.8, stock:true, tags:['яблоки','фрукты','завтрак']},
+  // молочка
+  {id:'milk', name:'Молоко питьевое 3,2%, 900 мл', cat:'молочка', price:89, unit:'шт', pack:0.9, stock:true, tags:['молоко','завтрак']},
+  {id:'sourcream', name:'Сметана 20%, 300 г', cat:'молочка', price:99, unit:'шт', pack:0.3, stock:true, tags:['сметана','борщ']},
+  {id:'butter', name:'Масло сливочное 82,5%, 180 г', cat:'молочка', price:199, unit:'шт', pack:0.18, stock:true, tags:['масло','завтрак']},
+  {id:'eggs', name:'Яйца куриные С1, 10 шт', cat:'молочка', price:99, unit:'шт', pack:0.6, stock:true, tags:['яйца','завтрак']},
+  {id:'cheese', name:'Сыр Российский 45%, 200 г', cat:'молочка', price:189, unit:'шт', pack:0.2, stock:true, tags:['сыр','завтрак','бутерброд']},
+  {id:'yogurt', name:'Йогурт натуральный, 290 г', cat:'молочка', price:79, unit:'шт', pack:0.29, stock:true, tags:['йогурт','завтрак']},
+  {id:'cottage', name:'Творог 5%, 200 г', cat:'молочка', price:99, unit:'шт', pack:0.2, stock:true, tags:['творог','завтрак']},
+  // бакалея
+  {id:'pasta', name:'Макароны Спагетти, 450 г', cat:'бакалея', price:79, unit:'шт', pack:0.45, stock:true, tags:['макароны','паста','спагетти','карбонара']},
+  {id:'rice', name:'Рис круглозёрный, 900 г', cat:'бакалея', price:99, unit:'шт', pack:0.9, stock:true, tags:['рис','крупа','гарнир']},
+  {id:'buckwheat', name:'Гречневая крупа, 900 г', cat:'бакалея', price:109, unit:'шт', pack:0.9, stock:true, tags:['гречка','крупа','гарнир','завтрак']},
+  {id:'oats', name:'Овсяные хлопья, 500 г', cat:'бакалея', price:69, unit:'шт', pack:0.5, stock:true, tags:['овсянка','хлопья','каша','завтрак']},
+  {id:'oil', name:'Масло подсолнечное, 1 л', cat:'бакалея', price:129, unit:'шт', pack:1, stock:true, tags:['масло','подсолнечное']},
+  {id:'oliveoil', name:'Масло оливковое, 500 мл', cat:'бакалея', price:499, unit:'шт', pack:0.5, stock:true, tags:['масло','оливковое']},
+  {id:'tomato_paste', name:'Томатная паста, 380 г', cat:'бакалея', price:89, unit:'шт', pack:0.38, stock:true, tags:['томатная','паста','борщ']},
+  {id:'sugar', name:'Сахар-песок, 900 г', cat:'бакалея', price:79, unit:'шт', pack:0.9, stock:true, tags:['сахар','завтрак']},
+  {id:'salt', name:'Соль поваренная, 1 кг', cat:'бакалея', price:29, unit:'шт', pack:1, stock:true, tags:['соль']},
+  {id:'coffee', name:'Кофе молотый, 250 г', cat:'бакалея', price:299, unit:'шт', pack:0.25, stock:true, tags:['кофе','завтрак']},
+  {id:'tea', name:'Чай чёрный, 25 пак', cat:'бакалея', price:99, unit:'шт', pack:0.05, stock:true, tags:['чай','завтрак']},
+  {id:'bacon', name:'Бекон для жарки, 260 г', cat:'мясо', price:229, unit:'шт', pack:0.26, stock:false, tags:['бекон','карбонара','завтрак'], repl:'sausages'},
+  {id:'parmesan', name:'Сыр Пармезан, 200 г', cat:'молочка', price:399, unit:'шт', pack:0.2, stock:false, tags:['пармезан','сыр','карбонара'], repl:'cheese'},
+  // хлеб
+  {id:'bread', name:'Хлеб пшеничный Глобус, 400 г', cat:'хлеб', price:49, unit:'шт', pack:0.4, stock:true, tags:['хлеб','завтрак','бутерброд']},
+  {id:'bread_dark', name:'Хлеб ржаной, 350 г', cat:'хлеб', price:55, unit:'шт', pack:0.35, stock:true, tags:['хлеб','ржаной']},
+  {id:'baton', name:'Батон нарезной, 400 г', cat:'хлеб', price:45, unit:'шт', pack:0.4, stock:true, tags:['батон','хлеб','завтрак']}
+];
+const byId = Object.fromEntries(CATALOG.map(p=>[p.id,p]));
+
+/* ============ ФИРМЕННЫЕ ИКОНКИ КАТЕГОРИЙ (ГЛОБУС) ============ */
+const S=(p)=>`<span class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg></span>`;
+const ICONS={
+  // мясо — окорок
+  'мясо':S('<path d="M7 14a5 5 0 0 1 5-5c3 0 5 2 6 4l2-1 1 2-2 1c0 3-2 5-5 5a6 6 0 0 1-6-4l-2 1-1-2z"/><circle cx="9.5" cy="14.5" r="1"/>'),
+  // овощи — лист
+  'овощи':S('<path d="M4 20C4 11 11 4 20 4c0 9-7 16-16 16z"/><path d="M4 20 14 10"/>'),
+  // фрукты — яблоко
+  'фрукты':S('<path d="M12 7c-3-2-7 0-7 5 0 4 3 7 5 7 1 0 1-.5 2-.5s1 .5 2 .5c2 0 5-3 5-7 0-5-4-7-7-5z"/><path d="M12 7c0-2 1-3 3-4"/>'),
+  // молочка — бутылка молока
+  'молочка':S('<path d="M8 3h8l-1 3v3l2 4v6a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6l2-4V6z"/>'),
+  // хлеб
+  'хлеб':S('<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4c0 1-1 2-2 2v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6c-1 0-2-1-2-2z"/>'),
+  // бакалея — мешок крупы
+  'бакалея':S('<path d="M7 8 9 4h6l2 4M6 8h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M10 13h4"/>')
+};
+function catIcon(cat){ return ICONS[cat] || S('<circle cx="12" cy="12" r="9"/>'); }
+
+
+/* ============ РЕЦЕПТЫ / НАБОРЫ (id → количество) ============ */
+// qty: для шт — штуки; для кг — доля кг
+const RECIPES = {
+  borsch: {title:'Борщ на семью', items:{beef_stew:0.6, beet:0.5, cabbage:0.5, potato:0.5, carrot:0.3, onion:0.2, tomato_paste:1, garlic:0.05, sourcream:1, dill:1}},
+  carbonara: {title:'Паста карбонара', items:{pasta:2, bacon:1, eggs:1, parmesan:1, garlic:0.05, oliveoil:1}},
+  pasta_meat: {title:'Паста с фаршем', items:{pasta:2, beef_ground:1, onion:1, carrot:1, tomato_paste:1, cheese:1, oliveoil:1}},
+  chicken_rice: {title:'Курица с рисом', items:{chicken_fillet:1, rice:1, carrot:1, onion:1, oil:1}},
+  breakfast_week: {title:'Завтраки на неделю', items:{oats:1, milk:2, eggs:1, butter:1, bread:2, cheese:1, coffee:1, banana:1, yogurt:3, cottage:2}}
+};
+
+/* ============ СОСТОЯНИЕ ============ */
+let cart = {}; // id -> {qty}
+let currentDemo = 'dinner';
+
+const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const $ = id => document.getElementById(id);
+
+function lineCost(p, qty){ return p.unit==='кг' ? p.price*qty : p.price*qty; }
+
+function addToCart(id, qty){
+  const p = byId[id]; if(!p) return null;
+  // замена если нет в наличии
+  let used = p, replaced = null;
+  if(!p.stock && p.repl && byId[p.repl]){ replaced = p; used = byId[p.repl]; id = used.id; }
+  if(!cart[id]) cart[id]={qty:0};
+  cart[id].qty += qty;
+  return {used, replaced, qty};
+}
+
+function renderCart(){
+  const body=$('cartBody'), foot=$('cartFoot');
+  const ids=Object.keys(cart).filter(id=>cart[id].qty>0);
+  if(!ids.length){
+    body.innerHTML=`<div class="cart-empty"><div class="big">🛒</div>Корзина пуста.<br>Попробуйте пример слева или напишите запрос.</div>`;
+    foot.style.display='none'; $('cartCnt').textContent='0 товаров'; return;
+  }
+  let goods=0;
+  body.innerHTML=ids.map(id=>{
+    const p=byId[id], q=cart[id].qty;
+    const cost=lineCost(p,q); goods+=cost;
+    const qlabel = p.unit==='кг' ? (q>=1? q.toFixed(1)+' кг' : Math.round(q*1000)+' г') : q+' шт';
+    return `<div class="cart-item">
+      ${catIcon(p.cat)}
+      <div class="info"><div class="nm">${p.url?`<a href="${p.url}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px dotted var(--globus)">${p.name}</a>`:p.name}</div><div class="meta">${qlabel} · ${p.unit==='кг'?rub(p.price)+'/кг':rub(p.price)+'/шт'}</div></div>
+      <div class="pr">${rub(cost)}</div>
+      <button class="rm" data-rm="${id}" title="Убрать">✕</button>
+    </div>`;
+  }).join('');
+  const cnt=ids.length;
+  $('cartCnt').textContent=cnt+' '+plural(cnt,['товар','товара','товаров']);
+  const MIN=2500;
+  const delivery = goods>=6000?0:299;
+  const total=goods+delivery;
+  $('sumGoods').textContent=rub(goods);
+  $('sumDelivery').textContent = delivery===0?'бесплатно':rub(delivery);
+  $('sumTotal').textContent=rub(total);
+  let note='';
+  if(goods<MIN) note=`До минимальной суммы заказа (${rub(MIN)}) не хватает ${rub(MIN-goods)}.`;
+  else if(goods<6000) note=`Добавьте товаров на ${rub(6000-goods)} — и доставка станет бесплатной.`;
+  else note='Доставка бесплатная 🎉';
+  $('cartNote').textContent=note;
+  foot.style.display='block';
+  body.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{ delete cart[b.dataset.rm]; renderCart(); }));
+}
+
+function plural(n,f){ const n1=n%10,n2=n%100; if(n1===1&&n2!==11)return f[0]; if(n1>=2&&n1<=4&&(n2<10||n2>=20))return f[1]; return f[2]; }
+
+/* ============ ЧАТ ============ */
+function botMsg(html){ const m=document.createElement('div'); m.className='msg bot'; m.innerHTML=html; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
+function userMsg(t){ const m=document.createElement('div'); m.className='msg user'; m.textContent=t; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
+
+function buildCartMsg(added, opts={}){
+  let html = opts.intro || 'Собрал корзину:';
+  html += '<div class="cart-add">';
+  let repls=[];
+  added.forEach(a=>{
+    const p=a.used, q=a.qty;
+    const qlabel = p.unit==='кг' ? (q>=1? q.toFixed(1)+' кг' : Math.round(q*1000)+' г') : q+' шт';
+    html+=`<div class="ci">${catIcon(p.cat)}<span class="nm">${p.name}</span><span class="qt">${qlabel}</span><span class="pr">${rub(lineCost(p,q))}</span></div>`;
+    if(a.replaced) repls.push(`«${a.replaced.name}» нет в наличии — заменил на «${p.name}»`);
+  });
+  html+='</div>';
+  if(opts.budget!=null){
+    const goods=Object.keys(cart).reduce((s,id)=>s+lineCost(byId[id],cart[id].qty),0);
+    const left=opts.budget-goods;
+    html+=`<div style="margin-top:9px;font-size:13px">Сумма: <b>${rub(goods)}</b> из ${rub(opts.budget)}. ${left>=0?'Осталось '+rub(left)+'.':'Превышение на '+rub(-left)+' — уберите что-то или поднимите бюджет.'}</div>`;
+  }
+  if(repls.length) html+=`<div class="repl">↺ ${repls.join('; ')}.</div>`;
+  botMsg(html);
+}
+
+// разбор запроса
+function handle(q){
+  const t=q.toLowerCase();
+
+  // рецепты по ключевым словам
+  const recipeMap=[
+    {re:/(борщ)/, key:'borsch'},
+    {re:/(карбонар)/, key:'carbonara'},
+    {re:/(паста|макарон).*(фарш|мяс)|фарш.*(паста|макарон)|болонез/, key:'pasta_meat'},
+    {re:/(куриц|куриную).*(рис)|рис.*куриц/, key:'chicken_rice'},
+    {re:/(завтрак).*(недел)|недел.*завтрак|завтраки/, key:'breakfast_week'}
+  ];
+  const rHit=recipeMap.find(r=>r.re.test(t));
+  if(rHit){ return doRecipe(rHit.key); }
+
+  // продукты на неделю / базовый набор
+  if(/(недел|на 7 дней|запас|базов.*набор|набор.*недел)/.test(t)){ return doWeek(t); }
+
+  // ужин/обед под бюджет и персон
+  if(/(ужин|обед|поужинать|пообедать|накорм|приготов|на \d+ человек|на \d+ персон|бюджет)/.test(t)){
+    return doDinner(t);
+  }
+
+  // общий поиск по товару
+  const found=CATALOG.filter(p=>p.stock && (t.includes(p.name.toLowerCase().split(',')[0].split(' ')[0]) || p.tags.some(tag=>t.includes(tag))));
+  if(found.length){
+    const added=found.slice(0,5).map(p=>addToCart(p.id, p.unit==='кг'?p.pack:1)).filter(Boolean);
+    renderCart();
+    return buildCartMsg(added, {intro:'Нашёл по вашему запросу и добавил:'});
+  }
+
+  botMsg('Я соберу корзину под задачу. Попробуйте: «ужин на 4 человек до 2000 ₽», «что нужно для борща», «продукты на неделю» или назовите блюдо — карбонара, курица с рисом.');
+}
+
+function parsePeople(t){ const m=t.match(/на\s*(\d+)\s*(человек|персон|чел|люд)/); return m?parseInt(m[1]):2; }
+function parseBudget(t){ const m=t.match(/(\d[\d\s]{2,})\s*(руб|₽|р\b)/); if(m) return parseInt(m[1].replace(/\s/g,'')); const m2=t.match(/до\s*(\d[\d\s]{2,})/); return m2?parseInt(m2[1].replace(/\s/g,'')):null; }
+
+function doDinner(t){
+  const people=parsePeople(t);
+  const budget=parseBudget(t);
+  // базовый ужин: мясо + гарнир + овощи на салат + хлеб, масштаб по людям
+  const scale=people/2;
+  cart={};
+  const plan=[
+    ['chicken_fillet', 0.4*scale],
+    ['rice', 1],
+    ['tomato', 0.3*scale],
+    ['cucumber', Math.max(1,Math.round(scale))],
+    ['dill', 1],
+    ['bread', 1],
+    ['oliveoil', 1]
+  ];
+  let added=plan.map(([id,q])=>addToCart(id,q)).filter(Boolean);
+  // если бюджет задан и превышен — упрощаем (убираем оливковое масло, режем мясо)
+  if(budget){
+    let goods=()=>Object.keys(cart).reduce((s,id)=>s+lineCost(byId[id],cart[id].qty),0);
+    if(goods()>budget && cart['oliveoil']){ delete cart['oliveoil']; added=added.filter(a=>a.used.id!=='oliveoil'); }
+    if(goods()>budget && cart['chicken_fillet']){ cart['chicken_fillet'].qty=0.3*scale; }
+  }
+  renderCart();
+  const intro=`Ужин на ${people} ${plural(people,['человека','человек','человек'])}${budget?' до '+rub(budget):''} — вот сбалансированный вариант: белок, гарнир, овощи на салат и хлеб.`;
+  buildCartMsg(added,{intro, budget});
+}
+
+function doRecipe(key){
+  const r=RECIPES[key]; if(!r) return;
+  cart={};
+  const added=Object.entries(r.items).map(([id,q])=>addToCart(id,q)).filter(Boolean);
+  renderCart();
+  buildCartMsg(added,{intro:`<b>${r.title}</b> — добавил все ингредиенты в нужном количестве:`});
+}
+
+function doWeek(t){
+  doRecipe('breakfast_week');
+}
+
+/* ============ ДЕМО-СЦЕНАРИИ ============ */
+const DEMO = {
+  dinner: {sub:'Соберу ужин под бюджет и число персон',
+    chips:['ужин на 4 человек до 2000 ₽','обед на 2 человек','приготовить курицу с рисом'],
+    greet:'Привет! Скажите, что и на сколько человек приготовить — соберу корзину под бюджет. Например: «ужин на 4 человек до 2000 ₽».'},
+  recipe: {sub:'Назовите блюдо — соберу ингредиенты',
+    chips:['что нужно для борща','паста карбонара','паста с фаршем'],
+    greet:'Назовите блюдо, и я добавлю все ингредиенты в корзину в нужном количестве. Попробуйте «что нужно для борща» или «карбонара».'},
+  week: {sub:'Соберу продукты на неделю',
+    chips:['продукты на неделю','завтраки на неделю','базовый набор на неделю'],
+    greet:'Соберу продуктовый набор на неделю — завтраки, базовые продукты. Напишите «завтраки на неделю».'}
+};
+
+function setDemo(key){
+  currentDemo=key;
+  document.querySelectorAll('#demos button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.demo===key?'true':'false'));
+  const d=DEMO[key];
+  $('chatSub').textContent=d.sub;
+  $('chatGreet').innerHTML='<div class="msg bot">'+d.greet+'</div>';
+  $('chatLog').innerHTML='';
+  cart={}; renderCart();
+  const drop=$('chipsDrop');
+  drop.innerHTML='<div class="chips-hint">Или выберите готовый запрос:</div>'+d.chips.map(c=>`<button class="drop-item">${c}</button>`).join('');
+  drop.querySelectorAll('.drop-item').forEach(b=>b.addEventListener('click',()=>{
+    userMsg(b.textContent); handle(b.textContent);
+  }));
+}
+
+$('demos').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) setDemo(b.dataset.demo); });
+$('chatSend').addEventListener('click',()=>{ const v=$('chatInput').value.trim(); if(!v)return; userMsg(v); $('chatInput').value=''; handle(v); });
+$('chatInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('chatSend').click(); });
+$('cartClear').addEventListener('click',()=>{ cart={}; renderCart(); });
+$('checkoutBtn').addEventListener('click',()=>{ $('checkoutNote').classList.toggle('on'); });
+$('clearChat').addEventListener('click',()=>{ setDemo(currentDemo); });
+
+setDemo('dinner');
+renderCart();
+</script>
+</body>
+</html>
