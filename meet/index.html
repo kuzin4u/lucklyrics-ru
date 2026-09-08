@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мясницкий ряд — интернет-магазин мясных деликатесов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#8c1c1c; --brand-d:#6d1414; --brand-l:#f6e9e9; --accent:#c8962c;
+  --ink:#241a1a; --soft:#6b5c5c; --rule:#e6dcdc; --paper:#faf6f5; --card:#fff;
+  --sans:'Inter',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+header{background:var(--brand);color:#fff;padding:11px 0}
+header .wrap{display:flex;align-items:center;gap:14px}
+.logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:9px}
+.logo .m{width:30px;height:30px;background:var(--accent);color:var(--brand-d);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800}
+.logo small{display:block;font-size:10.5px;font-weight:500;opacity:.75}
+.h-nav{margin-left:auto;display:flex;gap:20px;font-size:14px}
+.h-nav a{color:#fff;opacity:.85;text-decoration:none}
+.h-nav a:hover{opacity:1}
+.h-phone{margin-left:14px;font-weight:700;font-size:14px;white-space:nowrap}
+@media(max-width:720px){.h-nav,.h-phone{display:none}}
+
+/* catalog strip */
+.catbar{background:#fff;border-bottom:1px solid var(--rule)}
+.catbar .wrap{display:flex;gap:18px;overflow-x:auto;padding:11px 20px;font-size:13.5px}
+.catbar a{color:var(--soft);text-decoration:none;white-space:nowrap}
+.catbar a:hover{color:var(--brand)}
+
+/* hero AI insert */
+.ai-hero{background:linear-gradient(120deg,var(--brand),var(--brand-d));color:#fff;margin:22px 0;border-radius:18px;overflow:hidden;
+  display:grid;grid-template-columns:1.3fr 1fr;align-items:center}
+@media(max-width:760px){.ai-hero{grid-template-columns:1fr}}
+.ai-hero .txt{padding:34px 36px}
+.ai-hero .eyebrow{display:inline-block;font-size:12px;font-weight:700;background:var(--accent);color:var(--brand-d);padding:4px 12px;border-radius:14px;margin-bottom:16px;letter-spacing:.03em}
+.ai-hero h1{font-size:clamp(24px,3.2vw,32px);margin:0 0 12px;font-weight:800;line-height:1.15}
+.ai-hero p{font-size:15.5px;color:#f0dede;margin:0 0 22px;max-width:44ch}
+.ai-hero .cta{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:var(--brand-d);font-weight:700;
+  font-size:16px;text-decoration:none;padding:13px 26px;border-radius:10px}
+.ai-hero .cta:hover{filter:brightness(1.06)}
+.ai-hero .visual{padding:24px;display:flex;align-items:center;justify-content:center}
+.ai-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:18px;width:100%;max-width:300px;backdrop-filter:blur(6px)}
+.ai-card .q{font-size:13.5px;background:rgba(255,255,255,.15);border-radius:10px 10px 10px 3px;padding:9px 12px;margin-bottom:8px}
+.ai-card .a{font-size:12.5px;color:#f0dede}
+.ai-card .a b{color:#fff}
+.ai-card .line{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.ai-card .tot{display:flex;justify-content:space-between;font-weight:700;font-size:14px;margin-top:6px}
+
+/* usual promo blocks below */
+.section-title{font-size:20px;font-weight:800;margin:30px 0 14px}
+.promos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:40px}
+@media(max-width:820px){.promos{grid-template-columns:repeat(2,1fr)}}
+.promo{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:18px;text-align:center}
+.promo .pic{font-size:30px;margin-bottom:8px}
+.promo .nm{font-size:14px;font-weight:600}
+.promo .pr{font-family:ui-monospace,Menlo,monospace;color:var(--brand);font-weight:700;margin-top:4px}
+
+.note{max-width:760px;margin:0 auto 44px;text-align:center;font-size:13px;color:var(--soft);background:#fff;border:1px dashed var(--rule);border-radius:12px;padding:14px 18px}
+.note b{color:var(--ink)}
+footer{border-top:1px solid var(--rule);padding:26px 0 50px;color:var(--soft);font-size:12.5px;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="m">М</span><span>МЯСНИЦКИЙ РЯД<small>интернет-магазин</small></span></div>
+    <div class="h-nav">
+      <a href="#">Каталог</a>
+      <a href="#">Акции</a>
+      <a href="#">Доставка</a>
+      <a href="#">Войти</a>
+    </div>
+    <span class="h-phone">8 (495) 937-12-27</span>
+  </div>
+</header>
+
+<div class="catbar">
+  <div class="wrap">
+    <a href="#">Деликатесы и копчёности</a>
+    <a href="#">Колбасы</a>
+    <a href="#">Сосиски и сардельки</a>
+    <a href="#">Шашлыки и гриль</a>
+    <a href="#">Сыры</a>
+    <a href="#">Хлеб</a>
+    <a href="#">Новинки</a>
+    <a href="#">Хиты</a>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- AI-помощник врезка -->
+  <section class="ai-hero">
+    <div class="txt">
+      <span class="eyebrow">Новинка · заказы на события</span>
+      <h1>Покупки с AI-помощником</h1>
+      <p>Соберём мясной стол одной фразой. Скажите «мясная нарезка на 6 гостей», «шашлык на компанию» или «ассорти к празднику» — помощник подберёт деликатесы, посчитает вес и сумму.</p>
+      <a class="cta" href="kolbasa-agent-demo.html">Собрать стол →</a>
+    </div>
+    <div class="visual">
+      <div class="ai-card">
+        <div class="q">Ассорти деликатесов на 6 гостей</div>
+        <div class="a">
+          <div class="line"><span>Балык сырокопчёный</span><b>774 ₽</b></div>
+          <div class="line"><span>Салями Бурбонская</span><b>772 ₽</b></div>
+          <div class="line"><span>Шейка «Московская»</span><b>481 ₽</b></div>
+          <div class="line"><span>Сыр Маасдам, соус…</span><b>+3 поз.</b></div>
+          <div class="tot"><span>Итого</span><span>3 454 ₽</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- обычные блоки главной -->
+  <h2 class="section-title">Хиты продаж</h2>
+  <div class="promos">
+    <div class="promo"><div class="pic">🍖</div><div class="nm">Буженина запечённая</div><div class="pr">960 ₽/кг</div></div>
+    <div class="promo"><div class="pic">🌭</div><div class="nm">Докторская ГОСТ</div><div class="pr">970 ₽/кг</div></div>
+    <div class="promo"><div class="pic">🔥</div><div class="nm">Шашлык из шеи</div><div class="pr">499 ₽/кг</div></div>
+    <div class="promo"><div class="pic">🥩</div><div class="nm">Балык «Свиной»</div><div class="pr">1 290 ₽/кг</div></div>
+  </div>
+
+  <div class="note">
+    <b>Демонстрация.</b> Это макет главной страницы с врезкой «Покупки с AI-помощником».
+    Кнопка ведёт на работающий демо-агент. Так предложение выглядело бы встроенным в сайт «Мясницкого ряда».
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Демонстрационный макет · не является официальной страницей «Мясницкого ряда» · © для показа возможностей AI-помощника</div>
+</footer>
+
+</body>
+</html>
