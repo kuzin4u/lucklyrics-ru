@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI-помощник по покупкам — демо для Мясницкий ряд</title>
+<title>AI-помощник по рецептам — демо для Мясницкий ряд</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -122,6 +122,45 @@ header .wrap{display:flex;align-items:center;gap:14px}
 .disclaim b{color:var(--ink)}
 
 footer{padding:24px 0 50px;color:var(--soft);font-size:12px;border-top:1px solid var(--rule);margin-top:20px}
+/* ---- дополнения для рецептов ---- */
+.logo-link{color:inherit;text-decoration:none}
+.chat-input button:disabled{opacity:.6;cursor:progress}
+.typing{display:inline-flex;gap:4px;margin-left:6px;vertical-align:middle}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--brand);opacity:.25;animation:blink 1s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{50%{opacity:1}}
+.msg.bot.wide{max-width:100%;width:100%}
+.rc{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:10px 12px;margin-top:8px}
+.rc.sel{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand)}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.rc .t{font-weight:700;font-size:14px;line-height:1.3}
+.badge{flex:none;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;white-space:nowrap}
+.badge.full{background:var(--brand);color:#fff}
+.badge.part{background:var(--gold-bg);color:var(--gold)}
+.rc .w{font-size:13px;color:var(--soft);margin:3px 0 7px}
+.parts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.parts span{font-size:11.5px;padding:2px 9px;border-radius:10px;background:var(--brand-l);color:var(--brand-d)}
+.parts span.miss{background:#f3efef;color:var(--soft)}
+.rc-foot{display:flex;align-items:center;gap:6px 12px;font-size:12px;color:var(--soft);flex-wrap:wrap}
+.rc-foot a{color:var(--brand)}
+.pick{margin-left:auto;font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:16px;padding:6px 15px;cursor:pointer}
+.pick:hover{background:var(--brand-d)}
+.pick:disabled{opacity:.5;cursor:default}
+.rc.sel .pick{background:var(--accent);color:var(--brand-d);opacity:1}
+.extra{font-size:12.5px;margin-top:9px}
+.tip{font-size:12.5px;margin-top:5px;color:var(--soft)}
+.src{font-size:12.5px;margin-top:5px}
+.src a{color:var(--brand)}
+.to-cart{display:none;margin-top:10px;font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--brand);border:none;border-radius:16px;padding:7px 14px;cursor:pointer}
+@media(max-width:900px){.to-cart{display:inline-flex}}
+.live{font-size:12px;color:var(--gold);background:var(--gold-bg);border-radius:6px;padding:5px 9px;margin-top:8px}
+.cart-recipe{font-size:12.5px;background:var(--brand-l);color:var(--brand-d);border-radius:8px;padding:8px 10px;margin:2px 0 6px}
+.cart-recipe a{color:var(--brand)}
+.stp{display:inline-flex;align-items:center;gap:8px}
+.stp button{width:26px;height:26px;border-radius:50%;border:1px solid var(--rule);background:#fff;cursor:pointer;font-size:15px;line-height:1;color:var(--ink);font-family:inherit}
+.stp button:hover{border-color:var(--brand);color:var(--brand)}
+.stp b{min-width:18px;text-align:center;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.typing i{animation:none;opacity:.7}}
 
 /* ===== Фирменный слой «Мясницкий ряд» (общий для главной и агентов) ===== */
 :root{
@@ -266,7 +305,7 @@ footer{background:#fff}
 <header class="mr-header">
   <div class="wrap mr-bar">
     <a class="mr-logo" href="kolbasa-glavnaya.html" aria-label="Мясницкий ряд — на главную"><img src="data:image/webp;base64,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" alt="Мясницкий ряд. Гарантия вкуса" width="98" height="92"></a>
-    <nav class="mr-nav" aria-label="AI-помощники"><a href="kolbasa-glavnaya.html" aria-label="Главная"><span class="l">Главная</span><span class="s" aria-hidden="true">Главная</span></a><a href="kolbasa-agent-demo.html" aria-current="page" aria-label="Собрать стол"><span class="l">Собрать стол</span><span class="s" aria-hidden="true">Стол</span></a><a href="myasnitsky-agent.html" aria-label="Готовим по рецепту"><span class="l">Готовим по рецепту</span><span class="s" aria-hidden="true">Рецепт</span></a></nav>
+    <nav class="mr-nav" aria-label="AI-помощники"><a href="kolbasa-glavnaya.html" aria-label="Главная"><span class="l">Главная</span><span class="s" aria-hidden="true">Главная</span></a><a href="kolbasa-agent-demo.html" aria-label="Собрать стол"><span class="l">Собрать стол</span><span class="s" aria-hidden="true">Стол</span></a><a href="myasnitsky-agent.html" aria-current="page" aria-label="Готовим по рецепту"><span class="l">Готовим по рецепту</span><span class="s" aria-hidden="true">Рецепт</span></a></nav>
     <a class="mr-phone" href="tel:+74959371227">8 (495) 937-12-27<small>Мы на связи с 9:00 до 21:00</small></a>
   </div>
 </header>
@@ -275,8 +314,8 @@ footer{background:#fff}
   <div class="wrap">
     <div class="mr-backrow"><a class="mr-back" href="kolbasa-glavnaya.html"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>На главную</a></div>
     <span class="eyebrow">Демонстрация · AI-агент для сайта</span>
-    <h1>Соберём мясной стол одной фразой</h1>
-    <p class="hero-desc">Помощник понимает задачу обычными словами. Выберите повод — «мясная тарелка», «шашлык на компанию» или «набор к завтраку» — и подсказка предложит готовые запросы, или напишите свой. Помощник соберёт корзину из реальных деликатесов «Мясницкого ряда», посчитает сумму и предложит замены.</p>
+    <h1>Приготовим по рецепту из сети</h1>
+    <p class="hero-desc">Напишите, что хотите приготовить — «паста карбонара на 4 порции», «окрошка на квасе» или «шашлык из шеи на компанию». Помощник найдёт рецепты в интернете, покажет, для каких всё есть в «Мясницком ряду», и соберёт корзину на нужное число порций.</p>
   </div>
 </section>
 
@@ -285,31 +324,32 @@ footer{background:#fff}
     <div class="chat">
       <div class="chat-head">
         <div class="ai-ava">AI</div>
-        <div><div class="t">Помощник по покупкам</div><div class="s" id="chatSub">Соберу мясной стол под ваш повод</div></div>
+        <div><div class="t">Помощник по рецептам</div><div class="s" id="chatSub">Найду рецепт и соберу продукты</div></div>
         <button class="clear-chat" id="clearChat" title="Очистить чат">↺ Очистить чат</button>
         <span class="demo">демо</span>
       </div>
       <div class="chat-log chat-greet" id="chatGreet"></div>
       <div class="chat-input">
-        <label class="input-label">Ваш запрос</label>
-        <input type="text" id="chatInput" placeholder="напр. мясная нарезка на 6 гостей" autocomplete="off">
-        <button id="chatSend">Собрать</button>
+        <label class="input-label" for="chatInput">Что готовим</label>
+        <input type="text" id="chatInput" placeholder="напр. паста карбонара на 4 порции" autocomplete="off">
+        <button id="chatSend">Найти рецепты</button>
       </div>
       <div class="tabchips">
         <div class="demos" id="demos">
-        <button data-demo="platter" aria-pressed="true"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14a5 5 0 0 1 5-5c3 0 5 2 6 4l2-1 1 2-2 1c0 3-2 5-5 5a6 6 0 0 1-6-4l-2 1-1-2z"/><circle cx="9.5" cy="14.5" r="1"/></svg>Мясная тарелка к столу</button>
-        <button data-demo="bbq" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 21 4"/><circle cx="8" cy="15" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="16" cy="7" r="2"/></svg>Шашлык на компанию</button>
-        <button data-demo="breakfast" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4c0 1-1 2-2 2v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6c-1 0-2-1-2-2z"/></svg>Набор к завтраку</button>
-      </div>
+          <button data-demo="hot" aria-pressed="true"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h20"/><path d="M9 7c0-1 1-1.5 1-3M14 7c0-1 1-1.5 1-3"/></svg>Горячее на ужин</button>
+          <button data-demo="salads" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M8 11c0-3 2-5 4-5s4 2 4 5"/></svg>Салаты и закуски</button>
+          <button data-demo="grill" aria-pressed="false"><svg class="tab-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 21 4"/><circle cx="8" cy="15" r="2"/><circle cx="12" cy="11" r="2"/><circle cx="16" cy="7" r="2"/></svg>Гриль и природа</button>
+        </div>
         <div class="chips-col" id="chipsDrop"></div>
       </div>
-      <div class="chat-log" id="chatLog"></div>
+      <div class="chat-log" id="chatLog" aria-live="polite"></div>
     </div>
 
     <div class="cart">
       <div class="cart-head"><span class="ic">🛒</span><span class="t">Корзина</span><span class="cnt" id="cartCnt">0 товаров</span></div>
       <div class="cart-body" id="cartBody"></div>
       <div class="cart-foot" id="cartFoot" style="display:none">
+        <div class="cart-row" id="srvRow"><span>Порций</span><span class="stp"><button data-srv="-1" aria-label="Меньше порций">−</button><b id="srvN">4</b><button data-srv="1" aria-label="Больше порций">+</button></span></div>
         <div class="cart-row"><span>Товары</span><span class="v" id="sumGoods">0 ₽</span></div>
         <div class="cart-row"><span>Доставка</span><span id="sumDelivery">—</span></div>
         <div class="cart-total"><span>Итого</span><span class="v" id="sumTotal">0 ₽</span></div>
@@ -322,35 +362,33 @@ footer{background:#fff}
 
   <div class="explain">
     <h2>Как это работает и что нужно для боевой версии</h2>
-    <p>Это демонстрационная витрина. Помощник разбирает запрос, подбирает деликатесы под повод и число гостей,
-      собирает корзину и считает сумму — на реальных товарах и ценах «Мясницкого ряда». Числа берутся из каталога,
-      а не выдумываются.</p>
+    <p>Помощник ищет рецепты в интернете под запрос покупателя, сверяет ингредиенты с каталогом «Мясницкого ряда»
+      и собирает корзину на нужное число порций. Товары и цены берутся из каталога, количество считает агент.</p>
     <h3>Что показывает демо</h3>
     <ul>
-      <li><b>Повод → корзина.</b> «Мясная нарезка на 6 гостей» превращается в готовый набор деликатесов, а не список ссылок.</li>
-      <li><b>Расчёт по гостям.</b> Помощник считает вес нарезки и сопутствующее (сыр, хлеб, соус) под число персон.</li>
-      <li><b>Замены.</b> Если позиции нет в наличии, предлагает аналог из того же ряда деликатесов.</li>
-      <li><b>Сопутствующие товары.</b> К мясу подбирает сыр, хлеб, соус — растит средний чек естественно.</li>
+      <li><b>Запрос → рецепты из сети.</b> Пять рецептов с разных сайтов: суть своими словами и ссылка на источник. Сначала те, для которых всё есть в магазине.</li>
+      <li><b>Рецепт → корзина.</b> Ингредиенты из каталога попадают в корзину с весом и числом упаковок под порции. Порции можно поменять прямо в корзине.</li>
+      <li><b>Замены.</b> Если товара нет в наличии, подставляется аналог из того же ряда. Замену задаёт магазин в каталоге, а не языковая модель.</li>
+      <li><b>Остальное по рецепту.</b> Чего нет в ассортименте — макароны, огурцы, зелень — помощник выносит в список «купить отдельно».</li>
     </ul>
     <div class="disclaim">
-      <b>Демонстрация, не боевая система.</b> Каталог здесь — срез реальных товаров «Мясницкого ряда», зафиксированный
-      для показа. В рабочей версии агент подключается к живому каталогу с актуальными остатками и ценами через API,
-      использует настоящую языковую модель на сервере и кладёт товары в реальную корзину. Цены могут отличаться от
-      текущих — сверяйтесь на shop.kolbasa.ru.
+      <b>Демонстрация, не боевая система.</b> Живой поиск рецептов работает, когда страница открыта в Claude: запросы к языковой модели
+      уходят прямо из страницы. На обычном хостинге поиск недоступен, и помощник показывает примеры из встроенного демо-набора.
+      Каталог — тот же срез товаров «Мясницкого ряда», что и в демо «Собрать стол». Цены могут отличаться — сверяйтесь на shop.kolbasa.ru.
     </div>
     <h3>Что нужно для внедрения на сайт</h3>
     <ul>
-      <li>Доступ к каталогу и остаткам (API или выгрузка) — чтобы агент видел реальные товары и наличие.</li>
-      <li>Языковая модель на сервере — для разбора свободных запросов покупателя.</li>
-      <li>Интеграция с корзиной платформы — чтобы подбор попадал в реальный заказ.</li>
-      <li>Логика подбора под ассортимент «Мясницкого ряда» — нарезки, наборы к поводу, замены, сопутствующее.</li>
+      <li>Доступ к каталогу и остаткам (API или выгрузка) — чтобы агент видел реальные товары, наличие и аналоги.</li>
+      <li>Языковая модель с поиском по сети на сервере магазина — для подбора рецептов и расчёта количества.</li>
+      <li>Интеграция с корзиной платформы — чтобы набор по рецепту попадал в реальный заказ.</li>
+      <li>Правила подбора: какие сайты рецептов допустимы, какие категории не предлагать, как округлять до упаковки.</li>
     </ul>
   </div>
 </main>
 
 <footer>
   <div class="wrap mr-foot"><img src="data:image/webp;base64,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" alt="" width="44" height="41"><span>
-    Демонстрационный AI-помощник по покупкам · товары и цены — срез каталога «Мясницкий ряд» для показа.
+    Демонстрационный AI-помощник по рецептам · товары и цены — срез каталога «Мясницкий ряд» для показа, рецепты — со сторонних сайтов со ссылкой на источник.
     Не является официальным сервисом магазина. Реальный заказ — на shop.kolbasa.ru.</span>
   </div>
 </footer>
@@ -431,55 +469,318 @@ const ICONS={
 };
 function catIcon(cat){ return ICONS[cat] || S('<circle cx="12" cy="12" r="9"/>'); }
 
-
-/* ============ НАБОРЫ ПОД ПОВОД ============ */
-const SETS = {
-  // Простая мясная нарезка — колбасы и доступные деликатесы, тонко нарезано
-  platter: {title:'Мясная нарезка', per:{doktorskaya_nat:0.1, servelat:0.1, karbonad:0.1, moskovskaya:0.1}, base:{syr_ross:1, hleb:1, sous_med:1}},
-  // Премиальное ассорти деликатесов — балык, сырокопчёная салями, шейка, дороже и разнообразнее
-  deluxe: {title:'Ассорти деликатесов', per:{balyk:0.09, salyami:0.09, sheika:0.09, buzhenina:0.09, indeika_grill:0.08}, base:{syr_maasdam:1, syr_ross:1, hleb:1, sous_med:1}},
-  // Праздничный стол — деликатесы + колбасы + сыры + хлеб + соусы, самый широкий
-  feast: {title:'Праздничный стол', per:{buzhenina:0.08, balyk:0.08, salyami:0.08, servelat:0.08, sheika:0.07, indeika_grill:0.07}, base:{syr_maasdam:1, syr_ross:1, hleb:1, baton:1, sous_med:1, sous_bbq:1}},
-  bbq: {title:'Шашлык на компанию', per:{sheya_svin:0.35}, base:{ovoshi_gril:1, luk_marinad:1, sous_bbq:1, lavash:1, kvas:1}},
-  breakfast: {title:'Набор к завтраку', per:{}, base:{doktorskaya:1, vetchina:1, sosiski_mol:0.5, syr_ross:1, baton:1, maslo:1, yaica:1}}
+/* ============ ВКЛАДКИ И ПРИМЕРЫ ============ */
+const DEMO = {
+  hot: {sub:'Подберу рецепт горячего',
+    chips:['паста карбонара на 4 порции','солянка сборная мясная','картофель с сосисками в духовке'],
+    greet:'Здравствуйте! Напишите, что хотите приготовить и на сколько порций — найду рецепты в сети и соберу продукты из «Мясницкого ряда». Например: «паста карбонара на 4 порции».'},
+  salads: {sub:'Подберу салат или закуску',
+    chips:['оливье на праздник на 8 человек','окрошка на квасе','брускетты с прошутто к столу'],
+    greet:'Салат к празднику или закуска к столу? Напишите блюдо и число порций — например, «оливье на 8 человек».'},
+  grill: {sub:'Подберу рецепт для гриля',
+    chips:['шашлык из свиной шеи на 6 человек','колбаски на гриле с овощами','шаурма из шашлыка дома'],
+    greet:'Собираетесь на природу? Напишите, что готовим и на сколько человек — например, «шашлык из свиной шеи на 6 человек».'}
 };
 
-let cart = {};
-let currentDemo = 'platter';
+/* ============ ДЕМО-НАБОР (когда живой поиск недоступен) ============ */
+// per: для товаров в кг — кг на 1 порцию; для товаров в шт — упаковок на 4 порции
+const LOCAL = {
+  hot: [
+    {t:'Паста карбонара с копчёной шейкой', m:30, d:'легко', w:'Спагетти с обжаренной шейкой, желтками и тёртым сыром', keys:['карбонар','паст','спагетти'],
+     tip:'Снимите сковороду с огня, прежде чем вливать желтки, — иначе свернутся.',
+     c:[{part:'копчёная шейка',id:'sheika',per:0.05},{part:'яйца',id:'yaica',per:1},{part:'твёрдый сыр',id:'syr_ross',per:1},{part:'спагетти',id:null},{part:'чёрный перец',id:null}]},
+    {t:'Солянка сборная мясная', m:90, d:'средне', w:'Густой суп на копчёностях с солёными огурцами и оливками', keys:['солянк','суп'],
+     tip:'Копчёности обжарьте перед закладкой — бульон станет насыщеннее.',
+     c:[{part:'карбонад',id:'karbonad',per:0.04},{part:'сервелат',id:'servelat',per:0.04},{part:'сосиски',id:'sosiski_mol',per:0.05},{part:'солёные огурцы',id:null},{part:'оливки',id:null}]},
+    {t:'Картофель с сосисками в духовке', m:60, d:'легко', w:'Запечённый картофель с сосисками под сырной корочкой', keys:['картоф','сосиск','запеч'],
+     tip:'Сосиски надрежьте крест-накрест, чтобы не лопнули.',
+     c:[{part:'сосиски',id:'sosiski_myas',per:1},{part:'сыр',id:'syr_ross',per:1},{part:'сливочное масло',id:'maslo',per:1},{part:'картофель',id:null}]}
+  ],
+  salads: [
+    {t:'Оливье с докторской колбасой', m:60, d:'легко', w:'Классический салат с варёной колбасой, яйцом и горошком', keys:['оливье','салат'],
+     tip:'Овощи отварите заранее и остудите — салат не потечёт.',
+     c:[{part:'докторская колбаса',id:'doktorskaya',per:1},{part:'яйца',id:'yaica',per:1},{part:'картофель',id:null},{part:'зелёный горошек',id:null},{part:'солёные огурцы',id:null}]},
+    {t:'Окрошка на квасе', m:40, d:'легко', w:'Холодный суп с колбасой, яйцом и огурцами на живом квасе', keys:['окрошк','квас'],
+     tip:'Квас доливайте в тарелку перед подачей, а не в общую кастрюлю.',
+     c:[{part:'докторская колбаса',id:'doktorskaya_nat',per:0.06},{part:'квас',id:'kvas',per:1},{part:'яйца',id:'yaica',per:1},{part:'огурцы и редис',id:null},{part:'зелень',id:null}]},
+    {t:'Брускетты с прошутто и сыром', m:20, d:'легко', w:'Подсушенный хлеб с тонкой нарезкой и мягким сыром', keys:['брускет','прошутто','закуск','бутерброд'],
+     tip:'Хлеб подсушите без масла, а масло добавьте уже на тёплый ломтик.',
+     c:[{part:'прошутто',id:'prosciutto',per:2},{part:'батон',id:'baton',per:1},{part:'сыр',id:'syr_maasdam',per:1},{part:'помидоры',id:null}]}
+  ],
+  grill: [
+    {t:'Шашлык из свиной шеи', m:180, d:'средне', w:'Шея в луковом маринаде, жарится на углях до румяной корочки', keys:['шашлык','шея','шеи','мангал'],
+     tip:'Маринуйте не меньше 3 часов и солите мясо перед самой жаркой.',
+     c:[{part:'свиная шея',id:'sheya_svin',per:0.3},{part:'маринованный лук',id:'luk_marinad',per:1},{part:'соус',id:'sous_bbq',per:1},{part:'лаваш',id:'lavash',per:1}]},
+    {t:'Колбаски на гриле с овощами', m:40, d:'легко', w:'Куриные колбаски и сезонные овощи на решётке', keys:['колбаск','гриль','овощ'],
+     tip:'Овощи сбрызните маслом — они не прилипнут к решётке.',
+     c:[{part:'колбаски для гриля',id:'kolbaski_baffalo',per:0.2},{part:'овощи для гриля',id:'ovoshi_gril',per:1},{part:'соус',id:'sous_bbq',per:1}]},
+    {t:'Шаурма из шашлыка', m:50, d:'средне', w:'Лаваш с горячим шашлыком, капустой и чесночным соусом', keys:['шаурм','лаваш'],
+     tip:'Сворачивайте, пока мясо горячее, и подрумяньте на сухой сковороде.',
+     c:[{part:'шашлык',id:'shashlyk_okorok',per:0.15},{part:'лаваш',id:'lavash',per:2},{part:'соус',id:'sous_med',per:1},{part:'капуста и огурцы',id:null}]}
+  ]
+};
+
+/* ============ ЯЗЫКОВАЯ МОДЕЛЬ ============ */
+const catStr = CATALOG.map(p=>`${p.id}|${p.name}|${p.price} ₽/${p.unit}|упаковка ~${p.pack} кг|${p.stock?'в наличии':'нет в наличии'}`).join('\n');
+
+const SYS_SEARCH = `Ты — AI-помощник интернет-магазина «Мясницкий ряд» (колбасы, деликатесы, сосиски, шашлык, сыры, хлеб, соусы). Покупатель пишет, что хочет приготовить. Найди в интернете рецепты и сопоставь их ингредиенты с каталогом магазина.
+Порядок: 1–2 поиска на русском, затем ответ.
+Выбери 5 разных рецептов с разных кулинарных сайтов. Предпочитай рецепты, где пригодятся товары магазина.
+Ответ — только JSON-массив, без вступления, пояснений и markdown:
+[{"t":"название рецепта","u":"полный url страницы рецепта","s":"домен сайта","m":время в минутах числом,"d":"легко|средне|сложно","w":"суть рецепта своими словами, до 15 слов","c":[{"part":"ингредиент как в рецепте","id":"id товара из каталога или null"}]}]
+Правила: в c — 3–6 главных ингредиентов, без соли, специй и воды. id ставь, только если товар действительно подходит; товар «нет в наличии» указывать можно — замену подставит магазин. Текст рецептов не цитируй. Не пиши ничего, кроме массива.`;
+
+const SYS_ORDER = `Ты — AI-помощник интернет-магазина «Мясницкий ряд». Покупатель выбрал рецепт. Собери корзину из каталога на указанное число порций.
+Ответ — только JSON-объект, без вступления и markdown:
+{"items":[{"id":"id товара","q":количество числом — для товаров в кг килограммы (например 0.4), для товаров в шт целое число упаковок}],"extra":["ингредиенты рецепта, которых нет в каталоге, — только названия"],"note":"один практический совет по рецепту, до 15 слов"}
+Правила: только товары каталога; вес считай на указанное число порций; штучных товаров бери минимум упаковок, чтобы хватило. Замены не предлагай — их подставит магазин.`;
+
+async function ask(system, content, search, ms){
+  const body={model:'claude-sonnet-4-6', max_tokens:1000, system, messages:[{role:'user', content}]};
+  if(search) body.tools=[{type:'web_search_20250305', name:'web_search'}];
+  const ctl = typeof AbortController!=='undefined' ? new AbortController() : null;
+  let timer;
+  const timeout = new Promise((_,rej)=>{ timer=setTimeout(()=>{ if(ctl) ctl.abort(); rej(new Error('timeout')); }, ms||30000); });
+  try{
+    const res = await Promise.race([
+      fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:ctl?ctl.signal:undefined}),
+      timeout
+    ]);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await Promise.race([res.json(), timeout]);
+    return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
+  } finally { clearTimeout(timer); }
+}
+
+// Сопоставление ингредиента с каталогом по тегам — страховка, если модель не поставила id или ошиблась в нём
+const STOP_TAGS = new Set(['нарезка','деликатес','мясо','завтрак','гриль','бутерброд','снек','дети','напиток','пицца','маринованный','горчичный','яичница','молочные']);
+function matchLocal(part){
+  const t=String(part||'').toLowerCase().replace(/ё/g,'е');
+  let best=null, score=0;
+  CATALOG.forEach(p=>{
+    if(!p.stock && !p.repl) return;
+    p.tags.forEach(tag=>{
+      if(STOP_TAGS.has(tag)) return;
+      const tg=tag.replace(/ё/g,'е'), stem=tg.length>4?tg.slice(0,-1):tg;
+      if(stem.length>=3 && t.includes(stem) && stem.length>score){ best=p.id; score=stem.length; }
+    });
+  });
+  return best;
+}
+function extractJSON(text, kind){
+  const t=text.replace(/```json|```/g,'');
+  const start = kind==='array' ? t.search(/\[\s*\{/) : t.indexOf('{');
+  if(start<0) throw new Error('no json');
+  const end=t.lastIndexOf(kind==='array'?']':'}');
+  if(end>start){ try{ return JSON.parse(t.slice(start,end+1)); }catch(e){} }
+  if(kind==='array'){ // ответ обрезан — спасаем целые объекты
+    const body=t.slice(start);
+    for(let i=body.lastIndexOf('}'); i>0; i=body.lastIndexOf('}',i-1)){
+      try{ const arr=JSON.parse(body.slice(0,i+1)+']'); if(Array.isArray(arr)&&arr.length) return arr; }catch(e){}
+    }
+  }
+  throw new Error('bad json');
+}
+
+/* ============ СОСТОЯНИЕ И ВСПОМОГАТЕЛЬНОЕ ============ */
+let cart = {};            // id -> {qty, base}
+let recipeCtx = null;     // {t,u,s,baseN,n}
+let currentDemo = 'hot';
+let busy = false;
+const RECIPES = [];       // все показанные рецепты, индекс = data-r
 const rub = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
 const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hostOf = u => { try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; } };
+const round05 = v => Math.max(0.05, Math.round(v*20)/20);
+function plural(n,f){ const n1=n%10,n2=n%100; if(n1===1&&n2!==11)return f[0]; if(n1>=2&&n1<=4&&(n2<10||n2>=20))return f[1]; return f[2]; }
 function lineCost(p, qty){ return p.price*qty; }
+function qlabel(p,q){ return p.unit==='кг' ? (q>=1? q.toFixed(2).replace(/\.?0+$/,'')+' кг' : Math.round(q*1000)+' г') : q+' шт'; }
+function normQty(p, q){
+  q=Number(q);
+  if(p.unit==='кг'){ if(!q||q<=0) q=p.pack; if(q>20) q=q/1000; return round05(q); }
+  if(!q||q<=0) q=1; if(q>20) q=Math.ceil(q/1000/p.pack); // модель прислала граммы
+  return Math.max(1, Math.round(q));
+}
+function available(id){ const p=byId[id]; return !!p && (p.stock || (p.repl && byId[p.repl] && byId[p.repl].stock)); }
+function parseServings(t){ const m=t.match(/(?:на|для)\s*(\d+)\s*(порц|гост|человек|персон|чел|люд|едок)/); return m?Math.min(40,Math.max(1,parseInt(m[1]))):4; }
 
+// Добавление с заменой: аналог задан в каталоге магазина; единицы пересчитываются через вес упаковки
 function addToCart(id, qty){
-  const p = byId[id]; if(!p) return null;
+  const p=byId[id]; if(!p) return null;
   let used=p, replaced=null;
-  if(!p.stock && p.repl && byId[p.repl]){ replaced=p; used=byId[p.repl]; id=used.id; }
-  if(!cart[id]) cart[id]={qty:0};
-  cart[id].qty += qty;
+  if(!p.stock && p.repl && byId[p.repl]){
+    replaced=p; used=byId[p.repl];
+    if(used.unit!==p.unit){
+      const kg = p.unit==='кг' ? qty : qty*p.pack;
+      qty = used.unit==='кг' ? round05(kg) : Math.max(1, Math.ceil(kg/used.pack));
+    }
+  } else if(!p.stock) return null;
+  if(!cart[used.id]) cart[used.id]={qty:0, base:0};
+  cart[used.id].qty += qty; cart[used.id].base += qty;
   return {used, replaced, qty};
 }
 
-function qlabel(p,q){ return p.unit==='кг' ? (q>=1? q.toFixed(2).replace(/\.?0+$/,'')+' кг' : Math.round(q*1000)+' г') : q+' шт'; }
+/* ============ ЧАТ ============ */
+function botMsg(html, wide){ const m=document.createElement('div'); m.className='msg bot'+(wide?' wide':''); m.innerHTML=html; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; return m; }
+function userMsg(t){ const m=document.createElement('div'); m.className='msg user'; m.textContent=t; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
+function typingMsg(text){ return botMsg(`${esc(text)}<span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>`); }
+function setBusy(v){ busy=v; $('chatSend').disabled=v; document.querySelectorAll('.pick').forEach(b=>{ if(!b.closest('.rc.sel')) b.disabled=v; }); }
 
+function normRecipes(arr){
+  if(!Array.isArray(arr)) return [];
+  return arr.filter(r=>r&&typeof r.t==='string'&&r.t.trim()).slice(0,6).map(r=>{
+    const c=(Array.isArray(r.c)?r.c:[]).filter(x=>x&&x.part).slice(0,7).map(x=>({part:String(x.part), id:byId[x.id]?x.id:matchLocal(x.part)}));
+    const u=/^https?:\/\//.test(r.u||'')?r.u:'';
+    return {t:r.t.trim(), u, s:String(r.s||hostOf(u)||'источник'), m:Number(r.m)||null, d:String(r.d||''), w:String(r.w||''), c, live:true};
+  });
+}
+function scoreRecipes(list){
+  list.forEach(r=>{ r.have=r.c.filter(x=>x.id&&available(x.id)).length; r.total=r.c.length; });
+  const full=r=>r.total>0&&r.have===r.total?1:0;
+  return list.sort((a,b)=> (a.hit?a.hit:1e9)-(b.hit?b.hit:1e9) || full(b)-full(a) || b.have-a.have || (b.have/(b.total||1))-(a.have/(a.total||1)) || (a.m||999)-(b.m||999));
+}
+function localFor(text){
+  const t=text.toLowerCase();
+  const all=Object.values(LOCAL).flat();
+  const pos=r=>Math.min(...r.keys.map(k=>{ const i=t.indexOf(k); return i<0?1e9:i; }));
+  const hit=all.filter(r=>pos(r)<1e9).sort((a,b)=>pos(a)-pos(b)); // главное блюдо обычно названо первым
+  const base = hit.length ? hit.concat(LOCAL[currentDemo].filter(r=>!hit.includes(r))).slice(0,3) : LOCAL[currentDemo];
+  return base.map(r=>({...r, c:r.c.map(x=>({...x})), u:'', s:'демо-набор', live:false, hit:hit.includes(r)?hit.indexOf(r)+1:0}));
+}
+
+function recipesHtml(list, n, note){
+  let html=`Нашёл ${list.length} ${plural(list.length,['рецепт','рецепта','рецептов'])} на ${n} ${plural(n,['порцию','порции','порций'])}. Сначала те, для которых всё есть в магазине:`;
+  list.forEach(r=>{
+    const idx=RECIPES.push(r)-1;
+    const full=r.total>0 && r.have===r.total;
+    const badge = !r.have ? '<span class="badge part">в магазине нет</span>'
+      : full ? '<span class="badge full">всё есть в магазине</span>'
+      : `<span class="badge part">${r.have} из ${r.total} есть в магазине</span>`;
+    const parts=r.c.map(x=>{
+      const ok=x.id&&available(x.id);
+      return `<span class="${ok?'':'miss'}" title="${ok?esc(byId[x.id].name):'нет в магазине'}">${esc(x.part)}</span>`;
+    }).join('');
+    const meta=[r.m?r.m+' мин':'', r.d].filter(Boolean).map(esc).join(' · ');
+    const src = r.u ? `<a href="${esc(r.u)}" target="_blank" rel="noopener">рецепт на ${esc(r.s)}</a>` : `<span>${esc(r.s)}</span>`;
+    html+=`<div class="rc" id="rc${idx}">
+      <div class="rc-top"><span class="t">${esc(r.t)}</span>${badge}</div>
+      ${r.w?`<div class="w">${esc(r.w)}</div>`:''}
+      <div class="parts">${parts}</div>
+      <div class="rc-foot">${meta?`<span>${meta}</span>`:''}${src}<button class="pick" data-r="${idx}">Выбрать</button></div>
+    </div>`;
+  });
+  if(note) html+=`<div class="live">${esc(note)}</div>`;
+  return html;
+}
+
+async function handle(q){
+  if(busy) return;
+  const n=parseServings(q.toLowerCase());
+  setBusy(true);
+  const wait=typingMsg('Ищу рецепты в сети и сверяю с каталогом магазина');
+  let list=[], note='';
+  try{
+    const txt=await ask(SYS_SEARCH, `Покупатель хочет: ${q}\nПорций: ${n}\n\nКаталог магазина (id|товар|цена|упаковка|наличие):\n${catStr}`, true, 75000);
+    list=normRecipes(extractJSON(txt,'array'));
+    if(!list.length) throw new Error('empty');
+  }catch(e){
+    list=localFor(q);
+    note = e.message==='timeout'
+      ? 'Поиск в сети отвечал слишком долго — показываю примеры из демо-набора.'
+      : /HTTP|fetch|Failed|NetworkError|Load failed|abort/i.test(e.message)
+      ? 'Живой поиск на этой странице недоступен — показываю примеры из демо-набора.'
+      : 'Поиск не вернул рецептов — показываю примеры из демо-набора.';
+  }
+  wait.remove();
+  scoreRecipes(list).forEach(r=>r.n=n);
+  botMsg(recipesHtml(list, n, note), true);
+  setBusy(false);
+}
+
+async function pick(idx){
+  const r=RECIPES[idx]; if(!r||busy) return;
+  const n=r.n||4;
+  document.querySelectorAll('.rc.sel').forEach(el=>{ el.classList.remove('sel'); const b=el.querySelector('.pick'); if(b) b.textContent='Выбрать'; });
+  const card=$('rc'+idx); card.classList.add('sel'); card.querySelector('.pick').textContent='Выбран';
+  userMsg(`Выбираю: ${r.t}`);
+  setBusy(true);
+  const wait=typingMsg(`Считаю продукты на ${n} ${plural(n,['порцию','порции','порций'])}`);
+  let items=[], extra=[], tip='', warn='';
+  if(r.live){
+    try{
+      const parts=r.c.map(x=>`${x.part} → ${x.id||'нет в каталоге'}`).join('; ');
+      const txt=await ask(SYS_ORDER, `Рецепт: ${r.t}\nИсточник: ${r.u||r.s}\nИнгредиенты: ${parts}\nПорций: ${n}\n\nКаталог магазина (id|товар|цена|упаковка|наличие):\n${catStr}`, false, 15000);
+      const o=extractJSON(txt,'object');
+      items=(Array.isArray(o.items)?o.items:[]).filter(x=>x&&byId[x.id]).map(x=>({id:x.id, q:normQty(byId[x.id],x.q)}));
+      extra=(Array.isArray(o.extra)?o.extra:[]).map(String).slice(0,10);
+      tip=String(o.note||'');
+      // ингредиенты рецепта из каталога, которые модель забыла положить
+      r.c.filter(x=>x.id && !items.some(i=>i.id===x.id)).forEach(x=>{ const p=byId[x.id]; items.push({id:x.id, q:p.unit==='кг'?round05(p.pack*n/4):Math.max(1,Math.round(n/4))}); });
+    }catch(e){
+      warn = e.message==='timeout' ? 'Помощник считал слишком долго — количество подобрано по упаковкам, проверьте перед заказом.' : 'Количество подобрано по упаковкам — проверьте перед заказом.';
+    }
+    if(!items.length){ // запасной расчёт по ингредиентам рецепта
+      items=r.c.filter(x=>x.id).map(x=>{ const p=byId[x.id]; return {id:x.id, q:p.unit==='кг'?round05(p.pack*n/4):Math.max(1,Math.round(n/4))}; });
+      extra=r.c.filter(x=>!x.id).map(x=>x.part);
+    }
+  } else {
+    items=r.c.filter(x=>x.id).map(x=>{ const p=byId[x.id]; return {id:x.id, q:p.unit==='кг'?round05(x.per*n):Math.max(1,Math.round(x.per*n/4))}; });
+    extra=r.c.filter(x=>!x.id).map(x=>x.part);
+    tip=r.tip||'';
+  }
+  wait.remove();
+
+  cart={};
+  const seen=new Set(), added=[];
+  items.forEach(it=>{ if(seen.has(it.id)) return; seen.add(it.id); const a=addToCart(it.id,it.q); if(a) added.push(a); });
+  recipeCtx={t:r.t, u:r.u, s:r.s, baseN:n, n};
+  renderCart();
+
+  if(!added.length){
+    botMsg('Для этого рецепта в каталоге «Мясницкого ряда» нет подходящих товаров — например, нужны ингредиенты, которых нет в ассортименте. Выберите рецепт с отметкой «есть в магазине» или уточните запрос.');
+  } else {
+    let html=`Собрал корзину для «${esc(r.t)}» на ${n} ${plural(n,['порцию','порции','порций'])}:<div class="cart-add">`;
+    const repls=[];
+    added.forEach(a=>{
+      html+=`<div class="ci">${catIcon(a.used.cat)}<span class="nm">${esc(a.used.name)}</span><span class="qt">${qlabel(a.used,a.qty)}</span><span class="pr">${rub(lineCost(a.used,a.qty))}</span></div>`;
+      if(a.replaced) repls.push(`«${a.replaced.name}» нет в наличии — заменил на «${a.used.name}»`);
+    });
+    html+='</div>';
+    if(repls.length) html+=`<div class="repl">↺ ${esc(repls.join('; '))}.</div>`;
+    if(extra.length) html+=`<div class="extra"><b>Купить отдельно:</b> ${extra.map(esc).join(', ')}.</div>`;
+    if(tip) html+=`<div class="tip">Совет: ${esc(tip)}</div>`;
+    if(r.u) html+=`<div class="src">Пошаговый рецепт — <a href="${esc(r.u)}" target="_blank" rel="noopener">на ${esc(r.s)}</a></div>`;
+    if(warn) html+=`<div class="live">${esc(warn)}</div>`;
+    html+=`<button class="to-cart" data-tocart>Перейти в корзину ↓</button>`;
+    botMsg(html);
+  }
+  setBusy(false);
+}
+
+/* ============ КОРЗИНА ============ */
 function renderCart(){
   const body=$('cartBody'), foot=$('cartFoot');
   const ids=Object.keys(cart).filter(id=>cart[id].qty>0);
   if(!ids.length){
-    body.innerHTML=`<div class="cart-empty"><div class="big">🛒</div>Корзина пуста.<br>Попробуйте пример слева или напишите запрос.</div>`;
+    body.innerHTML=`<div class="cart-empty"><div class="big">🛒</div>Корзина пуста.<br>Выберите рецепт слева — продукты появятся здесь.</div>`;
     foot.style.display='none'; $('cartCnt').textContent='0 товаров'; return;
   }
   let goods=0;
-  body.innerHTML=ids.map(id=>{
+  const head = recipeCtx ? `<div class="cart-recipe">По рецепту: <b>${esc(recipeCtx.t)}</b>${recipeCtx.u?` · <a href="${esc(recipeCtx.u)}" target="_blank" rel="noopener">${esc(recipeCtx.s)}</a>`:''}</div>` : '';
+  body.innerHTML=head+ids.map(id=>{
     const p=byId[id], q=cart[id].qty; const cost=lineCost(p,q); goods+=cost;
     return `<div class="cart-item">
       ${catIcon(p.cat)}
-      <div class="info"><div class="nm">${p.name}</div><div class="meta">${qlabel(p,q)} · ${p.unit==='кг'?rub(p.price)+'/кг':rub(p.price)+'/шт'}</div></div>
+      <div class="info"><div class="nm">${esc(p.name)}</div><div class="meta">${qlabel(p,q)} · ${p.unit==='кг'?rub(p.price)+'/кг':rub(p.price)+'/шт'}</div></div>
       <div class="pr">${rub(cost)}</div>
-      <button class="rm" data-rm="${id}" title="Убрать">✕</button>
+      <button class="rm" data-rm="${id}" title="Убрать" aria-label="Убрать ${esc(p.name)}">✕</button>
     </div>`;
   }).join('');
   const cnt=ids.length;
   $('cartCnt').textContent=cnt+' '+plural(cnt,['товар','товара','товаров']);
+  $('srvRow').style.display = recipeCtx ? 'flex' : 'none';
+  if(recipeCtx) $('srvN').textContent=recipeCtx.n;
   const MIN=1500;
   const delivery = goods>=2000?0:149;
   $('sumGoods').textContent=rub(goods);
@@ -493,125 +794,43 @@ function renderCart(){
   foot.style.display='block';
   body.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>{ delete cart[b.dataset.rm]; renderCart(); }));
 }
-function plural(n,f){ const n1=n%10,n2=n%100; if(n1===1&&n2!==11)return f[0]; if(n1>=2&&n1<=4&&(n2<10||n2>=20))return f[1]; return f[2]; }
-
-function botMsg(html){ const m=document.createElement('div'); m.className='msg bot'; m.innerHTML=html; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
-function userMsg(t){ const m=document.createElement('div'); m.className='msg user'; m.textContent=t; $('chatLog').appendChild(m); $('chatLog').scrollTop=$('chatLog').scrollHeight; }
-
-function buildCartMsg(added, opts={}){
-  let html = opts.intro || 'Собрал корзину:';
-  html += '<div class="cart-add">';
-  let repls=[];
-  added.forEach(a=>{
-    const p=a.used, q=a.qty;
-    html+=`<div class="ci">${catIcon(p.cat)}<span class="nm">${p.name}</span><span class="qt">${qlabel(p,q)}</span><span class="pr">${rub(lineCost(p,q))}</span></div>`;
-    if(a.replaced) repls.push(`«${a.replaced.name}» нет в наличии — заменил на «${p.name}»`);
-  });
-  html+='</div>';
-  if(opts.budget!=null){
-    const goods=Object.keys(cart).reduce((s,id)=>s+lineCost(byId[id],cart[id].qty),0);
-    const left=opts.budget-goods;
-    html+=`<div style="margin-top:9px;font-size:13px">Сумма: <b>${rub(goods)}</b> из ${rub(opts.budget)}. ${left>=0?'Осталось '+rub(left)+'.':'Превышение на '+rub(-left)+'.'}</div>`;
-  }
-  if(repls.length) html+=`<div class="repl">↺ ${repls.join('; ')}.</div>`;
-  botMsg(html);
-}
-
-function parseGuests(t){ const m=t.match(/(?:на|для)\s*(\d+)\s*(гост|человек|персон|чел|люд)/); return m?parseInt(m[1]):6; }
-function parseBudget(t){ const m=t.match(/(\d[\d\s]{2,})\s*(руб|₽|р\b)/); if(m) return parseInt(m[1].replace(/\s/g,'')); const m2=t.match(/до\s*(\d[\d\s]{2,})/); return m2?parseInt(m2[1].replace(/\s/g,'')):null; }
-
-function buildSet(key, guests, budget){
-  const set=SETS[key]; cart={};
-  const added=[];
-  // per-guest позиции (вес × гости)
-  Object.entries(set.per||{}).forEach(([id,perKg])=>{
-    const a=addToCart(id, perKg*guests); if(a) added.push(a);
-  });
-  // базовые позиции, масштаб по гостям для завтрака/грубо
-  Object.entries(set.base||{}).forEach(([id,q])=>{
-    let qty=q;
-    if(byId[id] && byId[id].unit==='шт') qty=Math.max(1, Math.round(q*(guests/ (key==='breakfast'?2:6)) ));
-    const a=addToCart(id, qty); if(a) added.push(a);
+function rescale(delta){
+  if(!recipeCtx) return;
+  const n=Math.min(40, Math.max(1, recipeCtx.n+delta)); if(n===recipeCtx.n) return;
+  recipeCtx.n=n;
+  Object.keys(cart).forEach(id=>{
+    const p=byId[id], k=n/recipeCtx.baseN, b=cart[id].base;
+    cart[id].qty = p.unit==='кг' ? round05(b*k) : Math.max(1, Math.round(b*k));
   });
   renderCart();
-  return added;
 }
 
-function handle(q){
-  const t=q.toLowerCase();
-  const guests=parseGuests(t);
-  const budget=parseBudget(t);
-
-  // Праздничный стол — самый широкий (проверяем первым)
-  if(/(праздни|торжеств|на юбилей|на день рожден|новый год|застол|широк)/.test(t) && !/шашлык|гриль/.test(t)){
-    const added=buildSet('feast', guests, budget);
-    return buildCartMsg(added,{intro:`Праздничный стол на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — деликатесы, колбасы, два сыра, хлеб и соусы:`, budget});
-  }
-  // Ассорти деликатесов — премиальный набор (балык, сырокопчёная салями, шейка)
-  if(/(ассорти|деликатес|премиум|изысканн)/.test(t) && !/шашлык|гриль/.test(t)){
-    const added=buildSet('deluxe', guests, budget);
-    return buildCartMsg(added,{intro:`Ассорти деликатесов на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — балык, сырокопчёная салями, шейка и буженина, с сырами и соусом:`, budget});
-  }
-  // Простая мясная нарезка — колбасы и доступные деликатесы
-  if(/(нарезк|тарелк|к столу|на стол|гост)/.test(t) && !/шашлык|гриль/.test(t)){
-    const added=buildSet('platter', guests, budget);
-    return buildCartMsg(added,{intro:`Мясная нарезка на ${guests} ${plural(guests,['гостя','гостей','гостей'])} — докторская, сервелат, карбонад и московская, плюс сыр, хлеб и соус:`, budget});
-  }
-  if(/(шашлык|гриль|мангал|на природ|на дач|пикник)/.test(t)){
-    const added=buildSet('bbq', guests, budget);
-    return buildCartMsg(added,{intro:`Шашлык на ${guests} ${plural(guests,['человека','человек','человек'])} — мясо, овощи, лаваш, соус и квас:`, budget});
-  }
-  if(/(завтрак|бутерброд|к чаю|перекус|на утро)/.test(t)){
-    const added=buildSet('breakfast', guests, budget);
-    return buildCartMsg(added,{intro:'Набор к завтраку — колбаса, ветчина, сосиски, сыр и хлеб:', budget});
-  }
-
-  // поиск по товару/тегу (включая не-в-наличии, чтобы показать замену)
-  const found=CATALOG.filter(p=>{
-    const key=p.name.toLowerCase().split(/[«,]/)[0].trim().split(' ')[0];
-    return t.includes(key) || p.tags.some(tag=>t.includes(tag));
-  });
-  if(found.length){
-    cart={};
-    const added=found.slice(0,6).map(p=>addToCart(p.id, p.unit==='кг'?p.pack:1)).filter(Boolean);
-    renderCart();
-    return buildCartMsg(added,{intro:'Нашёл по вашему запросу и добавил:'});
-  }
-  botMsg('Соберу набор под повод. Попробуйте: «мясная нарезка на 6 гостей», «шашлык на 8 человек», «набор к завтраку» — или назовите деликатес: буженина, салями, балык.');
-}
-
-const DEMO = {
-  platter: {sub:'Соберу мясную тарелку к столу',
-    chips:['мясная нарезка на 6 гостей','ассорти деликатесов к столу','что положить на праздничный стол'],
-    greet:'Здравствуйте! Скажите, на сколько гостей и по какому поводу — соберу мясную тарелку из деликатесов. Например: «мясная нарезка на 6 гостей».'},
-  bbq: {sub:'Соберу всё для шашлыка',
-    chips:['шашлык на 8 человек','мясо на мангал на компанию','что взять на пикник'],
-    greet:'Собираетесь на природу? Скажите, на сколько человек — подберу мясо, овощи, соус, лаваш и напитки. Попробуйте «шашлык на 8 человек».'},
-  breakfast: {sub:'Соберу набор к завтраку',
-    chips:['набор к завтраку','колбаса и сыр на бутерброды','сосиски и ветчина на утро'],
-    greet:'Соберу набор для завтраков — колбаса, ветчина, сосиски, сыр, хлеб. Напишите «набор к завтраку».'}
-};
-
+/* ============ ВКЛАДКИ ============ */
 function setDemo(key){
   currentDemo=key;
   document.querySelectorAll('#demos button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.demo===key?'true':'false'));
   const d=DEMO[key];
   $('chatSub').textContent=d.sub;
   $('chatGreet').innerHTML='<div class="msg bot">'+d.greet+'</div>';
-  $('chatLog').innerHTML=''; cart={}; renderCart();
+  $('chatLog').innerHTML=''; cart={}; recipeCtx=null; renderCart();
   const drop=$('chipsDrop');
   drop.innerHTML='<div class="chips-hint">Или выберите готовый запрос:</div>'+d.chips.map(c=>`<button class="drop-item">${c}</button>`).join('');
-  drop.querySelectorAll('.drop-item').forEach(b=>b.addEventListener('click',()=>{ userMsg(b.textContent); handle(b.textContent); }));
+  drop.querySelectorAll('.drop-item').forEach(b=>b.addEventListener('click',()=>{ if(busy) return; userMsg(b.textContent); handle(b.textContent); }));
 }
 
-$('demos').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) setDemo(b.dataset.demo); });
-$('chatSend').addEventListener('click',()=>{ const v=$('chatInput').value.trim(); if(!v)return; userMsg(v); $('chatInput').value=''; handle(v); });
+$('demos').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b && !busy) setDemo(b.dataset.demo); });
+$('chatSend').addEventListener('click',()=>{ const v=$('chatInput').value.trim(); if(!v||busy)return; userMsg(v); $('chatInput').value=''; handle(v); });
 $('chatInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('chatSend').click(); });
-$('cartClear').addEventListener('click',()=>{ cart={}; renderCart(); });
+$('chatLog').addEventListener('click',e=>{
+  if(e.target.closest('[data-tocart]')){ document.querySelector('.cart').scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  const b=e.target.closest('.pick'); if(b && !b.disabled) pick(+b.dataset.r);
+});
+document.querySelectorAll('[data-srv]').forEach(b=>b.addEventListener('click',()=>rescale(+b.dataset.srv)));
+$('cartClear').addEventListener('click',()=>{ cart={}; recipeCtx=null; renderCart(); });
 $('checkoutBtn').addEventListener('click',()=>{ openCheckout(); });
-$('clearChat').addEventListener('click',()=>{ setDemo(currentDemo); });
+$('clearChat').addEventListener('click',()=>{ if(!busy) setDemo(currentDemo); });
 
-setDemo('platter');
+setDemo('hot');
 renderCart();
 </script>
 <dialog class="co" id="coDialog" aria-labelledby="coTitle">
