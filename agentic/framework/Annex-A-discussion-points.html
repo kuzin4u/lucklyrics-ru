@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Discussion points of the Agentic Payments Framework: one transaction, two paths</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16202a;--ink2:#4a5a68;--paper:#f6f6f3;--card:#fff;--line:#dcdcd4;--ok:#1f7a5a;--stop:#a32a2a;--hold:#a35c13;--warn:#b07a00;--ret:#1a3a8f;--open:#7a1f6a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:15px;line-height:1.5}
+.wrap{max-width:1200px;margin:0 auto;padding:0 18px 70px}
+nav.strip{display:flex;flex-wrap:wrap;gap:4px;padding:14px 0 0}
+nav.strip a,nav.strip .cur{font:500 12.5px 'IBM Plex Sans';text-decoration:none;color:var(--ink2);border:1px solid var(--line);background:#fff;padding:5px 9px}
+nav.strip .cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+header.top{border-bottom:2px solid var(--ink);padding:18px 0 14px;margin-bottom:12px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ok);margin:0 0 6px}
+h1{font-family:'IBM Plex Serif',Georgia,serif;font-size:27px;margin:0 0 8px;font-weight:600;line-height:1.15}
+.tagline{color:var(--ink2);margin:0;max-width:88ch}
+a{color:#1a3a8f}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.tabs button{font:500 12.5px 'IBM Plex Sans';background:#fff;border:1px solid var(--line);padding:7px 11px;cursor:pointer;text-align:left}
+.tabs button .c{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink2)}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tabs button[aria-pressed="true"] .c{color:#cfd6dd}
+.case{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--open);padding:12px 16px;margin:8px 0 12px}
+.case .row{margin:4px 0;font-size:14.3px}
+.case .row b{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink2);font-weight:500;margin-right:6px}
+.ctrl{display:flex;gap:6px;margin:8px 0}
+.ctrl button{font:500 12.5px 'IBM Plex Sans';background:#fff;border:1px solid var(--line);padding:7px 12px;cursor:pointer}
+.ctrl button.go{background:var(--ok);color:#fff;border-color:var(--ok)}
+button:focus-visible{outline:2px solid #1a3a8f;outline-offset:2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.side{background:var(--card);border:1px solid var(--line);padding:12px 14px}
+.side h2{font-family:'IBM Plex Serif',Georgia,serif;font-size:17px;margin:0 0 2px}
+.side .sub{font-size:12.5px;color:var(--ink2);margin-bottom:8px}
+.side.fw{border-top:4px solid #8a8a80}.side.ours{border-top:4px solid var(--ok)}
+.lane{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin-bottom:8px}
+.stg{border:2px solid var(--line);padding:4px 3px;text-align:center;font-size:10.5px;min-height:44px;background:#fff}
+.stg .n{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink2)}
+.stg.ok{background:#eef6f1;border-color:var(--ok)}.stg.stop{background:#fbeeee;border-color:var(--stop)}
+.stg.hold{background:#fdf4e8;border-color:var(--hold)}.stg.warn{background:#fdf8e6;border-color:var(--warn)}
+.stg.ret{background:#eef1f9;border-color:var(--ret)}.stg.open{background:#f6eef5;border-color:var(--open)}
+.stg.cur{box-shadow:0 0 0 2px var(--ink) inset}
+.money{font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:6px}
+.log{list-style:none;margin:0;padding:0;min-height:120px}
+.log li{padding:5px 8px 5px 10px;border-left:4px solid var(--line);margin:4px 0;font-size:13.4px;background:#fafaf7}
+.log li .s{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink2);margin-right:6px}
+.log li.ok{border-left-color:var(--ok)}.log li.stop{border-left-color:var(--stop)}.log li.hold{border-left-color:var(--hold)}
+.log li.warn{border-left-color:var(--warn)}.log li.ret{border-left-color:var(--ret)}.log li.open{border-left-color:var(--open)}
+.fin{margin-top:8px;padding:9px 12px;border:2px solid var(--line);display:none;font-size:13.8px}
+.fin.on{display:block}
+.fin.ok{border-color:var(--ok);background:#eef6f1}.fin.stop{border-color:var(--stop);background:#fbeeee}.fin.hold{border-color:var(--hold);background:#fdf4e8}
+.fin.warn{border-color:var(--warn);background:#fdf8e6}.fin.ret{border-color:var(--ret);background:#eef1f9}.fin.open{border-color:var(--open);background:#f6eef5}
+.fin b{display:block;margin-bottom:3px}
+.fin .r{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink2)}
+.verdict{margin-top:12px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ok);padding:11px 15px;display:none;font-size:14.3px}
+.verdict.on{display:block}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.2px;margin-top:8px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:#ecece7;font-size:11.5px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+h3{font-family:'IBM Plex Serif',Georgia,serif;font-size:18px;margin:26px 0 4px}
+footer{margin-top:36px;border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--ink2)}
+@media(max-width:900px){.duo{grid-template-columns:1fr}h1{font-size:22px}}
+</style></head><body><div class="wrap">
+
+<nav class="strip">
+ <a href="index.html">Overview</a>
+ <span class="cur" aria-current="page">Annex A · Discussion points</span>
+ <a href="Annex-B-cost-model.html">Annex B · Cost model</a>
+ <a href="EMV-Agentic-Framework-Feedback-Form.docx">Feedback form (DOCX)</a>
+</nav>
+
+<header class="top">
+ <p class="eyebrow">Annex A to the feedback on EMV® Agentic Payments – Framework for Specifications v1.0 DRAFT · 7 discussion points</p>
+ <h1>Discussion points: one transaction, two paths</h1>
+ <p class="tagline">For each of our comments the same situation is played out twice: how the transaction proceeds if the Framework is implemented as currently drafted, and how it proceeds under our proposed change. The comparison shows not a difference in approach but the cost of a specific gap.</p>
+</header>
+
+<div class="tabs" id="tabs">
+<button data-i="0" aria-pressed="true"><span class="c">C01 · cl. 5.5 · 6.3.2</span>Who maintains budget state</button><button data-i="1" aria-pressed="false"><span class="c">C02 · cl. 5.6 · 4.3.5</span>What proves fulfilment</button><button data-i="2" aria-pressed="false"><span class="c">C03 · cl. 6.7.6</span>Unrecognised constraint type</button><button data-i="3" aria-pressed="false"><span class="c">C04 · cl. 5.4</span>Revocation of the mandate</button><button data-i="4" aria-pressed="false"><span class="c">C05 · cl. 1.2 · 1.2.1</span>Choosing the instrument at payment time</button><button data-i="5" aria-pressed="false"><span class="c">C06 · cl. 3</span>Agent execution history</button><button data-i="6" aria-pressed="false"><span class="c">C07 · cl. 8</span>Indicator without a reference to evidence</button>
+</div>
+
+<div class="case" id="case"></div>
+
+<div class="ctrl">
+ <button class="go" id="run">▶ Run both</button>
+ <button id="step">Step</button>
+ <button id="reset">Reset</button>
+</div>
+
+<div class="duo">
+ <div class="side fw">
+  <h2>Per the Framework</h2><div class="sub">as in draft v1.0</div>
+  <div class="lane" id="laneFw"><div class="stg" data-i="0"><div class="n">0</div>Admission</div><div class="stg" data-i="1"><div class="n">1</div>Mandate</div><div class="stg" data-i="2"><div class="n">2</div>Discovery</div><div class="stg" data-i="3"><div class="n">3</div>Order</div><div class="stg" data-i="4"><div class="n">4</div>Confirmation</div><div class="stg" data-i="5"><div class="n">5</div>Authorisation</div><div class="stg" data-i="6"><div class="n">6</div>Settlement</div><div class="stg" data-i="7"><div class="n">7</div>Post-transaction</div></div>
+  <div class="money">funds: <span id="mFw">not debited</span></div>
+  <ol class="log" id="logFw"></ol>
+  <div class="fin" id="finFw"></div>
+ </div>
+ <div class="side ours">
+  <h2>Per our proposal</h2><div class="sub" id="subOurs">per the comment</div>
+  <div class="lane" id="laneOurs"><div class="stg" data-i="0"><div class="n">0</div>Admission</div><div class="stg" data-i="1"><div class="n">1</div>Mandate</div><div class="stg" data-i="2"><div class="n">2</div>Discovery</div><div class="stg" data-i="3"><div class="n">3</div>Order</div><div class="stg" data-i="4"><div class="n">4</div>Confirmation</div><div class="stg" data-i="5"><div class="n">5</div>Authorisation</div><div class="stg" data-i="6"><div class="n">6</div>Settlement</div><div class="stg" data-i="7"><div class="n">7</div>Post-transaction</div></div>
+  <div class="money">funds: <span id="mOurs">not debited</span></div>
+  <ol class="log" id="logOurs"></ol>
+  <div class="fin" id="finOurs"></div>
+ </div>
+</div>
+<div class="verdict" id="verdict"></div>
+
+<h3>All discussion points in one table</h3>
+<table><tbody>
+<tr><th style="width:52px">Comment</th><th style="width:18%">Situation</th><th>Per the Framework</th><th>Per our proposal</th><th style="width:16%">Proposed change</th></tr>
+<tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C01</td><td><b>Who maintains budget state</b><br><span style="color:var(--ink2);font-size:12px">cl. 5.5 · 6.3.2</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Overspend discovered after the fact; the constraint was bypassed without anyone intending it. <span style="color:var(--ink2)">Risk: payer’s issuer.</span></td>
+ <td><span class="dot" style="background:var(--hold)"></span>Budget respected; the second purchase awaits the consumer’s decision. <span style="color:var(--ink2)">Risk: no one.</span></td>
+ <td style="font-size:12px">State held outside the Agent; atomic, single-use consumption</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C02</td><td><b>What proves fulfilment</b><br><span style="color:var(--ink2);font-size:12px">cl. 5.6 · 4.3.5</span></td>
+ <td><span class="dot" style="background:var(--open)"></span>The outcome depends on the parties’ correspondence rather than on records. <span style="color:var(--ink2)">Risk: unclear.</span></td>
+ <td><span class="dot" style="background:var(--ret)"></span>Dispute resolved from the record in hours rather than weeks. <span style="color:var(--ink2)">Risk: merchant.</span></td>
+ <td style="font-size:12px">Minimum fulfilment record at order level</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C03</td><td><b>Unrecognised constraint type</b><br><span style="color:var(--ink2);font-size:12px">cl. 6.7.6</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Goods shipped, no payment; participants reached different conclusions on the same mandate. <span style="color:var(--ink2)">Risk: merchant.</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>A predictable decline before shipment; no loss. <span style="color:var(--ink2)">Risk: no one.</span></td>
+ <td style="font-size:12px">Strict by default for payment constraints plus a shared type registry</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C04</td><td><b>Revocation of the mandate</b><br><span style="color:var(--ink2);font-size:12px">cl. 5.4</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Revoking the mandate did not stop the payment. <span style="color:var(--ink2)">Risk: payer’s issuer.</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Revocation takes effect once it is known. <span style="color:var(--ink2)">Risk: no one.</span></td>
+ <td style="font-size:12px">Revocation retrievable at execution; unverifiable state treated as out of bounds</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C05</td><td><b>Choosing the instrument at payment time</b><br><span style="color:var(--ink2);font-size:12px">cl. 1.2 · 1.2.1</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Transaction fails; the mandate must be issued again. <span style="color:var(--ink2)">Risk: consumer.</span></td>
+ <td><span class="dot" style="background:var(--ok)"></span>Transaction completed; the choice of instrument stays with the consumer. <span style="color:var(--ink2)">Risk: —.</span></td>
+ <td style="font-size:12px">Mandate may reference an instrument class or payer-side selection point</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C06</td><td><b>Agent execution history</b><br><span style="color:var(--ink2);font-size:12px">cl. 3</span></td>
+ <td><span class="dot" style="background:var(--stop)"></span>Identification does not distinguish a compliant agent from a repeatedly non-compliant one. <span style="color:var(--ink2)">Risk: issuer and consumer.</span></td>
+ <td><span class="dot" style="background:var(--ok)"></span>Agent risk is reflected before the transaction rather than after a dispute. <span style="color:var(--ink2)">Risk: —.</span></td>
+ <td style="font-size:12px">Execution history as a KYA element</td></tr><tr><td style="font-family:'IBM Plex Mono',monospace;font-size:11.5px">C07</td><td><b>Indicator without a reference to evidence</b><br><span style="color:var(--ink2);font-size:12px">cl. 8</span></td>
+ <td><span class="dot" style="background:var(--open)"></span>The evidence exists somewhere, but linking it to the transaction is hard. <span style="color:var(--ink2)">Risk: unclear.</span></td>
+ <td><span class="dot" style="background:var(--ret)"></span>The dispute is resolved from references carried by the transaction itself. <span style="color:var(--ink2)">Risk: per the check result.</span></td>
+ <td style="font-size:12px">Indicator carries references to Intent and fulfilment record</td></tr>
+</tbody></table>
+
+<footer>
+<p>Clause numbers refer to EMV® Agentic Payments – Framework for Specifications v1.0 DRAFT (1 September 2026). Comment codes C01–C07 correspond to rows 01–07 of the enclosed feedback form.</p>
+<p class="note">The situations are constructed so that the difference shows up within a single transaction. The Framework as drafted does not prohibit good implementations — it does not require them; the model shows what happens when a participant chooses the simplest permissible option.</p>
+</footer>
+
+</div>
+<script>
+(function(){
+ var S=[{"z":"C01","t":"Who maintains budget state","cl":"5.5 · 6.3.2","issue":"The Framework assigns coordination of state to the Agent, while elsewhere stating that budget caps are typically maintained by the payment system.","setup":"Mandate budget: RUB 10,000 per month. The Agent places two purchases of RUB 6,000 almost simultaneously and, due to a fault, reports RUB 10,000 remaining for both.","fw":{"ev":[[5,"The issuer receives a remaining budget of RUB 10,000 from the Agent — nothing to reconcile against.","warn","RUB 6,000"],[5,"The second RUB 6,000 transaction is approved against the same remaining budget.","warn","RUB 12,000"],[7,"A week later the consumer sees RUB 12,000 debited against a RUB 10,000 budget.","stop","overspend RUB 2,000"]],"fin":["Overspend discovered after the fact; the constraint was bypassed without anyone intending it.","stop","payer’s issuer"]},"ours":{"ev":[[5,"The issuer maintains the remaining budget; the first transaction consumes RUB 6,000 atomically.","ok","RUB 6,000"],[5,"The second transaction sees RUB 4,000 remaining and is declined as a limit breach.","stop","RUB 6,000"],[5,"The consumer is notified: the second purchase needs a new mandate or a higher limit.","hold","RUB 6,000"]],"fin":["Budget respected; the second purchase awaits the consumer’s decision.","hold","no one"],"doc":"State held outside the Agent; atomic, single-use consumption"}},{"z":"C02","t":"What proves fulfilment","cl":"5.6 · 4.3.5","issue":"Orders are defined as units of fulfilment, but the content of a fulfilment record is not defined and its creation is optional.","setup":"A three-item cart from one merchant. Two items are delivered; two months later the consumer disputes the charge for the third.","fw":{"ev":[[6,"The transaction settles for the full amount; no fulfilment artefact is created.","ok","full amount"],[7,"Dispute: the merchant says everything shipped, the consumer says two items arrived.","warn","full amount"],[7,"There is nothing to compare authorised values with executed ones; the dispute follows general rules.","open","in dispute"]],"fin":["The outcome depends on the parties’ correspondence rather than on records.","open","unclear"]},"ours":{"ev":[[6,"The participant evaluating fulfilment creates a record: final values, result of the mandate check, order reference.","ok","full amount"],[7,"The record shows two of three items fulfilled; the third was not confirmed by the merchant.","warn","full amount"],[7,"Refund for the unfulfilled item without a merits review.","ret","refund for 1 item"]],"fin":["Dispute resolved from the record in hours rather than weeks.","ret","merchant"],"doc":"Minimum fulfilment record at order level"}},{"z":"C03","t":"Unrecognised constraint type","cl":"6.7.6","issue":"A verifier may skip an unrecognised constraint in permissive mode; strict handling is recommended but not required.","setup":"A new constraint type, “not above market price”, is added to the mandate. The acquirer does not recognise it; the issuer does.","fw":{"ev":[[5,"The acquirer, in permissive mode, skips the constraint and forwards the transaction.","warn","—"],[6,"The merchant, having an acquirer approval, ships the goods.","warn","—"],[6,"The issuer, in strict mode, declines — payment fails.","stop","not debited"]],"fin":["Goods shipped, no payment; participants reached different conclusions on the same mandate.","stop","merchant"]},"ours":{"ev":[[5,"The constraint type is checked against a shared registry; strict mode applies to payment constraints.","stop","—"],[5,"The same decline at acquirer and issuer, before shipment.","stop","not debited"]],"fin":["A predictable decline before shipment; no loss.","stop","no one"],"doc":"Strict by default for payment constraints plus a shared type registry"}},{"z":"C04","t":"Revocation of the mandate","cl":"5.4","issue":"A “revoked” state exists, but the Framework does not state how revocation reaches participants who already hold a valid credential chain.","setup":"The consumer revokes the mandate at 10:00. At 10:05 the Agent presents a signed Layer 3 credential issued before revocation.","fw":{"ev":[[5,"All three layers’ signatures are valid — the credential passes cryptographic verification.","ok","—"],[5,"Checking the current Intent state is not required; the transaction is authorised.","warn","debited"],[7,"The consumer disputes a transaction made after revocation.","stop","in dispute"]],"fin":["Revoking the mandate did not stop the payment.","stop","payer’s issuer"]},"ours":{"ev":[[5,"The issuer retrieves the mandate state at the time of the transaction.","ok","—"],[5,"Mandate revoked — declined as “mandate revoked”; the Agent stops actions in progress.","stop","not debited"]],"fin":["Revocation takes effect once it is known.","stop","no one"],"doc":"Revocation retrievable at execution; unverifiable state treated as out of bounds"}},{"z":"C05","t":"Choosing the instrument at payment time","cl":"1.2 · 1.2.1","issue":"The credential is selected and bound to the Intent before execution; selection at payment time is out of scope.","setup":"The consumer mandated a purchase bound to a card. By execution time the card has been reissued; the consumer would pay by account-to-account transfer via the universal payment code.","fw":{"ev":[[5,"The mandate references a specific card, which is no longer valid — declined.","stop","not debited"],[1,"To switch instruments, the consumer must go through the whole mandate again.","hold","not debited"]],"fin":["Transaction fails; the mandate must be issued again.","stop","consumer"]},"ours":{"ev":[[4,"The mandate references a payer-side selection point; constraints unchanged.","ok","—"],[4,"The consumer selects the instrument on the universal payment code page.","ok","—"],[5,"Authorised within the same mandate bounds.","ok","debited"]],"fin":["Transaction completed; the choice of instrument stays with the consumer.","ok","—"],"doc":"Mandate may reference an instrument class or payer-side selection point"}},{"z":"C06","t":"Agent execution history","cl":"3","issue":"The Know Your Agent agenda includes identifiers, version and registry references, but not the agent’s behaviour in past fulfilments.","setup":"In one month the Agent exceeded mandate bounds three times. Today it presents a new transaction without consumer confirmation.","fw":{"ev":[[0,"Agent identified: code, version and registry entry are in order.","ok","—"],[5,"Access level unchanged — the transaction passes without confirmation.","warn","debited"],[7,"A fourth out-of-bounds action — another dispute.","stop","in dispute"]],"fin":["Identification does not distinguish a compliant agent from a repeatedly non-compliant one.","stop","issuer and consumer"]},"ours":{"ev":[[0,"Identification plus execution history: access level lowered after repeated breaches.","warn","—"],[4,"At the lower level, consumer confirmation is required.","hold","—"],[5,"The consumer confirms only the correct transaction.","ok","debited"]],"fin":["Agent risk is reflected before the transaction rather than after a dispute.","ok","—"],"doc":"Execution history as a KYA element"}},{"z":"C07","t":"Indicator without a reference to evidence","cl":"8","issue":"The indicator is described as a signal that an agent was involved; it does not provide for a reference to the Intent or the fulfilment record.","setup":"A month later the issuer handles a dispute. The transaction carries an “agent involved” flag.","fw":{"ev":[[7,"The flag confirms agent involvement but not which mandate applied.","warn","in dispute"],[7,"The mandate is sought through indirect data from the Agent and the merchant.","open","in dispute"]],"fin":["The evidence exists somewhere, but linking it to the transaction is hard.","open","unclear"]},"ours":{"ev":[[7,"The indicator carries the agent code, the mandate identifier and, where present, a fulfilment record reference.","ok","in dispute"],[7,"Mandate and record retrieved by reference; bounds compared mechanically.","ret","resolved"]],"fin":["The dispute is resolved from references carried by the transaction itself.","ret","per the check result"],"doc":"Indicator carries references to Intent and fulfilment record"}}], ST=["Admission","Mandate","Discovery","Order","Confirmation","Authorisation","Settlement","Post-transaction"], HAPPY=["Agent identified","Mandate signed","Catalogue retrieved","Cart agreed","Indicator sent","Authorised","Cleared, receipt issued","Transaction closed"];
+ var cur=0, qFw=[], qOurs=[], pos=0, timer=null;
+ var PR=['ok','warn','ret','hold','open','stop'];
+ function build(side){
+  var p=S[cur][side], q=[], first=p.ev.length?p.ev[0][0]:0;
+  for(var i=0;i<first;i++) q.push({st:i,txt:HAPPY[i],cls:'ok'});
+  var last=first;
+  p.ev.forEach(function(e){ for(var g=last+1;g<e[0];g++) q.push({st:g,txt:HAPPY[g],cls:'ok'}); q.push({st:e[0],txt:e[1],cls:e[2],money:e[3]}); last=Math.max(last,e[0]); });
+  if(['stop','hold','open'].indexOf(p.fin[1])<0){ for(var j=last+1;j<ST.length;j++) q.push({st:j,txt:HAPPY[j],cls:'ok'}); }
+  return q;
+ }
+ function paint(laneId,e){
+  var boxes=[].slice.call(document.querySelectorAll('#'+laneId+' .stg'));
+  boxes.forEach(function(b){b.classList.remove('cur');});
+  var b=boxes[e.st]; b.classList.add('cur');
+  var had=PR.filter(function(c){return b.classList.contains(c);})[0];
+  var keep = had && PR.indexOf(had)>PR.indexOf(e.cls) ? had : e.cls;
+  PR.forEach(function(c){b.classList.remove(c);}); b.classList.add(keep);
+ }
+ function add(logId,moneyId,e){
+  var li=document.createElement('li'); li.className=e.cls;
+  li.innerHTML='<span class="s">st. '+e.st+'</span>'+e.txt;
+  document.getElementById(logId).appendChild(li);
+  if(e.money && e.money!=='—') document.getElementById(moneyId).textContent=e.money;
+ }
+ function fin(id,f,doc){
+  var el=document.getElementById(id);
+  el.className='fin on '+f[1];
+  el.innerHTML='<b>'+f[0]+'</b><span class="r">risk: '+f[2]+(doc?' · change: '+doc:'')+'</span>';
+ }
+ function reset(){
+  clearInterval(timer); timer=null; pos=0;
+  var s=S[cur];
+  document.getElementById('case').innerHTML=
+   '<div class="row"><b>comment</b>'+s.z+' · draft clause '+s.cl+'</div>'+
+   '<div class="row"><b>issue</b>'+s.issue+'</div>'+
+   '<div class="row"><b>situation</b>'+s.setup+'</div>';
+  document.getElementById('subOurs').textContent='per comment '+s.z;
+  ['laneFw','laneOurs'].forEach(function(l){ [].forEach.call(document.querySelectorAll('#'+l+' .stg'),function(b){ b.className='stg'; }); });
+  ['logFw','logOurs'].forEach(function(l){ document.getElementById(l).innerHTML=''; });
+  ['finFw','finOurs'].forEach(function(l){ document.getElementById(l).className='fin'; });
+  document.getElementById('mFw').textContent='not debited'; document.getElementById('mOurs').textContent='not debited';
+  document.getElementById('verdict').className='verdict';
+  qFw=build('fw'); qOurs=build('ours');
+  history.replaceState(null,'','#'+s.z.toLowerCase());
+ }
+ function step(){
+  var n=Math.max(qFw.length,qOurs.length);
+  if(pos>=n){ done(); return; }
+  if(qFw[pos]){ paint('laneFw',qFw[pos]); add('logFw','mFw',qFw[pos]); }
+  if(qOurs[pos]){ paint('laneOurs',qOurs[pos]); add('logOurs','mOurs',qOurs[pos]); }
+  pos++;
+  if(pos>=n) done();
+ }
+ function done(){
+  clearInterval(timer); timer=null;
+  var s=S[cur];
+  fin('finFw',s.fw.fin,''); fin('finOurs',s.ours.fin,s.ours.doc);
+  var v=document.getElementById('verdict'); v.className='verdict on';
+  v.innerHTML='<b>Difference:</b> per the Framework — '+s.fw.fin[0].charAt(0).toLowerCase()+s.fw.fin[0].slice(1)+' Per our proposal — '+s.ours.fin[0].charAt(0).toLowerCase()+s.ours.fin[0].slice(1)+' Risk moves from “'+s.fw.fin[2]+'” to “'+s.ours.fin[2]+'”.';
+ }
+ [].forEach.call(document.querySelectorAll('#tabs button'),function(b){
+  b.addEventListener('click',function(){
+   cur=+b.dataset.i;
+   [].forEach.call(document.querySelectorAll('#tabs button'),function(x){ x.setAttribute('aria-pressed',String(x===b)); });
+   reset();
+  });
+ });
+ document.getElementById('step').addEventListener('click',step);
+ document.getElementById('reset').addEventListener('click',reset);
+ document.getElementById('run').addEventListener('click',function(){ reset(); timer=setInterval(step,800); });
+ var h=(location.hash||'').slice(1);
+ var idx=S.findIndex(function(s){return s.z.toLowerCase()===h;});
+ if(idx>=0){ document.querySelectorAll('#tabs button')[idx].click(); } else reset();
+})();
+</script>
+</body></html>
