@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Irrigation Systems LLC — прототип сайта v7</title>
+<title>Irrigation Systems LLC — прототип сайта v19</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;600&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   --blue:#145A86; --blue-d:#0F4566; --green:#2B7A4B; --white:#FFFFFF; --bg:#F4F7F8; --ink:#23313A;
   --muted:#5A6A74; --line:#D9E2E6; --surface:#FFFFFF; --soft:#E6EFF4; --leaf:#DCEBE1;
   --sky:#DCEAF2; --ground:#C9DCC9; --ground2:#A9C9AE; --water:#5FA3C9; --metal:#8FA3AF;
-  --warn:#9A2F25; --header-h:68px;
+  --warn:#9A2F25; --header-h:69px;
   color-scheme: light;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
@@ -72,8 +72,10 @@ nav.main a[aria-current="page"]{color:var(--blue);background:var(--soft);font-we
   .logo small{display:none}
   .langs button{min-width:34px;padding:7px 6px}
 }
-@media (max-width:1100px){
-  nav.main,.head-cta{display:none}
+@media (max-width:1400px){
+  nav.main{display:none}
+  .langs{margin-left:auto}
+  .burger{margin-left:0}
   .burger{display:inline-grid;place-items:center}
   nav.main.open{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px 16px;gap:2px}
   nav.main.open a{padding:12px}
@@ -211,6 +213,107 @@ footer{background:var(--surface);border-top:1px solid var(--line);padding:28px 0
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:8px;font-size:15px;z-index:40;max-width:90vw}
 .view[hidden]{display:none}
+/* v14: birdsong toggle */
+.sound-btn{position:absolute;z-index:3;left:clamp(12px,1.6vw,24px);bottom:calc(18px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;padding:10px 16px;border-radius:24px;border:1px solid rgba(29,90,133,.18);background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#1d5a85;font:600 15px/1 "Noto Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 24px -14px rgba(20,40,60,.6)}
+.sound-btn:hover{background:#fff}
+.sound-btn[aria-pressed="false"]{background:#1d5a85;color:#fff;border-color:#1d5a85}
+@media (max-width:520px){.sound-btn span{display:none}.sound-btn{padding:10px 12px}}
+
+/* v13: top menu as in the uploaded menu file (isx), with the framed pair on the right */
+.isx-header{--isx-blue:#1d5a85;--isx-blue-dark:#164a6e;--isx-ink:#1f2a33;--isx-muted:#6b7780;--isx-active-bg:#e7eef3;--isx-border:#d5dde3;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#fff;border-bottom:1px solid #e6ebef;font-family:"Noto Sans","Noto Sans Georgian",system-ui,sans-serif}
+.isx-wrap{max-width:1440px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:24px;position:relative}
+.isx-brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+.isx-logo{width:44px;height:44px;border-radius:10px;background:var(--isx-blue);display:grid;place-items:center}
+.isx-logo svg{width:24px;height:28px}
+.isx-name{display:flex;flex-direction:column;line-height:1.1}
+.isx-name b{font-size:21px;font-weight:700;color:var(--isx-ink);letter-spacing:-.2px}
+.isx-name span{font-size:13px;color:var(--isx-muted);margin-top:4px}
+.isx-nav{display:flex;align-items:center;gap:4px;margin-left:8px}
+.isx-nav a{padding:10px 16px;border-radius:10px;font-size:17px;font-weight:500;color:var(--isx-ink);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.isx-nav a:hover{background:#f1f5f8}
+.isx-nav a[aria-current="page"]{background:var(--isx-active-bg);color:var(--isx-blue)}
+.isx-right{margin-left:auto;display:flex;align-items:center;gap:28px}
+.isx-lang{display:flex;border:1px solid var(--isx-border);border-radius:8px;overflow:hidden}
+.isx-lang button{border:0;background:#fff;padding:9px 15px;font:600 15px/1 "Noto Sans",system-ui,sans-serif;color:var(--isx-muted);cursor:pointer;min-height:40px}
+.isx-lang button:hover{color:var(--isx-ink)}
+.isx-lang button.is-active{background:var(--isx-blue);color:#fff}
+.isx-pair{display:flex;gap:8px;padding:5px;border-radius:14px;background:linear-gradient(135deg,#E6F2E8,#EEF5F9);box-shadow:0 10px 24px -16px rgba(20,60,40,.55),inset 0 0 0 1px rgba(29,90,133,.10)}
+.isx-cta{background:var(--isx-blue);color:#fff;text-decoration:none;font-size:17px;font-weight:600;padding:12px 24px;border-radius:8px;white-space:nowrap;border:1px solid var(--isx-blue);transition:background .15s}
+.isx-cta:hover{background:var(--isx-blue-dark)}
+.isx-cta-line{background:rgba(255,255,255,.7);color:var(--isx-blue)}
+.isx-cta-line:hover{background:#fff;color:var(--isx-blue-dark)}
+.isx-burger{display:none;margin-left:auto;width:44px;height:44px;border:1px solid var(--isx-border);border-radius:8px;background:#fff;cursor:pointer;align-items:center;justify-content:center}
+.isx-burger span,.isx-burger span::before,.isx-burger span::after{display:block;width:20px;height:2px;background:var(--isx-ink);position:relative;transition:.2s}
+.isx-burger span::before,.isx-burger span::after{content:"";position:absolute;left:0}
+.isx-burger span::before{top:-6px}.isx-burger span::after{top:6px}
+.isx-header.is-open .isx-burger span{background:transparent}
+.isx-header.is-open .isx-burger span::before{top:0;transform:rotate(45deg)}
+.isx-header.is-open .isx-burger span::after{top:0;transform:rotate(-45deg)}
+/* fluid sizes so the whole menu + pair fit in one row from 1120 px */
+.isx-wrap{gap:clamp(6px,1vw,24px);padding:12px clamp(10px,1.3vw,24px)}
+.isx-brand{gap:clamp(8px,.9vw,14px)}
+.isx-logo{width:clamp(38px,3vw,44px);height:clamp(38px,3vw,44px)}
+.isx-name b{font-size:clamp(15px,1.2vw,21px)}
+.isx-nav{margin-left:clamp(0px,.5vw,8px);gap:clamp(0px,.25vw,4px)}
+.isx-nav a{font-size:clamp(13.5px,1vw,17px);padding:9px clamp(4px,.62vw,16px)}
+.isx-right{gap:clamp(6px,1.1vw,28px)}
+.isx-lang button{padding:9px clamp(5px,.7vw,15px);font-size:clamp(13px,.9vw,15px)}
+.isx-pair{gap:clamp(4px,.4vw,8px)}
+.isx-cta{font-size:clamp(13.5px,1vw,17px);padding:clamp(8px,.7vw,12px) clamp(8px,1.05vw,24px)}
+@media (max-width:1148px){
+  .isx-burger{display:flex;order:2}
+  .isx-nav,.isx-right{order:3;display:none}
+  .isx-header.is-open .isx-wrap{flex-wrap:wrap}
+  .isx-header.is-open .isx-nav{display:flex;flex-direction:column;align-items:stretch;width:100%;margin:8px 0 0}
+  .isx-header.is-open .isx-nav a{padding:13px 14px;font-size:17px}
+  .isx-header.is-open .isx-lang button{padding:9px 15px;font-size:15px}
+  .isx-header.is-open .isx-cta{font-size:16px;padding:12px 16px}
+  .isx-header.is-open .isx-right{display:flex;width:100%;margin:8px 0 6px;justify-content:space-between;flex-wrap:wrap;gap:12px}
+}
+@media (max-width:480px){.isx-wrap{padding:10px 16px}.isx-name b{font-size:18px}.isx-header.is-open .isx-pair{width:100%}.isx-header.is-open .isx-pair .isx-cta{flex:1;text-align:center;padding:12px 8px}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .isx-header{background:var(--surface);border-color:var(--line);--isx-ink:#E3ECF0;--isx-active-bg:#1A3140;--isx-border:#2A3C47}
+  :root:not([data-theme="light"]) .isx-lang button,:root:not([data-theme="light"]) .isx-burger{background:transparent}
+  :root:not([data-theme="light"]) .isx-nav a[aria-current="page"]{color:#8CC3E6}:root:not([data-theme="light"]) .isx-pair{background:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .isx-cta-line{background:transparent;color:#8CC3E6}}
+
+/* v11: framed button pair in the header, as on the landscape panel */
+.head-pair{display:flex;gap:10px;padding:6px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,#E6F2E8,#EEF5F9);box-shadow:0 10px 24px -16px rgba(20,60,40,.55),inset 0 0 0 1px rgba(20,90,134,.10)}
+.head-pair .btn{min-height:40px;padding:8px 18px;border-radius:10px;white-space:nowrap}
+.head-pair .btn.line{background:rgba(255,255,255,.65)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .head-pair{background:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .head-pair .btn.line{background:transparent}}
+:root[data-theme="dark"] .head-pair{background:rgba(255,255,255,.06)}
+@media (max-width:860px){.head-pair{display:none}}
+nav.main.open .nav-btns{padding:8px;border-radius:16px;background:linear-gradient(135deg,#E6F2E8,#EEF5F9);border-top:0}
+
+/* v8: header buttons, trees with birds */
+header.site .wrap{max-width:1360px;gap:14px}
+nav.main a{padding:8px 9px}
+.head-cta{padding:10px 16px}
+.nav-btns{display:none}
+nav.main.open .nav-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+nav.main.open .nav-btns .btn{flex:1;padding:12px}
+.tree{position:absolute;bottom:-8px;z-index:1;height:80%;pointer-events:none}
+.tree svg{height:100%;width:auto;display:block;overflow:visible}
+.tree-l{left:-34px}.tree-r{right:-34px}
+.hero-full .credit{right:auto;left:50%;transform:translateX(-50%);white-space:nowrap}
+@media (max-width:760px){.tree{height:52%}.tree-l{left:-70px}.tree-r{right:-80px}}
+.an-hop{animation:hop 4.2s ease-in-out infinite}
+@keyframes hop{0%,78%,100%{transform:translateY(0)}84%{transform:translateY(-7px)}90%{transform:translateY(0)}94%{transform:translateY(-3px)}}
+.an-peck{animation:peck 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:15% 90%}
+@keyframes peck{0%,60%,100%{transform:rotate(0)}68%{transform:rotate(16deg)}76%{transform:rotate(-6deg)}84%{transform:rotate(10deg)}}
+.an-tail{animation:tail 1.9s ease-in-out infinite;transform-box:fill-box;transform-origin:100% 40%}
+@keyframes tail{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(-14deg)}90%{transform:rotate(6deg)}}
+.an-frond{animation:frond 5.5s ease-in-out infinite alternate}
+@keyframes frond{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+.an-sway-soft{animation:swaysoft 7s ease-in-out infinite alternate}
+@keyframes swaysoft{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
+.an-fruit{animation:fruit 3.6s ease-in-out infinite alternate}
+@keyframes fruit{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){.an-hop,.an-peck,.an-tail,.an-frond,.an-sway-soft,.an-fruit{animation:none!important}}
+
 /* v7: full-screen landscape, title floats across the sky */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 .hero-full{min-height:calc(100vh - var(--header-h) - 30px);min-height:calc(100svh - var(--header-h) - 30px);display:block}
@@ -337,20 +440,22 @@ figure.ph{border-radius:18px!important;box-shadow:0 14px 34px -20px rgba(160,70,
 </head>
 <body>
 <div class="proto" id="protoNote"></div>
-<header class="site">
-  <div class="wrap">
-    <a class="logo" href="#about" id="logoLink">
-      <svg viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="8" fill="#145A86"/><path d="M17 7c4 5 6 8.4 6 11a6 6 0 0 1-12 0c0-2.6 2-6 6-11z" fill="#fff"/><path d="M11 27h12" stroke="#2B7A4B" stroke-width="2.4" stroke-linecap="round"/></svg>
-      <span>Irrigation Systems<small>LLC</small></span>
+<header class="site isx-header" id="isxHeader">
+  <div class="isx-wrap">
+    <a class="isx-brand" href="#about" id="logoLink" aria-label="Irrigation Systems LLC">
+      <span class="isx-logo"><svg viewBox="0 0 24 28" aria-hidden="true"><path d="M12 2C9 7 5 11 5 16a7 7 0 0 0 14 0c0-5-4-9-7-14z" fill="#fff"/><rect x="4" y="25" width="16" height="2" rx="1" fill="#3fae5a"/></svg></span>
+      <span class="isx-name"><b>Irrigation Systems</b><span>LLC</span></span>
     </a>
-    <nav class="main" id="mainNav" aria-label="Main"></nav>
-    <div class="langs" role="group" aria-label="Language">
-      <button data-lang="ka" aria-pressed="false">KA</button>
-      <button data-lang="en" aria-pressed="false">EN</button>
-      <button data-lang="ru" aria-pressed="false">RU</button>
+    <nav class="isx-nav" id="mainNav" aria-label="Main"></nav>
+    <div class="isx-right">
+      <div class="isx-lang" role="group" aria-label="Language">
+        <button type="button" data-lang="ka" aria-pressed="false">KA</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      </div>
+      <div class="isx-pair"><a class="isx-cta" id="headCta2" href="#solutions"></a><a class="isx-cta isx-cta-line" id="headCta" href="#contact"></a></div>
     </div>
-    <a class="btn head-cta" id="headCta" href="#contact"></a>
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <button class="isx-burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
   </div>
 </header>
 <main id="app"></main>
@@ -499,6 +604,7 @@ function heroArt(){
     rows += `<path d="M0 ${y+13*s}Q800 ${y+10*s} 1600 ${y+13*s}" stroke="#3A3340" stroke-width="${2.2*s}" fill="none" stroke-linecap="round"/>`;
     let k = 0; for (let x = 10; x < 1600; x += 100*s) { const dd = (k++ * .41) % 2; rows += wet(x, y+15*s, s, dd) + drop(x, y+14*s, s, dd); }
     if (r >= 3) for (let x = 35 + (r % 2) * 26; x < 1600; x += 100*s) rows += sprout(x, y+13*s, s*.9, (x % 11) * .6);
+    rows += `<g id="ppRow${r}"></g>`;
   });
   const rays = Array.from({length:16}, (_, i) => { const a = i * Math.PI / 8; return `<path d="M${1260+Math.cos(a)*76} ${250+Math.sin(a)*76}L${1260+Math.cos(a)*118} ${250+Math.sin(a)*118}" stroke="#FFE27A" stroke-width="10" stroke-linecap="round" opacity=".85"/>`; }).join('');
   return `<svg viewBox="0 0 1600 640" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"><defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4FAEE3"/><stop offset=".45" stop-color="#FFC98A"/><stop offset="1" stop-color="#FF8A5B"/></linearGradient><radialGradient id="hsun"><stop offset="0" stop-color="#FFF6CC"/><stop offset=".35" stop-color="#FFD25A" stop-opacity=".95"/><stop offset="1" stop-color="#FF9F40" stop-opacity="0"/></radialGradient></defs>
@@ -516,6 +622,136 @@ function heroArt(){
   ${sparkle(1100, 470, 3, 0)}${sparkle(1380, 540, 2.5, 1)}${sparkle(980, 600, 2, 2)}</svg>`;
 }
 
+/* ---------- v8: subtropical trees with colourful birds (screen-edge overlays) ---------- */
+const BP = {
+  bee:{body:'#22B5C9',belly:'#3FD3E6',wing:'#2E9E5B',tip:'#F2C14E',head:'#B5532A',throat:'#FFD23F',tail:'#178C8C'},
+  parrot:{body:'#E8352F',belly:'#FF7A59',wing:'#FFC93C',tip:'#2389D0',head:'#E8352F',throat:'#FFE27A',tail:'#2389D0'},
+  roller:{body:'#3A7BEA',belly:'#6EC6FF',wing:'#7C5CD6',tip:'#22B5C9',head:'#5BC0EB',throat:'#E9F9FF',tail:'#1D3FA8'},
+  oriole:{body:'#FFC21A',belly:'#FFE27A',wing:'#2B2B2B',tip:'#FFF3B0',head:'#FFC21A',throat:'#FFE27A',tail:'#2B2B2B'},
+  pink:{body:'#FF5D8F',belly:'#FFB3C8',wing:'#8E5CE0',tip:'#FFC93C',head:'#FF5D8F',throat:'#FFE0EA',tail:'#8E5CE0'}
+};
+function cbird(x, y, s, pal, flip, d){
+  const p = BP[pal];
+  return `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})"><g class="an-hop" style="animation-delay:-${d}s">
+    <path class="an-tail" style="animation-delay:-${d*.7}s" d="M-9 1 L-36 12 L-33 4 L-11 -3z" fill="${p.tail}"/>
+    <ellipse cx="0" cy="0" rx="14" ry="9.5" fill="${p.body}"/>
+    <path d="M-8 4 Q 3 13 13 2 Q 4 7 -8 4z" fill="${p.belly}"/>
+    <path d="M-12 -3 Q -1 -11 10 -2 Q 1 5 -14 4z" fill="${p.wing}"/><path d="M-13 1 L-22 3" stroke="${p.tip}" stroke-width="2.6" stroke-linecap="round"/>
+    <g class="an-peck" style="animation-delay:-${d*1.3}s">
+      <circle cx="12" cy="-6" r="7.6" fill="${p.head}"/><path d="M7 -2 Q 13 4 19 -2 Q 13 1 7 -2z" fill="${p.throat}"/>
+      <path d="M7 -8.5 L19.5 -7" stroke="#1C1C1C" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="14.2" cy="-7.6" r="1.8" fill="#fff"/><circle cx="14.6" cy="-7.4" r=".9" fill="#111"/>
+      <path d="M19 -6.5 L31 -4 L19 -3z" fill="#2B2B2B"/>
+      ${pal === 'oriole' || pal === 'pink' ? `<path d="M8 -12 L5 -19 L11 -13 L12 -20 L14 -13" fill="${p.wing}"/>` : ''}
+    </g>
+    <path d="M-2 8 v7 M4 8 v7" stroke="#5A3B2A" stroke-width="1.8" stroke-linecap="round"/></g></g>`;
+}
+function palmSVG(){
+  const crown = [175, 196];
+  const fronds = [-168,-138,-108,-74,-40,-8,24].map((a, i) => `<g class="an-frond" style="transform-origin:${crown[0]}px ${crown[1]}px;animation-delay:-${i*.6}s"><g transform="translate(${crown[0]} ${crown[1]}) rotate(${a})">
+      <path d="M0 0 C 40 -26 96 -16 142 22 C 96 4 44 6 0 0z" fill="${i % 2 ? '#2F9A4E' : '#47B85E'}"/>
+      <path d="M0 0 C 46 -14 96 -6 140 20" stroke="#1F6E36" stroke-width="2" fill="none"/>
+      ${[30,58,86,112].map(t => `<path d="M${t} ${-12+t*.12} l10 16 M${t} ${-12+t*.12} l14 -6" stroke="#2F9A4E" stroke-width="3" stroke-linecap="round"/>`).join('')}
+    </g></g>`).join('');
+  const hib = [[86,470],[120,452],[150,478],[70,500],[132,500],[104,492]].map(([x,y],i) => `<circle cx="${x}" cy="${y}" r="${26-(i%3)*3}" fill="${['#2F8A4F','#3FA35A','#4FB063'][i%3]}"/>`).join('') +
+    [[80,452,'#E8352F'],[128,440,'#FF5D8F'],[150,466,'#E8352F'],[96,486,'#FF7A59'],[60,486,'#FF5D8F']].map(([x,y,c]) => [0,1,2,3,4].map(k => { const a = k*1.2566; return `<circle cx="${x+Math.cos(a)*6}" cy="${y+Math.sin(a)*6}" r="6" fill="${c}"/>`; }).join('') + `<circle cx="${x}" cy="${y}" r="3" fill="#FFE27A"/>`).join('');
+  return `<svg viewBox="0 0 320 560" preserveAspectRatio="xMinYMax meet">
+    <ellipse cx="150" cy="552" rx="120" ry="12" fill="#2E5A1E" opacity=".25"/>
+    <path d="M150 560 C 138 450 150 330 175 200" stroke="#8B5E3C" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <path d="M150 560 C 138 450 150 330 175 200" stroke="#6E4529" stroke-width="24" fill="none" stroke-dasharray="3 14"/>
+    ${fronds}
+    <circle cx="166" cy="212" r="9" fill="#F28C28"/><circle cx="182" cy="216" r="9" fill="#E8752A"/><circle cx="174" cy="226" r="8" fill="#FFB347"/>
+    ${hib}
+    ${cbird(248, 196, 1.25, 'bee', false, 0)}${cbird(92, 160, 1.15, 'parrot', true, 1.4)}${cbird(206, 120, 1, 'roller', false, 2.6)}
+  </svg>`;
+}
+function citrusSVG(){
+  const leaves = [[170,250,120,'#2F8A4F'],[110,220,70,'#3FA35A'],[240,215,74,'#3FA35A'],[175,150,80,'#4FB063'],[110,300,62,'#2F8A4F'],[250,300,66,'#2F8A4F'],[175,320,70,'#3FA35A'],[140,120,48,'#6BC56A'],[220,130,46,'#6BC56A']].map(([x,y,r,c]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join('');
+  const fruits = [[96,200],[132,170],[210,160],[262,196],[240,250],[150,240],[200,226],[120,280],[178,290],[262,290],[90,250],[226,320],[146,330],[196,110],[150,130],[290,250],[70,290]].map(([x,y],i) => `<g class="an-fruit" style="animation-delay:-${(i*.37).toFixed(2)}s;transform-origin:${x}px ${y-10}px"><circle cx="${x}" cy="${y}" r="10" fill="${i%3 ? '#F7882F' : '#FF9E2C'}"/><circle cx="${x-3}" cy="${y-3}" r="3" fill="#FFD08A"/><path d="M${x} ${y-10} q4 -6 9 -4 q-3 5 -9 4z" fill="#2F8A4F"/></g>`).join('');
+  return `<svg viewBox="0 0 340 560" preserveAspectRatio="xMaxYMax meet">
+    <ellipse cx="180" cy="552" rx="130" ry="12" fill="#2E5A1E" opacity=".25"/>
+    <path d="M182 560 C 176 480 186 420 178 330 M180 420 C 150 380 130 360 110 330 M182 400 C 212 370 236 350 252 320" stroke="#7A4A2E" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <g class="an-sway-soft" style="transform-origin:180px 420px">${leaves}${fruits}
+      ${cbird(118, 92, 1.2, 'oriole', false, .5)}${cbird(262, 140, 1.15, 'pink', true, 1.9)}${cbird(176, 70, 1.05, 'bee', true, 3.1)}${cbird(70, 228, 1.1, 'roller', false, 2.2)}
+    </g>
+    ${cbird(118, 318, 1.15, 'parrot', false, 1.1)}
+  </svg>`;
+}
+
+/* ---------- v9: people working in the field (driven by JS, 4 variants) ---------- */
+const PEOPLE_CFG = [
+  {kind:'picker', row:2, k:1.0,  sx:-80,  ex:1700, wx:980,  v:24, work:12,  idle:10, off:0,
+   pal:{shirt:'#E8352F',shirtD:'#B8281F',pants:'#2D4A7A',pantsD:'#20365A',skin:'#E0AC85',hat:'#E9C46A'}},
+  {kind:'hoe',    row:3, k:1.25, sx:1700, ex:-80,  wx:1180, v:21, work:12, idle:14, off:12,
+   pal:{shirt:'#FFC93C',shirtD:'#D9A21E',pants:'#5A3D2A',pantsD:'#3F2A1C',skin:'#C98E64',hat:'#E9C46A'}},
+  {kind:'carrier',row:1, k:.8,   sx:-80,  ex:1700, wx:-80,  v:27, work:0,  idle:18, off:25,
+   pal:{shirt:'#22B5C9',shirtD:'#178C9C',pants:'#3A3340',pantsD:'#26222B',skin:'#E8B793',hat:'#FF5D8F'}},
+  {kind:'agro',   row:4, k:1.6,  sx:1700, ex:-80,  wx:1350, v:20, work:10,  idle:20, off:40,
+   pal:{shirt:'#F4F7F8',shirtD:'#D5DEE2',pants:'#2D4A7A',pantsD:'#20365A',skin:'#D9A07A',hat:'#2389D0'}}
+];
+const ROWS_Y = [[386,.7],[414,.9],[450,1.15],[496,1.45],[558,1.85],[634,2.3]];
+function personSVG(c){
+  const p = c.pal;
+  const leg = (r, col) => `<g data-r="${r}"><path d="M0 -26 L0 -4" stroke="${col}" stroke-width="6" stroke-linecap="round"/><path d="M0 -2.5 h6" stroke="#3A2A20" stroke-width="5" stroke-linecap="round"/></g>`;
+  const hand = `<circle cx="0" cy="-29" r="2.8" fill="${p.skin}"/>`;
+  let item = '', back = '', hat = '', front = '';
+  if (c.kind === 'picker') { front = `<path d="M3 -34 h12 l-2 10 h-8z" fill="#C98A3E"/><path d="M3 -34 q6 -7 12 0" stroke="#8B5E3C" stroke-width="1.6" fill="none"/>${[5,8,11,13].map((x,i) => `<circle cx="${x}" cy="${-34.5 - (i%2)}" r="1.7" fill="#3346A8"/>`).join('')}`;
+    hat = `<ellipse cx="1" cy="-61.5" rx="11.5" ry="3" fill="${p.hat}"/><path d="M-5 -61.5 Q1 -71 7 -61.5z" fill="${p.hat}"/><path d="M-5 -62.5 h12" stroke="#E8352F" stroke-width="1.6"/>`; }
+  if (c.kind === 'hoe') { item = `<path d="M0 -29 L24 6" stroke="#8B5E3C" stroke-width="2.6" stroke-linecap="round"/><path d="M22 4 l9 -1 l-1 6 z" fill="#7D8E98"/>`;
+    hat = `<ellipse cx="1" cy="-61.5" rx="11.5" ry="3" fill="${p.hat}"/><path d="M-5 -61.5 Q1 -71 7 -61.5z" fill="${p.hat}"/>`; }
+  if (c.kind === 'carrier') { back = `<rect x="-11" y="-80" width="24" height="13" rx="2.5" fill="#F7882F"/><path d="M-11 -73.5 h24" stroke="#D96E1A" stroke-width="1.2"/>${[-7,-2,3,8].map(x => `<circle cx="${x}" cy="-81" r="2.4" fill="#3346A8"/><circle cx="${x+2.5}" cy="-82.5" r="2.2" fill="#5566C9"/>`).join('')}`;
+    hat = `<path d="M-6 -59 Q1 -69 8 -59 Q9 -55 6 -53 L-4 -53 Q-8 -56 -6 -59z" fill="${p.hat}"/><path d="M-6 -55 q-4 3 -5 8" stroke="${p.hat}" stroke-width="3" stroke-linecap="round"/>`; }
+  if (c.kind === 'agro') { item = `<rect x="1" y="-37" width="13" height="10" rx="1.6" fill="#2B2733"/><rect x="2.5" y="-35.5" width="10" height="7" rx="1" fill="#7FD3F2"/><path d="M4 -30 l3 -3 l2 2 l3 -4" stroke="#2B7A4B" stroke-width="1" fill="none"/>`;
+    front = `<path d="M-6 -26 Q-7 -40 -5 -48 L-1 -48 L-1 -26z M6 -26 Q7 -40 5 -48 L1 -48 L1 -26z" fill="#2B7A4B"/>`;
+    hat = `<path d="M-6 -59 Q1 -67 8 -59z" fill="${p.hat}"/><path d="M6 -59.5 h7" stroke="${p.hat}" stroke-width="2.4" stroke-linecap="round"/>`; }
+  return `<ellipse cx="0" cy="1" rx="12" ry="2.6" fill="#2E3A1E" opacity=".25"/>` + leg('legB', p.pantsD) +
+    `<g data-r="torso"><g data-r="armB"><path d="M0 -46 L0 -30" stroke="${p.shirtD}" stroke-width="5.5" stroke-linecap="round"/>${hand}</g>
+     <path d="M-6 -26 Q-7 -40 -5 -48 Q0 -51 5 -48 Q7 -40 6 -26z" fill="${p.shirt}"/>${front}
+     <rect x="-2" y="-52" width="4" height="4" fill="${p.skin}"/><circle cx="1" cy="-56" r="7" fill="${p.skin}"/><circle cx="5" cy="-57" r=".9" fill="#2B2B2B"/>${hat}${back}
+     <g data-r="armF"><path d="M0 -46 L0 -30" stroke="${p.shirt}" stroke-width="5.5" stroke-linecap="round"/>${hand}${item}</g></g>` + leg('legF', p.pants);
+}
+let PEOPLE = [];
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function initPeople(){
+  PEOPLE = [];
+  PEOPLE_CFG.forEach((c, i) => {
+    const host = document.getElementById('ppRow' + c.row); if (!host) return;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.innerHTML = personSVG(c); host.appendChild(g);
+    const q = r => g.querySelector(`[data-r="${r}"]`);
+    const [y, s] = ROWS_Y[c.row];
+    const d1 = Math.abs(c.wx - c.sx) / c.v, d2 = d1 + c.work, d3 = d2 + Math.abs(c.ex - c.wx) / c.v;
+    PEOPLE.push({c, g, y: y + 11*s, legF:q('legF'), legB:q('legB'), torso:q('torso'), armF:q('armF'), armB:q('armB'), d1, d2, d3, cycle: d3 + c.idle, dir: c.ex > c.sx ? 1 : -1});
+  });
+  if (reduceMotion) PEOPLE.forEach(P => pose(P, P.c.work ? P.c.wx : 760, 0, false, 0));
+}
+function rot(el, a, cx, cy){ el.setAttribute('transform', `rotate(${a.toFixed(1)} ${cx} ${cy})`); }
+function pose(P, x, phase, walking, wt){
+  const c = P.c; let lf = 0, lb = 0, af = 0, ab = 0, tr = 0, bob = 0;
+  if (walking) { const a = Math.sin(phase) * 24; lf = a; lb = -a; af = -a * .8; ab = a * .8; bob = -Math.abs(Math.sin(phase)) * 1.6; }
+  else if (c.kind === 'picker') { tr = 34; af = -62 + Math.sin(wt * 2.4) * 24; ab = -28 + Math.sin(wt * 2.4 + 1.5) * 14; lf = 8; lb = -8; }
+  else if (c.kind === 'hoe') { const h = Math.sin(wt * 2); tr = 14 + h * 6; af = -38 + h * 42; ab = -30 + h * 40; lf = 14; lb = -12; }
+  else if (c.kind === 'agro') { tr = 4 + Math.sin(wt * 1.4) * 4; af = -72; ab = -58; lf = 6; lb = -6; }
+  if (c.kind === 'carrier') af = -172;
+  if (c.kind === 'agro' && walking) af = -60 + Math.sin(phase) * 6;
+  P.g.setAttribute('transform', `translate(${x.toFixed(1)} ${(P.y + bob).toFixed(1)}) scale(${P.dir * c.k} ${c.k})`);
+  rot(P.legF, lf, 0, -26); rot(P.legB, lb, 0, -26); rot(P.torso, tr, 0, -26); rot(P.armF, af, 0, -46); rot(P.armB, ab, 0, -46);
+}
+function peopleTick(now){
+  if (!reduceMotion && PEOPLE.length && PEOPLE[0].g.isConnected) {
+    const t = now / 1000;
+    PEOPLE.forEach(P => {
+      const c = P.c, T = (t + c.off) % P.cycle;
+      if (T < P.d1) { const dist = c.v * T; pose(P, c.sx + P.dir * dist, dist * .2, true, 0); }
+      else if (T < P.d2) pose(P, c.wx, 0, false, T - P.d1);
+      else if (T < P.d3) { const dist = c.v * (T - P.d2); pose(P, c.wx + P.dir * dist, dist * .2, true, 0); }
+      else pose(P, c.ex, 0, true, 0);
+    });
+  }
+  requestAnimationFrame(peopleTick);
+}
+requestAnimationFrame(peopleTick);
+
 /* ---------- content ---------- */
 const CATS = ['drip','landscape','storage','water-supply','high-pressure','fountains','automation'];
 const CATC = {drip:'#E8462F',landscape:'#F2A20C',storage:'#2389D0','water-supply':'#F7882F','high-pressure':'#D9362B',fountains:'#FF6F4E',automation:'#8E5CE0'};
@@ -527,7 +763,8 @@ const BRANDS = [
 
 const T = {
 ru: {
-  proto:'Прототип v7 по ТЗ, редакция 2. Фото и логотипы — подписанные места; контактные данные предоставляет заказчик.',
+  soundLbl:'Звук', birdsOn:'Включить звук', birdsOff:'Выключить звук',
+  proto:'Прототип v19 по ТЗ, редакция 2. Фото и логотипы — подписанные места; контактные данные предоставляет заказчик.',
   nav:{about:'О компании',solutions:'Решения',products:'Товары',turnkey:'Проект под ключ',contact:'Контакты',gallery:'Галерея'},
   cta:'Обсудить проект',
   kaNote:'Грузинская версия появится после перевода и вычитки. Пока показана русская.',
@@ -582,7 +819,8 @@ ru: {
   backHome:'На главную'
 },
 en: {
-  proto:'Prototype v7 based on the brief (rev. 2). Photos and logos are labelled placeholders; contact details come from the client.',
+  soundLbl:'Sound', birdsOn:'Turn sound on', birdsOff:'Turn sound off',
+  proto:'Prototype v19 based on the brief (rev. 2). Photos and logos are labelled placeholders; contact details come from the client.',
   nav:{about:'About',solutions:'Solutions',products:'Products',turnkey:'Turnkey project',contact:'Contacts',gallery:'Gallery'},
   cta:'Discuss a project',
   kaNote:'The Georgian version will appear after translation and proofreading. English is shown for now.',
@@ -645,6 +883,125 @@ const t = () => T[lang];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let formTopic = '';
 
+/* ---------- v15: birdsong ON by default; browsers allow audio only after the first click/tap/key ---------- */
+const Birdsong = (() => {
+  let ac = null, master = null, timer = null, playing = false;
+  let wanted = true;
+  try { if (localStorage.getItem('isl-birds') === 'off') wanted = false; } catch (e) {}
+  function ctx(){
+    if (!ac) {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      ac = new AC();
+      const comp = ac.createDynamicsCompressor(); comp.connect(ac.destination);
+      master = ac.createGain(); master.gain.value = 0; master.connect(comp);
+    }
+    return ac;
+  }
+  function note(t, f0, f1, dur, vol, pan, opts){
+    opts = opts || {};
+    const o = ac.createOscillator(), g = ac.createGain(), p = ac.createStereoPanner ? ac.createStereoPanner() : null;
+    o.type = opts.type || 'sine';
+    o.frequency.setValueAtTime(f0, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(f1, 40), t + dur);
+    if (opts.fm) { const l = ac.createOscillator(), lg = ac.createGain(); l.frequency.value = opts.fm; lg.gain.value = opts.fmDepth || 150; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + dur + .02); }
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + Math.min(.012, dur * .3));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    let out = g;
+    if (opts.band) { const b = ac.createBiquadFilter(); b.type = 'bandpass'; b.frequency.value = opts.band; b.Q.value = 3; g.connect(b); out = b; }
+    o.connect(g);
+    if (p) { p.pan.value = pan; out.connect(p); p.connect(master); } else out.connect(master);
+    o.start(t); o.stop(t + dur + .03);
+  }
+  const R = (a, b) => a + Math.random() * (b - a);
+  /* quiet running water: looped pink noise, slowly modulated, plus soft bubbles */
+  let waterReady = false, bubbleTimer = null;
+  function waterStart(){
+    if (waterReady) return; waterReady = true;
+    const len = ac.sampleRate * 4, buf = ac.createBuffer(2, len, ac.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch); let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; b0 = .997 * b0 + w * .029591; b1 = .985 * b1 + w * .032534; b2 = .95 * b2 + w * .048056; d[i] = (b0 + b1 + b2 + w * .1848) * .5; }
+    }
+    const src = ac.createBufferSource(); src.buffer = buf; src.loop = true;
+    const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 850; bp.Q.value = .7;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400; lp.Q.value = .9;
+    const wg = ac.createGain(); wg.gain.value = .075;
+    const lfo = ac.createOscillator(), lfoG = ac.createGain(); lfo.frequency.value = .13; lfoG.gain.value = 280; lfo.connect(lfoG); lfoG.connect(bp.frequency);
+    const lfo2 = ac.createOscillator(), lfo2G = ac.createGain(); lfo2.frequency.value = .21; lfo2G.gain.value = .02; lfo2.connect(lfo2G); lfo2G.connect(wg.gain);
+    src.connect(bp); bp.connect(lp); lp.connect(wg); wg.connect(master);
+    /* v18: only the low and mid stream (what v17 removed); the high hiss layer is gone */
+    src.start(); lfo.start(); lfo2.start();
+  }
+  function bubble(){
+    if (!playing) return;
+    if (ac.state === 'running') {
+      const n = Math.random() < .35 ? 2 : 1;
+      for (let i = 0; i < n; i++) {
+        const t = ac.currentTime + .02 + i * R(.04, .09), f = R(380, 720), d = R(.03, .07);
+        const o = ac.createOscillator(), g = ac.createGain(), pn = ac.createStereoPanner ? ac.createStereoPanner() : null;
+        o.type = 'sine'; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * R(1.6, 2.3), t + d);
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(R(.025, .05), t + .006); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+        o.connect(g); if (pn) { pn.pan.value = R(-.6, .6); g.connect(pn); pn.connect(master); } else g.connect(master);
+        o.start(t); o.stop(t + d + .02);
+      }
+    }
+    bubbleTimer = setTimeout(bubble, R(140, 700));
+  }
+  const SONGS = [
+    (t, pan) => { const n = 2 + (Math.random() * 3 | 0); for (let i = 0; i < n; i++) note(t + i * .19, R(2300, 2600), R(1900, 2100), .13, .35, pan, {fm: 38, fmDepth: 220}); },
+    (t, pan) => { const b = R(1150, 1350); note(t, b, b * 1.3, .16, .4, pan); note(t + .2, b * 1.35, b * 1.15, .18, .38, pan); note(t + .42, b * .9, b * 1.12, .24, .36, pan); },
+    (t, pan) => { const n = 8 + (Math.random() * 6 | 0), f = R(3600, 4400); for (let i = 0; i < n; i++) note(t + i * .055, f * (1 - i * .012), f * .88, .045, .22, pan); note(t + n * .055 + .05, f * .7, f * 1.05, .12, .25, pan); },
+    (t, pan) => { const hi = R(3600, 4000), lo = hi * .74; for (let i = 0; i < 3; i++) { note(t + i * .3, hi, hi * .97, .08, .3, pan); note(t + i * .3 + .12, lo, lo * .96, .1, .3, pan); } },
+    (t, pan) => { let tt = t; for (let i = 0; i < 6; i++) { const f = R(2400, 4800), d = R(.05, .12); note(tt, f, f * R(.8, 1.25), d, .2, pan); tt += d + R(.02, .06); } },
+    (t, pan) => { for (let i = 0; i < 2; i++) note(t + i * .16, R(900, 1100), R(1300, 1500), .1, .12, pan, {type: 'sawtooth', band: 1400}); }
+  ];
+  function loop(){
+    if (!playing) return;
+    if (ac.state === 'running') {
+      const t = ac.currentTime + .05;
+      const k = Math.random() < .08 ? 5 : Math.random() * 5 | 0;
+      SONGS[k](t, R(-.85, .85));
+      if (Math.random() < .3) SONGS[Math.random() * 5 | 0](t + R(.3, .9), R(-.85, .85));
+    }
+    timer = setTimeout(loop, R(900, 3200));
+  }
+  function play(){
+    if (!wanted || playing || !ctx()) return;
+    playing = true; ac.resume().catch(() => {});
+    master.gain.cancelScheduledValues(ac.currentTime);
+    master.gain.setValueAtTime(master.gain.value, ac.currentTime);
+    master.gain.linearRampToValueAtTime(.16, ac.currentTime + .8);
+    waterStart();
+    clearTimeout(timer); loop();
+    clearTimeout(bubbleTimer); bubble();
+  }
+  function pause(){
+    playing = false; clearTimeout(timer); clearTimeout(bubbleTimer);
+    if (ac) { master.gain.cancelScheduledValues(ac.currentTime); master.gain.setValueAtTime(master.gain.value, ac.currentTime); master.gain.linearRampToValueAtTime(0, ac.currentTime + .5); }
+  }
+  function setWanted(v){ wanted = v; try { localStorage.setItem('isl-birds', v ? 'on' : 'off'); } catch (e) {} }
+  // first gesture anywhere on the page unlocks audio (browser autoplay rule)
+  const unlock = () => { if (ac && playing && ac.state !== 'running') ac.resume().catch(() => {}); };
+  ['pointerdown','keydown','touchend'].forEach(ev => document.addEventListener(ev, unlock, {capture:true, passive:true}));
+  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) ac.suspend(); else if (playing) ac.resume().catch(() => {}); });
+  return { play, pause, setWanted, get wanted(){ return wanted; }, get playing(){ return playing; } };
+})();
+const SPK_ON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const SPK_OFF = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+function soundInner(){ const x = t(); return (Birdsong.wanted ? SPK_ON : SPK_OFF) + `<span>${esc(x.soundLbl)}</span>`; }
+function soundBtnHTML(){ const x = t(); return `<button class="sound-btn" id="soundBtn" type="button" aria-pressed="${Birdsong.wanted}" aria-label="${esc(Birdsong.wanted ? x.birdsOff : x.birdsOn)}" title="${esc(Birdsong.wanted ? x.birdsOff : x.birdsOn)}">${soundInner()}</button>`; }
+function bindSound(){
+  const b = document.getElementById('soundBtn'); if (!b) return;
+  Birdsong.play();
+  b.addEventListener('click', e => {
+    e.stopPropagation();
+    if (Birdsong.wanted) { Birdsong.setWanted(false); Birdsong.pause(); }
+    else { Birdsong.setWanted(true); Birdsong.play(); }
+    b.setAttribute('aria-pressed', String(Birdsong.wanted)); b.innerHTML = soundInner(); const lbl = Birdsong.wanted ? t().birdsOff : t().birdsOn; b.setAttribute('aria-label', lbl); b.title = lbl;
+  });
+}
+
 /* ---------- views ---------- */
 function fig(kind, v, cap){ return `<figure class="ph">${scene(kind, v)}<figcaption>${esc(cap)}</figcaption></figure>`; }
 
@@ -655,8 +1012,8 @@ function vAbout(){
   return `<section class="hero hero-full"><div class="art">${heroArt()}</div>
     <div class="hero-sky"><h1 class="water-title drift" aria-label="${esc(x.heroT)}"><span aria-hidden="true">${letters}</span></h1></div>
     <p class="sr-only">${esc(x.heroS)}</p>
-    <div class="hero-actions"><a class="btn" href="#solutions">${esc(x.heroB1)}</a><a class="btn line" href="#contact">${esc(x.heroB2)}</a></div>
-    <div class="credit">${esc(x.heroCredit)}</div></section>
+    <div class="tree tree-l" aria-hidden="true">${palmSVG()}</div><div class="tree tree-r" aria-hidden="true">${citrusSVG()}</div>
+    ${soundBtnHTML()}<div class="credit">${esc(x.heroCredit)}</div></section>
   <section class="block"><div class="wrap split">
     <div class="prose"><h2>${esc(x.aboutH)}</h2>${x.aboutP.map(p => `<p>${esc(p)}</p>`).join('')}
       <div class="brands-line">${BRANDS.map(b => `<span>${b[0]}</span>`).join('')}</div></div>
@@ -755,8 +1112,10 @@ function chrome(view){
   document.getElementById('protoNote').textContent = x.proto;
   document.getElementById('mainNav').innerHTML = ORDER.map(k => `<a href="#${k}" ${k===view?'aria-current="page"':''}>${esc(x.nav[k])}</a>`).join('');
   document.getElementById('headCta').textContent = x.cta;
+  document.getElementById('headCta2').textContent = x.heroB1;
+
   document.getElementById('footLinks').innerHTML = `<a href="#privacy">${esc(x.privacy)}</a>`;
-  document.querySelectorAll('.langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
+  document.querySelectorAll('.isx-lang button').forEach(b => { const on = b.dataset.lang === lang; b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.classList.toggle('is-active', on); });
 }
 
 function route(){
@@ -767,10 +1126,11 @@ function route(){
   if (view === 'contact') formTopic = sub || formTopic;
   chrome(view);
   document.getElementById('app').innerHTML = VIEWS[view]();
-  document.getElementById('mainNav').classList.remove('open');
+  document.getElementById('isxHeader').classList.remove('is-open');
   document.getElementById('burger').setAttribute('aria-expanded','false');
-  document.title = 'Irrigation Systems LLC — ' + (t().nav[view] || t().privH) + ' (v7)';
+  document.title = 'Irrigation Systems LLC — ' + (t().nav[view] || t().privH) + ' (v19)';
   bind(view);
+  if (view === 'about') { initPeople(); bindSound(); } else Birdsong.pause();
   const target = sub && (view === 'solutions' ? document.getElementById('sol-' + sub) : view === 'gallery' ? document.getElementById('gal-' + sub) : null);
   if (target) { requestAnimationFrame(() => target.scrollIntoView({block:'start'})); }
   else window.scrollTo(0, 0);
@@ -841,14 +1201,14 @@ lb.addEventListener('touchend', e => { if (tx === null) return; const dx = e.cha
 /* language */
 let toastT;
 function toast(msg){ let el = document.querySelector('.toast'); if (!el) { el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role','status'); document.body.appendChild(el); } el.textContent = msg; clearTimeout(toastT); toastT = setTimeout(() => el.remove(), 3500); }
-document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => {
+document.querySelectorAll('.isx-lang button').forEach(b => b.addEventListener('click', () => {
   if (b.dataset.lang === 'ka') { toast(t().kaNote); return; }
   lang = b.dataset.lang; try { localStorage.setItem('isl-proto-lang', lang); } catch (e) {}
   const y = window.scrollY; route(); if (!location.hash.includes('-')) window.scrollTo(0, y);
 }));
 document.getElementById('burger').addEventListener('click', () => {
-  const n = document.getElementById('mainNav'); const open = !n.classList.contains('open');
-  n.classList.toggle('open', open); document.getElementById('burger').setAttribute('aria-expanded', open ? 'true' : 'false');
+  const h = document.getElementById('isxHeader'); const open = h.classList.toggle('is-open');
+  document.getElementById('burger').setAttribute('aria-expanded', open ? 'true' : 'false');
 });
 document.addEventListener('click', e => { const a = e.target.closest('a[href^="tel:"],a[href^="mailto:"]'); if (a) track('contact_click', {channel: a.href.split(':')[0]}); });
 
