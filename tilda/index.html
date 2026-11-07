@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Irrigation Systems LLC — прототип сайта v19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#145A86; --blue-d:#0F4566; --green:#2B7A4B; --white:#FFFFFF; --bg:#F4F7F8; --ink:#23313A;
+  --muted:#5A6A74; --line:#D9E2E6; --surface:#FFFFFF; --soft:#E6EFF4; --leaf:#DCEBE1;
+  --sky:#DCEAF2; --ground:#C9DCC9; --ground2:#A9C9AE; --water:#5FA3C9; --metal:#8FA3AF;
+  --warn:#9A2F25; --header-h:69px;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --blue:#5FA8D6; --blue-d:#8CC3E6; --green:#6CC48F; --white:#0E1A21; --bg:#0E1A21; --ink:#E3ECF0;
+    --muted:#9DB0BA; --line:#2A3C47; --surface:#15242D; --soft:#1A3140; --leaf:#183527;
+    --sky:#1B3443; --ground:#1F3B2B; --ground2:#2A5039; --water:#4E91B8; --metal:#5E7380;
+    --warn:#F0938A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --blue:#5FA8D6; --blue-d:#8CC3E6; --green:#6CC48F; --white:#0E1A21; --bg:#0E1A21; --ink:#E3ECF0;
+  --muted:#9DB0BA; --line:#2A3C47; --surface:#15242D; --soft:#1A3140; --leaf:#183527;
+  --sky:#1B3443; --ground:#1F3B2B; --ground2:#2A5039; --water:#4E91B8; --metal:#5E7380;
+  --warn:#F0938A; color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--header-h) + 12px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans","Noto Sans Georgian",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+a{color:var(--blue)}
+img,svg{max-width:100%}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+
+/* prototype ribbon */
+.proto{background:var(--soft);color:var(--muted);font-size:13px;text-align:center;padding:6px 16px}
+
+/* header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;gap:20px;height:var(--header-h)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.logo svg{width:34px;height:34px;flex-shrink:0}
+.logo small{display:block;font-weight:400;font-size:11px;color:var(--muted);letter-spacing:0}
+nav.main{display:flex;gap:2px;margin-left:auto}
+nav.main a{padding:8px 11px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:15px;white-space:nowrap}
+nav.main a[aria-current="page"]{color:var(--blue);background:var(--soft);font-weight:600}
+.langs{display:flex;flex-shrink:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.langs button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;padding:7px 9px;min-width:40px;min-height:36px;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);color:#fff;border:1px solid var(--blue);border-radius:6px;padding:11px 20px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer;min-height:44px}
+.btn:hover{background:var(--blue-d);border-color:var(--blue-d)}
+.btn.line{background:transparent;color:var(--blue)}
+.btn.line:hover{background:var(--soft)}
+.btn.light{background:#fff;color:#145A86;border-color:#fff}
+.btn.ghost-light{background:transparent;color:#fff;border-color:rgba(255,255,255,.8)}
+.burger{display:none;margin-left:auto;flex-shrink:0;background:transparent;border:1px solid var(--line);border-radius:6px;width:44px;height:44px;color:var(--ink);cursor:pointer}
+.head-cta{white-space:nowrap}
+@media (max-width:520px){
+  .wrap{padding:0 16px}
+  header.site .wrap{gap:10px}
+  .logo{font-size:14px}
+  .logo small{display:none}
+  .langs button{min-width:34px;padding:7px 6px}
+}
+@media (max-width:1400px){
+  nav.main{display:none}
+  .langs{margin-left:auto}
+  .burger{margin-left:0}
+  .burger{display:inline-grid;place-items:center}
+  nav.main.open{display:flex;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--surface);border-bottom:1px solid var(--line);padding:8px 16px 16px;gap:2px}
+  nav.main.open a{padding:12px}
+}
+
+/* hero */
+.hero{position:relative;color:#fff;overflow:hidden;background:#123B55}
+.hero .art{position:absolute;inset:0}
+.hero .art svg{width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,32,47,.78) 0%,rgba(9,32,47,.45) 45%,rgba(9,32,47,0) 75%)}
+.hero h1,.hero p{text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.hero .wrap{position:relative;z-index:1;padding-top:96px;padding-bottom:104px}
+.hero h1{font-size:clamp(32px,5vw,56px);line-height:1.08;margin:0 0 18px;max-width:15ch;font-weight:700;letter-spacing:-.02em}
+.hero p{font-size:clamp(17px,2vw,21px);max-width:44ch;margin:0 0 30px;color:#E6F0F5}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero .credit{position:absolute;right:16px;bottom:12px;z-index:1;font-size:12px;color:#CFE0EA}
+
+/* page heads */
+.phead{background:var(--surface);border-bottom:1px solid var(--line)}
+.phead .wrap{padding-top:52px;padding-bottom:40px}
+.phead h1{font-size:clamp(30px,4vw,44px);line-height:1.12;margin:0 0 14px;letter-spacing:-.015em}
+.phead p{font-size:18px;color:var(--muted);max-width:62ch;margin:0}
+section.block{padding:56px 0}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.2;margin:0 0 16px;letter-spacing:-.01em}
+h3{font-size:20px;line-height:1.3;margin:0 0 10px}
+.prose{max-width:66ch}
+.prose p{margin:0 0 14px}
+.muted{color:var(--muted)}
+
+/* chips nav */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.chips a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:22px;text-decoration:none;color:var(--ink);background:var(--surface);font-size:15px;min-height:40px}
+.chips a:hover{border-color:var(--blue);color:var(--blue)}
+.chips svg{width:18px;height:18px;color:var(--cat)}
+.chips a{border-left:4px solid var(--cat)}
+
+/* figure placeholder */
+figure.ph{margin:0;position:relative;border-radius:12px;overflow:hidden;background:#DDF3FC;box-shadow:0 10px 30px -18px rgba(20,90,134,.6)}
+figure.ph svg{display:block;width:100%;height:auto;aspect-ratio:4/3}
+figure.ph figcaption{position:absolute;left:10px;bottom:10px;max-width:calc(100% - 20px);background:rgba(255,255,255,.9);color:#23313A;font-size:12.5px;line-height:1.3;padding:5px 10px;border-radius:14px;backdrop-filter:blur(4px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) figure.ph figcaption{background:rgba(14,26,33,.9);color:#E3ECF0}}
+:root[data-theme="dark"] figure.ph figcaption{background:rgba(14,26,33,.9);color:#E3ECF0}
+
+/* solutions */
+.sol{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:start;padding:48px 0;border-top:1px solid var(--line)}
+.sol:nth-of-type(even) .sol-media{order:-1}
+.sol-num{display:flex;align-items:center;gap:12px;color:var(--green);font-weight:700;margin-bottom:10px}
+.sol-num .ic{width:48px;height:48px;border-radius:12px;background:var(--cat);color:#fff;display:grid;place-items:center;box-shadow:0 6px 14px -6px var(--cat)}
+.sol-num{color:var(--cat)!important}
+.sol-num .ic svg{width:26px;height:26px}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.smart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:28px;margin-top:28px}
+.smart-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:16px}
+.smart-grid div{border-top:4px solid #7C5CD6;padding-top:12px}
+.smart-grid b{display:block;margin-bottom:4px}
+@media (max-width:860px){.sol{grid-template-columns:1fr;gap:20px}.sol:nth-of-type(even) .sol-media{order:0}.smart-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.smart-grid{grid-template-columns:1fr}}
+
+/* cards grid */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:900px){.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--cat,var(--blue));border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px}
+.card .go{margin-top:auto;font-weight:600;text-decoration:none}
+.brand-logo{height:96px;border:1px dashed var(--line);border-radius:8px;display:grid;place-items:center;color:var(--muted);font-size:13px;text-align:center;padding:8px}
+.brand-logo b{display:block;font-size:22px;color:var(--ink);letter-spacing:.02em}
+.ext{display:inline-flex;align-items:center;gap:6px;font-weight:600;text-decoration:none}
+.ext svg{width:15px;height:15px}
+.help{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;background:var(--soft);border-radius:10px;padding:26px 28px;margin-top:32px}
+.help h3{margin:0}
+
+/* turnkey */
+.stages{list-style:none;margin:0;padding:0}
+.stage{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:32px;padding:36px 0;border-top:1px solid var(--line);align-items:start}
+.stage:nth-child(even) .stage-media{order:-1}
+.stage.nophoto{grid-template-columns:1fr}
+.stage-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.stage-no{font-size:30px;font-weight:700;color:var(--blue);line-height:1;min-width:46px}
+.stage-ic{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#1F8FD1,#145A86);display:grid;place-items:center;color:#fff}
+.stage:nth-child(even) .stage-ic{background:linear-gradient(135deg,#43A564,#2B7A4B)}
+.stage-ic svg{width:26px;height:26px}
+.result{margin-top:12px;padding:10px 14px;border-left:3px solid var(--green);background:var(--leaf);border-radius:0 6px 6px 0;font-size:15px}
+.toggle-photos{display:flex;align-items:center;gap:10px;margin-top:22px;font-size:15px;color:var(--muted)}
+.toggle-photos input{width:20px;height:20px}
+@media (max-width:860px){.stage{grid-template-columns:1fr;gap:16px}.stage:nth-child(even) .stage-media{order:0}}
+
+/* gallery */
+.gal-sec{padding:40px 0;border-top:1px solid var(--line)}
+.gal-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 20px;margin-bottom:16px}
+.gal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.gal-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.gal-grid{grid-template-columns:1fr}}
+.gal-grid button{padding:0;border:0;background:none;cursor:zoom-in;border-radius:8px;text-align:left}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(1000px,94vw);width:94vw;color:#fff}
+dialog.lb::backdrop{background:rgba(6,18,26,.9)}
+.lb-inner{position:relative}
+.lb-inner figure.ph svg{aspect-ratio:4/3}
+.lb-cap{margin-top:12px;font-size:15px;display:flex;justify-content:space-between;gap:16px}
+.lb-btn{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#145A86;font-size:22px;cursor:pointer}
+.lb-prev{left:8px}.lb-next{right:8px}
+.lb-close{position:absolute;top:8px;right:8px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#145A86;font-size:22px;cursor:pointer;z-index:2}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:40px;align-items:start}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}}
+dl.cdata{margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 18px}
+dl.cdata dt{color:var(--muted);font-size:14px}
+dl.cdata dd{margin:0}
+.todo{border-bottom:1px dashed var(--muted);color:var(--muted)}
+.map{margin-top:20px;height:200px;border:1px dashed var(--line);border-radius:8px;display:grid;place-items:center;color:var(--muted);font-size:14px;text-align:center;padding:10px}
+form.lead{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:26px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.f label{font-weight:600;font-size:15px}
+.f .hint{font-size:13px;color:var(--muted);font-weight:400}
+.f input,.f select,.f textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:11px 12px;min-height:46px;width:100%}
+.f textarea{min-height:130px;resize:vertical}
+.f.bad input,.f.bad textarea{border-color:var(--warn)}
+.err{color:var(--warn);font-size:14px;min-height:0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+.counter{font-size:13px;color:var(--muted);text-align:right}
+.ok{background:var(--leaf);border-radius:10px;padding:24px}
+.ok pre{white-space:pre-wrap;font-size:13px;background:var(--surface);border-radius:6px;padding:12px;overflow-x:auto}
+
+/* about extras */
+.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:44px;align-items:center}
+@media (max-width:860px){.split{grid-template-columns:1fr;gap:24px}}
+.brands-line{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.brands-line span{padding:4px 10px;border:1px solid var(--line);border-radius:4px;font-size:14px;background:var(--surface)}
+.cta-band{background:var(--blue);color:#fff}
+.cta-band .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-top:40px;padding-bottom:40px}
+.cta-band h2{margin:0;color:#fff}
+
+footer{background:var(--surface);border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:8px;font-size:15px;z-index:40;max-width:90vw}
+.view[hidden]{display:none}
+/* v14: birdsong toggle */
+.sound-btn{position:absolute;z-index:3;left:clamp(12px,1.6vw,24px);bottom:calc(18px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;
+  min-height:44px;padding:10px 16px;border-radius:24px;border:1px solid rgba(29,90,133,.18);background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#1d5a85;font:600 15px/1 "Noto Sans",system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 24px -14px rgba(20,40,60,.6)}
+.sound-btn:hover{background:#fff}
+.sound-btn[aria-pressed="false"]{background:#1d5a85;color:#fff;border-color:#1d5a85}
+@media (max-width:520px){.sound-btn span{display:none}.sound-btn{padding:10px 12px}}
+
+/* v13: top menu as in the uploaded menu file (isx), with the framed pair on the right */
+.isx-header{--isx-blue:#1d5a85;--isx-blue-dark:#164a6e;--isx-ink:#1f2a33;--isx-muted:#6b7780;--isx-active-bg:#e7eef3;--isx-border:#d5dde3;
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#fff;border-bottom:1px solid #e6ebef;font-family:"Noto Sans","Noto Sans Georgian",system-ui,sans-serif}
+.isx-wrap{max-width:1440px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:24px;position:relative}
+.isx-brand{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+.isx-logo{width:44px;height:44px;border-radius:10px;background:var(--isx-blue);display:grid;place-items:center}
+.isx-logo svg{width:24px;height:28px}
+.isx-name{display:flex;flex-direction:column;line-height:1.1}
+.isx-name b{font-size:21px;font-weight:700;color:var(--isx-ink);letter-spacing:-.2px}
+.isx-name span{font-size:13px;color:var(--isx-muted);margin-top:4px}
+.isx-nav{display:flex;align-items:center;gap:4px;margin-left:8px}
+.isx-nav a{padding:10px 16px;border-radius:10px;font-size:17px;font-weight:500;color:var(--isx-ink);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.isx-nav a:hover{background:#f1f5f8}
+.isx-nav a[aria-current="page"]{background:var(--isx-active-bg);color:var(--isx-blue)}
+.isx-right{margin-left:auto;display:flex;align-items:center;gap:28px}
+.isx-lang{display:flex;border:1px solid var(--isx-border);border-radius:8px;overflow:hidden}
+.isx-lang button{border:0;background:#fff;padding:9px 15px;font:600 15px/1 "Noto Sans",system-ui,sans-serif;color:var(--isx-muted);cursor:pointer;min-height:40px}
+.isx-lang button:hover{color:var(--isx-ink)}
+.isx-lang button.is-active{background:var(--isx-blue);color:#fff}
+.isx-pair{display:flex;gap:8px;padding:5px;border-radius:14px;background:linear-gradient(135deg,#E6F2E8,#EEF5F9);box-shadow:0 10px 24px -16px rgba(20,60,40,.55),inset 0 0 0 1px rgba(29,90,133,.10)}
+.isx-cta{background:var(--isx-blue);color:#fff;text-decoration:none;font-size:17px;font-weight:600;padding:12px 24px;border-radius:8px;white-space:nowrap;border:1px solid var(--isx-blue);transition:background .15s}
+.isx-cta:hover{background:var(--isx-blue-dark)}
+.isx-cta-line{background:rgba(255,255,255,.7);color:var(--isx-blue)}
+.isx-cta-line:hover{background:#fff;color:var(--isx-blue-dark)}
+.isx-burger{display:none;margin-left:auto;width:44px;height:44px;border:1px solid var(--isx-border);border-radius:8px;background:#fff;cursor:pointer;align-items:center;justify-content:center}
+.isx-burger span,.isx-burger span::before,.isx-burger span::after{display:block;width:20px;height:2px;background:var(--isx-ink);position:relative;transition:.2s}
+.isx-burger span::before,.isx-burger span::after{content:"";position:absolute;left:0}
+.isx-burger span::before{top:-6px}.isx-burger span::after{top:6px}
+.isx-header.is-open .isx-burger span{background:transparent}
+.isx-header.is-open .isx-burger span::before{top:0;transform:rotate(45deg)}
+.isx-header.is-open .isx-burger span::after{top:0;transform:rotate(-45deg)}
+/* fluid sizes so the whole menu + pair fit in one row from 1120 px */
+.isx-wrap{gap:clamp(6px,1vw,24px);padding:12px clamp(10px,1.3vw,24px)}
+.isx-brand{gap:clamp(8px,.9vw,14px)}
+.isx-logo{width:clamp(38px,3vw,44px);height:clamp(38px,3vw,44px)}
+.isx-name b{font-size:clamp(15px,1.2vw,21px)}
+.isx-nav{margin-left:clamp(0px,.5vw,8px);gap:clamp(0px,.25vw,4px)}
+.isx-nav a{font-size:clamp(13.5px,1vw,17px);padding:9px clamp(4px,.62vw,16px)}
+.isx-right{gap:clamp(6px,1.1vw,28px)}
+.isx-lang button{padding:9px clamp(5px,.7vw,15px);font-size:clamp(13px,.9vw,15px)}
+.isx-pair{gap:clamp(4px,.4vw,8px)}
+.isx-cta{font-size:clamp(13.5px,1vw,17px);padding:clamp(8px,.7vw,12px) clamp(8px,1.05vw,24px)}
+@media (max-width:1148px){
+  .isx-burger{display:flex;order:2}
+  .isx-nav,.isx-right{order:3;display:none}
+  .isx-header.is-open .isx-wrap{flex-wrap:wrap}
+  .isx-header.is-open .isx-nav{display:flex;flex-direction:column;align-items:stretch;width:100%;margin:8px 0 0}
+  .isx-header.is-open .isx-nav a{padding:13px 14px;font-size:17px}
+  .isx-header.is-open .isx-lang button{padding:9px 15px;font-size:15px}
+  .isx-header.is-open .isx-cta{font-size:16px;padding:12px 16px}
+  .isx-header.is-open .isx-right{display:flex;width:100%;margin:8px 0 6px;justify-content:space-between;flex-wrap:wrap;gap:12px}
+}
+@media (max-width:480px){.isx-wrap{padding:10px 16px}.isx-name b{font-size:18px}.isx-header.is-open .isx-pair{width:100%}.isx-header.is-open .isx-pair .isx-cta{flex:1;text-align:center;padding:12px 8px}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .isx-header{background:var(--surface);border-color:var(--line);--isx-ink:#E3ECF0;--isx-active-bg:#1A3140;--isx-border:#2A3C47}
+  :root:not([data-theme="light"]) .isx-lang button,:root:not([data-theme="light"]) .isx-burger{background:transparent}
+  :root:not([data-theme="light"]) .isx-nav a[aria-current="page"]{color:#8CC3E6}:root:not([data-theme="light"]) .isx-pair{background:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .isx-cta-line{background:transparent;color:#8CC3E6}}
+
+/* v11: framed button pair in the header, as on the landscape panel */
+.head-pair{display:flex;gap:10px;padding:6px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,#E6F2E8,#EEF5F9);box-shadow:0 10px 24px -16px rgba(20,60,40,.55),inset 0 0 0 1px rgba(20,90,134,.10)}
+.head-pair .btn{min-height:40px;padding:8px 18px;border-radius:10px;white-space:nowrap}
+.head-pair .btn.line{background:rgba(255,255,255,.65)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .head-pair{background:rgba(255,255,255,.06)}:root:not([data-theme="light"]) .head-pair .btn.line{background:transparent}}
+:root[data-theme="dark"] .head-pair{background:rgba(255,255,255,.06)}
+@media (max-width:860px){.head-pair{display:none}}
+nav.main.open .nav-btns{padding:8px;border-radius:16px;background:linear-gradient(135deg,#E6F2E8,#EEF5F9);border-top:0}
+
+/* v8: header buttons, trees with birds */
+header.site .wrap{max-width:1360px;gap:14px}
+nav.main a{padding:8px 9px}
+.head-cta{padding:10px 16px}
+.nav-btns{display:none}
+nav.main.open .nav-btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+nav.main.open .nav-btns .btn{flex:1;padding:12px}
+.tree{position:absolute;bottom:-8px;z-index:1;height:80%;pointer-events:none}
+.tree svg{height:100%;width:auto;display:block;overflow:visible}
+.tree-l{left:-34px}.tree-r{right:-34px}
+.hero-full .credit{right:auto;left:50%;transform:translateX(-50%);white-space:nowrap}
+@media (max-width:760px){.tree{height:52%}.tree-l{left:-70px}.tree-r{right:-80px}}
+.an-hop{animation:hop 4.2s ease-in-out infinite}
+@keyframes hop{0%,78%,100%{transform:translateY(0)}84%{transform:translateY(-7px)}90%{transform:translateY(0)}94%{transform:translateY(-3px)}}
+.an-peck{animation:peck 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:15% 90%}
+@keyframes peck{0%,60%,100%{transform:rotate(0)}68%{transform:rotate(16deg)}76%{transform:rotate(-6deg)}84%{transform:rotate(10deg)}}
+.an-tail{animation:tail 1.9s ease-in-out infinite;transform-box:fill-box;transform-origin:100% 40%}
+@keyframes tail{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(-14deg)}90%{transform:rotate(6deg)}}
+.an-frond{animation:frond 5.5s ease-in-out infinite alternate}
+@keyframes frond{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+.an-sway-soft{animation:swaysoft 7s ease-in-out infinite alternate}
+@keyframes swaysoft{from{transform:rotate(-1deg)}to{transform:rotate(1deg)}}
+.an-fruit{animation:fruit 3.6s ease-in-out infinite alternate}
+@keyframes fruit{from{transform:rotate(-6deg)}to{transform:rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){.an-hop,.an-peck,.an-tail,.an-frond,.an-sway-soft,.an-fruit{animation:none!important}}
+
+/* v7: full-screen landscape, title floats across the sky */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.hero-full{min-height:calc(100vh - var(--header-h) - 30px);min-height:calc(100svh - var(--header-h) - 30px);display:block}
+.hero-full::after{display:none}
+.hero-full .art svg{width:100%;height:100%}
+.hero-sky{position:absolute;left:0;right:0;top:5%;z-index:2;padding:0 24px;overflow:hidden;height:44%}
+.water-title.drift{display:inline-block;max-width:min(15ch,90vw);
+  animation:drift 34s ease-in-out infinite alternate,driftbob 7s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(calc(100vw - 100% - 48px))}}
+@keyframes driftbob{from{margin-top:0}to{margin-top:22px}}
+.hero-full .wl{-webkit-text-stroke:2.5px #FFFFFF;filter:drop-shadow(0 5px 10px rgba(8,40,70,.45))}
+.hero-full .wl.drip::after{background:#E8FAFF}
+.hero-actions{position:absolute;z-index:2;left:24px;bottom:calc(28px + env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;gap:12px;
+  background:rgba(255,255,255,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:12px;border-radius:16px;box-shadow:0 12px 30px -16px rgba(20,40,60,.6)}
+@media (min-width:1228px){.hero-actions{left:calc((100vw - 1180px)/2 + 12px)}}
+@media (max-width:520px){.hero-sky{padding:0 16px}.water-title.drift{font-size:38px}.hero-actions{left:16px;right:16px;padding:10px;gap:8px}.hero-actions .btn{flex:1;padding:10px 8px;font-size:15px;white-space:nowrap}}
+@media (prefers-reduced-motion:reduce){.water-title.drift{animation:none!important}}
+
+/* v5: title made of water, off the landscape */
+.hero-title{background:linear-gradient(180deg,#FFF6E6 0%,#EAF7FE 100%);overflow:hidden}
+.hero-title .wrap{padding-top:64px;padding-bottom:56px}
+.hero-title p{font-size:clamp(17px,2vw,21px);color:var(--muted);max-width:46ch;margin:28px 0 30px}
+.hero-title .actions{display:flex;flex-wrap:wrap;gap:12px}
+.water-title{font-size:clamp(38px,6.4vw,80px);line-height:1.12;font-weight:800;letter-spacing:-.01em;margin:0;max-width:16ch}
+.water-title .ww{display:inline-block;white-space:nowrap}
+.wl{display:inline-block;position:relative;color:transparent;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%2399E2FF'/%3E%3Cstop offset='.5' stop-color='%231FA8E6'/%3E%3Cstop offset='1' stop-color='%230B5F9C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 46 Q25 30 50 46 T100 46 T150 46 T200 46 V120 H0z' fill='url(%23g)'/%3E%3Cpath d='M0 46 Q25 30 50 46 T100 46 T150 46 T200 46' fill='none' stroke='%23E8FAFF' stroke-width='5'/%3E%3C/svg%3E");background-repeat:repeat-x;background-size:1.6em 100%;background-position:0 .08em;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-stroke:2px #1FA8E6;
+  filter:drop-shadow(0 6px 8px rgba(31,168,230,.28));
+  animation:wfloat 3.4s ease-in-out infinite,wwave 2.6s linear infinite,wlevel 5s ease-in-out infinite alternate;
+  animation-delay:calc(var(--i) * -.17s),calc(var(--i) * -.09s),calc(var(--i) * -.33s)}
+@keyframes wfloat{0%,100%{transform:translateY(-5px) rotate(-1.5deg)}50%{transform:translateY(5px) rotate(1.5deg)}}
+@keyframes wwave{from{background-position-x:0}to{background-position-x:1.6em}}
+@keyframes wlevel{from{background-position-y:.24em}to{background-position-y:-.02em}}
+.wl.drip::after{content:"";position:absolute;left:46%;top:92%;width:.12em;height:.17em;background:#1FA8E6;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;
+  animation:wdrop 2.8s ease-in infinite;animation-delay:calc(var(--i) * -.41s);opacity:0}
+@keyframes wdrop{0%{transform:translateY(-.1em) scale(.4);opacity:0}20%{opacity:1;transform:translateY(0) scale(1)}100%{transform:translateY(.9em) scale(.8);opacity:0}}
+.hero-pic{aspect-ratio:5/2;min-height:220px}
+@media (max-width:520px){.hero .credit{left:10px;right:10px;font-size:10.5px;text-align:right}}
+.hero-pic::after{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero-title{background:linear-gradient(180deg,#22180F 0%,#0E1A21 100%)}}
+:root[data-theme="dark"] .hero-title{background:linear-gradient(180deg,#22180F 0%,#0E1A21 100%)}
+@media (prefers-reduced-motion:reduce){.wl,.wl.drip::after{animation:none!important}.wl{background-position:0 .04em}}
+
+/* v3 motion: gentle, stops for reduced motion */
+.an-cloud{animation:cloud 60s linear infinite}
+@keyframes cloud{from{transform:translateX(-340px)}to{transform:translateX(440px)}}
+.an-cloud-wide{animation:cloudw 120s linear infinite}
+@keyframes cloudw{from{transform:translateX(-1900px)}to{transform:translateX(1900px)}}
+.an-glint{animation:glint 2.6s ease-in-out infinite}
+@keyframes glint{0%,100%{opacity:.25}50%{opacity:1}}
+.an-wavelet{animation:wavelet 6s ease-in-out infinite alternate}
+@keyframes wavelet{from{transform:translateX(-14px);opacity:.4}to{transform:translateX(14px);opacity:.9}}
+.an-sail{animation:sail 70s linear infinite alternate}
+@keyframes sail{from{transform:translateX(-160px)}to{transform:translateX(420px)}}
+.an-rock{animation:rock 3s ease-in-out infinite alternate}
+@keyframes rock{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.an-pulse{animation:pulse 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%,100%{opacity:.85;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}}
+.an-spin{animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.an-drop{animation:drop 2s ease-in infinite}
+@keyframes drop{0%{transform:translateY(-3px);opacity:0}25%{opacity:1}100%{transform:translateY(7px);opacity:0}}
+.an-flow{animation:flow 1.6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-22}}
+.an-twinkle{animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
+.an-sway{animation:sway 5s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-1.6deg)}to{transform:rotate(1.6deg)}}
+.an-needle{animation:needle 3.2s ease-in-out infinite alternate}
+@keyframes needle{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+.an-wave{animation:wave 2.2s ease-in-out infinite}
+@keyframes wave{0%,100%{opacity:.2}50%{opacity:1}}
+.an-float{animation:float 5s ease-in-out infinite alternate}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+.an-belt{animation:belt 6s linear infinite}
+@keyframes belt{from{transform:translateX(-30px)}to{transform:translateX(46px)}}
+.an-level{animation:level 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:bottom}
+@keyframes level{from{transform:scaleY(.85)}to{transform:scaleY(1)}}
+.an-flag{animation:flag 1.8s ease-in-out infinite alternate}
+@keyframes flag{from{transform:skewY(-4deg)}to{transform:skewY(4deg)}}
+.an-steam{animation:steam 3s ease-in-out infinite}
+@keyframes steam{0%{opacity:0;transform:translateY(4px)}50%{opacity:.8}100%{opacity:0;transform:translateY(-8px)}}
+.an-fly{animation:fly 16s linear infinite}
+@keyframes fly{from{transform:translateX(-200px)}to{transform:translateX(420px)}}
+.an-fly-wide{animation:flywide 28s linear infinite}
+@keyframes flywide{from{transform:translateX(-1100px)}to{transform:translateX(900px)}}
+.an-bob{animation:bob 2.6s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(-3px)}to{transform:translateY(4px)}}
+.an-flap{animation:flap .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center bottom}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(.25)}}
+.an-grow{animation:grow 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center bottom}
+@keyframes grow{from{transform:scale(.9)}to{transform:scale(1.06)}}
+.an-ripen{animation:ripen 6s ease-in-out infinite alternate}
+@keyframes ripen{0%{fill:#8CD15A}45%{fill:#B9A6E8}100%{fill:#3346A8}}
+.an-sprout{animation:sprout 5s ease-out infinite;transform-box:fill-box;transform-origin:center bottom}
+@keyframes sprout{0%{transform:scale(.05);opacity:0}15%{opacity:1}60%,90%{transform:scale(1);opacity:1}100%{transform:scale(1);opacity:0}}
+.an-sprouts circle{animation:bloom 5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes bloom{from{transform:scale(.55)}to{transform:scale(1.1)}}
+.an-wet{animation:wet 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes wet{0%{transform:scale(.2);opacity:0}40%{opacity:.45}100%{transform:scale(1.25);opacity:0}}
+.an-spin-fast{animation:spin 2.4s linear infinite}
+@media (prefers-reduced-motion:reduce){[class*="an-"],.an-sprouts circle{animation:none!important}}
+/* v3 warm accents */
+.proto{background:linear-gradient(90deg,#FFE7CC,#FFF3D6);color:#7A4A1E}
+.cta-band{background:linear-gradient(100deg,#D9431F 0%,#F07A24 60%,#F7A21B 100%)!important}
+.cta-band .btn.light{color:#B83A1A}
+.stage-no{color:#E2591F!important}
+.result{border-left-color:#F28C28!important;background:#FFF1E3!important}
+.smart-grid div:nth-child(1){border-top-color:#E8462F}.smart-grid div:nth-child(2){border-top-color:#F7882F}.smart-grid div:nth-child(3){border-top-color:#FFC93C}.smart-grid div:nth-child(4){border-top-color:#8E5CE0}
+.help{background:linear-gradient(100deg,#FFF1E0,#FFE3C2)!important}
+.chips a{border-radius:22px}
+figure.ph{border-radius:18px!important;box-shadow:0 14px 34px -20px rgba(160,70,20,.55)!important}
+.card{border-radius:16px!important}
+.sol-num .ic,.stage-ic{border-radius:16px!important}
+.stage:nth-child(3n+1) .stage-ic{background:linear-gradient(135deg,#FF8A4C,#E2591F)!important}
+.stage:nth-child(3n+2) .stage-ic{background:linear-gradient(135deg,#FFC93C,#F28C28)!important}
+.stage:nth-child(3n) .stage-ic{background:linear-gradient(135deg,#43A564,#2B7A4B)!important}
+.hero::after{background:linear-gradient(90deg,rgba(40,20,30,.62) 0%,rgba(40,20,30,.32) 45%,rgba(40,20,30,0) 72%)!important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .proto{background:#3A2614;color:#FFD9B0}:root:not([data-theme="light"]) .result{background:#3A2614!important}:root:not([data-theme="light"]) .help{background:#3A2614!important}}
+:root[data-theme="dark"] .proto{background:#3A2614;color:#FFD9B0}:root[data-theme="dark"] .result,:root[data-theme="dark"] .help{background:#3A2614!important}
+
+</style>
+</head>
+<body>
+<div class="proto" id="protoNote"></div>
+<header class="site isx-header" id="isxHeader">
+  <div class="isx-wrap">
+    <a class="isx-brand" href="#about" id="logoLink" aria-label="Irrigation Systems LLC">
+      <span class="isx-logo"><svg viewBox="0 0 24 28" aria-hidden="true"><path d="M12 2C9 7 5 11 5 16a7 7 0 0 0 14 0c0-5-4-9-7-14z" fill="#fff"/><rect x="4" y="25" width="16" height="2" rx="1" fill="#3fae5a"/></svg></span>
+      <span class="isx-name"><b>Irrigation Systems</b><span>LLC</span></span>
+    </a>
+    <nav class="isx-nav" id="mainNav" aria-label="Main"></nav>
+    <div class="isx-right">
+      <div class="isx-lang" role="group" aria-label="Language">
+        <button type="button" data-lang="ka" aria-pressed="false">KA</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" data-lang="ru" aria-pressed="false">RU</button>
+      </div>
+      <div class="isx-pair"><a class="isx-cta" id="headCta2" href="#solutions"></a><a class="isx-cta isx-cta-line" id="headCta" href="#contact"></a></div>
+    </div>
+    <button class="isx-burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+<main id="app"></main>
+<footer><div class="wrap"><span>© 2026 Irrigation Systems LLC</span><span id="footLinks"></span></div></footer>
+
+<dialog class="lb" id="lb" aria-label="Photo">
+  <div class="lb-inner">
+    <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+    <div id="lbFig"></div>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Next">›</button>
+  </div>
+  <div class="lb-cap"><span id="lbCap"></span><span id="lbCount"></span></div>
+</dialog>
+
+<script>
+/* ---------- icons ---------- */
+const I = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICON = {
+  drip: I('<path d="M9 3c2.5 3.2 4 5.4 4 7.2A4 4 0 0 1 5 10.2C5 8.4 6.5 6.2 9 3z"/><path d="M15 21c0-4 2-7 6-8-0.3 4-2.6 7-6 8z"/><path d="M15 21v-4"/>'),
+  landscape: I('<path d="M12 20v-6"/><path d="M9 20h6"/><path d="M12 14c-3 0-6-2-7-5"/><path d="M12 14c3 0 6-2 7-5"/><path d="M12 14V9"/><path d="M4 21c1-2 3-3 5-3"/><path d="M20 21c-1-2-3-3-5-3"/>'),
+  storage: I('<ellipse cx="12" cy="5" rx="7" ry="2.5"/><path d="M5 5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V5"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/>'),
+  'water-supply': I('<rect x="3" y="9" width="8" height="9" rx="1.5"/><circle cx="7" cy="13.5" r="2"/><path d="M11 12h6a3 3 0 0 1 3 3v5"/><path d="M11 15h5"/><path d="M7 9V6h4"/>'),
+  'high-pressure': I('<circle cx="7" cy="8" r="4"/><path d="M7 8l2-2"/><path d="M5 18h6l2-2"/><path d="M14 16l7-3"/><path d="M14 16l7 0"/><path d="M14 16l7 3"/>'),
+  fountains: I('<path d="M4 20h16"/><path d="M6 20c0-2 2.5-3 6-3s6 1 6 3"/><path d="M12 17V6"/><path d="M12 6c-2 0-4 2-5 5"/><path d="M12 6c2 0 4 2 5 5"/><path d="M12 6V3"/>'),
+  automation: I('<rect x="9" y="12" width="6" height="9" rx="1"/><path d="M12 12V9"/><path d="M8.5 7.5a5 5 0 0 1 7 0"/><path d="M6 5a8.5 8.5 0 0 1 12 0"/>'),
+  s1: I('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8.5 9l1.5 1.5L13 7.5"/><path d="M8.5 15l1.5 1.5L13 13.5"/><path d="M15 9h1M15 15h1"/>'),
+  s2: I('<path d="M4 20L20 4"/><path d="M4 20l3-1 13-13-2-2L5 17z"/><path d="M14 20h6M17 17v6"/>'),
+  s3: I('<path d="M4 15a8 8 0 0 1 16 0"/><path d="M3 15h18v2H3z"/><path d="M12 7V4"/><path d="M9 7.6l-1-2.4M15 7.6l1-2.4"/>'),
+  s4: I('<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4"/><path d="M12 12v9"/><circle cx="17" cy="16" r="2.2"/>'),
+  s5: I('<path d="M14.5 5.5a4 4 0 0 0-5 5L4 16l4 4 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-2.5-1-1-2.5z"/><path d="M15 19l2 2 4-4"/>'),
+  s6: I('<path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1"/><rect x="17" y="14" width="4" height="6" rx="1"/><path d="M19 20c0 1-2 2-5 2"/>'),
+  s7: I('<path d="M9 5h11M9 12h11M9 19h11"/><circle cx="4.5" cy="5" r="1.5"/><circle cx="4.5" cy="12" r="1.5"/><circle cx="4.5" cy="19" r="1.5"/>'),
+  ext: I('<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>')
+};
+
+/* ---------- illustrations v3: warm, soft, animated (stand in for photos) ---------- */
+let UID = 0;
+const P = {berry:'#3346A8',berryHi:'#8E9CF0',leaf1:'#2F8A4F',leaf2:'#4FB063',leaf3:'#8CD15A',water:'#1FA8E6',water2:'#9BE1FF',pipe:'#3A3340',steel:'#B9C3CC',steelD:'#8C99A6',orange:'#F7882F',red:'#E8462F',yellow:'#FFC93C',coral:'#FF7A59',wood:'#D9A066',soil:'#A0623E',grass:'#6CBF4B',grassD:'#4A9A3E',blue:'#2389D0',blueD:'#176AA3',violet:'#8E5CE0',sand:'#F6D9A6'};
+const shadow = (x, y, rx) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${rx*.18}" fill="#5A2E1A" opacity=".16"/>`;
+const cloud = (x, y, s, d, wide, op) => `<g class="${wide ? 'an-cloud-wide' : 'an-cloud'}" style="animation-delay:-${d}s;opacity:${op || 1}"><path d="M${x} ${y}c${-14*s} 0 ${-18*s} ${-16*s} ${-4*s} ${-20*s}c${4*s} ${-14*s} ${24*s} ${-16*s} ${30*s} ${-4*s}c${10*s} ${-6*s} ${26*s} 0 ${22*s} ${12*s}c${10*s} ${4*s} ${6*s} ${12*s} ${-4*s} ${12*s}z" fill="#fff" opacity=".92"/></g>`;
+function skyBg(v, id){
+  const S = [['#58BDEB','#FFE1A6'],['#FF7B5C','#FFD08A'],['#FFB457','#FFF0C9']][v % 3];
+  const sx = [318, 92, 250][v % 3], sy = [62, 92, 50][v % 3];
+  const rays = Array.from({length:12}, (_, i) => { const a = i * Math.PI / 6; return `<path d="M${sx+Math.cos(a)*24} ${sy+Math.sin(a)*24}L${sx+Math.cos(a)*38} ${sy+Math.sin(a)*38}" stroke="#FFE27A" stroke-width="5" stroke-linecap="round"/>`; }).join('');
+  return `<defs><linearGradient id="sk${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${S[0]}"/><stop offset="1" stop-color="${S[1]}"/></linearGradient><radialGradient id="sn${id}"><stop offset="0" stop-color="#FFF8D6"/><stop offset=".4" stop-color="#FFD24D" stop-opacity=".95"/><stop offset="1" stop-color="#FFB040" stop-opacity="0"/></radialGradient></defs>
+  <rect width="400" height="300" fill="url(#sk${id})"/><circle class="an-pulse" cx="${sx}" cy="${sy}" r="62" fill="url(#sn${id})"/><g class="an-spin" style="transform-origin:${sx}px ${sy}px">${rays}</g><circle cx="${sx}" cy="${sy}" r="18" fill="#FFE070"/>
+  ${cloud(48, 74, 1, 6)}${cloud(210, 46, .8, 24)}${cloud(330, 96, .6, 40, false, .75)}`;
+}
+const sea = id => `<defs><linearGradient id="se${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FD3F2"/><stop offset="1" stop-color="#2689C9"/></linearGradient></defs><path d="M226 146 C 262 132 300 128 400 128 V172 H226z" fill="url(#se${id})"/>` +
+  [[262,140,14],[300,136,10],[338,146,16],[372,138,12]].map(([x,y,w],i) => `<path class="an-glint" style="animation-delay:-${i*.7}s" d="M${x} ${y}q${w/4}-3 ${w/2} 0t${w/2} 0" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>`).join('');
+let HID = 0;
+const hills = () => `<path d="M0 150 C 50 118 90 110 130 126 C 170 96 215 88 250 112 C 290 92 340 96 400 120 V210 H0z" fill="#C8B6E2"/>${sea('h' + (++HID))}
+  <path d="M0 168 C 70 140 140 146 200 160 C 270 140 330 140 400 154 V220 H0z" fill="#F4C66A"/>
+  <path d="M0 182 C 90 160 180 172 260 168 C 320 164 360 160 400 170 V230 H0z" fill="#9AD06E"/>`;
+const drop = (x, y, s, d) => `<g class="an-drop" style="animation-delay:-${(d||0).toFixed(2)}s"><path d="M${x} ${y}c${2*s} ${3*s} ${4*s} ${5*s} ${4*s} ${7.2*s}a${4*s} ${4*s} 0 0 1-${8*s} 0c0-${2.2*s} ${2*s}-${4.2*s} ${4*s}-${7.2*s}z" fill="${P.water}"/><circle cx="${x-1.3*s}" cy="${y+6.4*s}" r="${1.2*s}" fill="#fff" opacity=".9"/></g>`;
+const sparkle = (x, y, s, d) => `<path class="an-twinkle" style="animation-delay:-${d||0}s;transform-origin:${x}px ${y}px" d="M${x} ${y-6*s}Q${x} ${y} ${x+6*s} ${y}Q${x} ${y} ${x} ${y+6*s}Q${x} ${y} ${x-6*s} ${y}Q${x} ${y} ${x} ${y-6*s}z" fill="#FFF7D1"/>`;
+const flower = (x, y, s, c) => [0,1,2,3,4].map(i => { const a = i*1.2566; return `<circle cx="${x+Math.cos(a)*3*s}" cy="${y+Math.sin(a)*3*s}" r="${2.4*s}" fill="${c}"/>`; }).join('') + `<circle cx="${x}" cy="${y}" r="${1.6*s}" fill="#FFE27A"/>`;
+const flowers = (y0, n, seed) => Array.from({length:n}, (_, i) => flower((i*53 + seed*17) % 400, y0 + ((i*37 + seed*11) % 26), .9 + ((i*7) % 3)*.25, [P.red, P.yellow, P.coral, '#FF5D8F'][i % 4])).join('');
+const bird = (x, y, s, wide) => `<g class="${wide ? 'an-fly-wide' : 'an-fly'}" style="animation-delay:-${((x*7 + y*3) % 17).toFixed(1)}s"><g class="an-bob" style="animation-delay:-${(x % 5) * .3}s"><g class="an-flap" style="animation-delay:-${(y % 4) * .1}s"><path d="M${x-7*s} ${y-1*s}q${3.5*s}-${5*s} ${7*s} ${1*s}q${3.5*s}-${5*s} ${7*s}-${1*s}" stroke="#4A2F55" stroke-width="${1.8*s}" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g><circle cx="${x}" cy="${y}" r="${1.4*s}" fill="#4A2F55"/></g></g>`;
+const flock = (x, y, s, wide) => bird(x, y, s, wide) + bird(x + 18*s, y + 8*s, s*.8, wide) + bird(x + 34*s, y - 4*s, s*.7, wide);
+const sprout = (x, y, s, d) => `<g class="an-sprout" style="animation-delay:-${d.toFixed(2)}s"><path d="M${x} ${y}Q${x+1*s} ${y-6*s} ${x} ${y-11*s}" stroke="#3E9A45" stroke-width="${1.8*s}" fill="none" stroke-linecap="round"/><path d="M${x} ${y-8*s}q-${6*s}-${1*s}-${8*s}-${7*s}q${6*s} 0 ${8*s} ${7*s}z" fill="#7BD04F"/><path d="M${x} ${y-10*s}q${6*s}-${2*s} ${8*s}-${8*s}q-${6*s} 0-${8*s} ${8*s}z" fill="#9BE06A"/></g>`;
+const wet = (x, y, s, d) => `<ellipse class="an-wet" style="animation-delay:-${d.toFixed(2)}s" cx="${x}" cy="${y}" rx="${7*s}" ry="${2.2*s}" fill="#5B3420"/>`;
+function bush(x, y, s){
+  const d = ((x * 13 + y * 7) % 60) / 10;
+  return `<ellipse cx="${x}" cy="${y+8*s}" rx="${16*s}" ry="${3*s}" fill="#5A2E1A" opacity=".15"/><g class="an-grow" style="animation-delay:-${d.toFixed(1)}s"><circle cx="${x-8*s}" cy="${y+3*s}" r="${9*s}" fill="${P.leaf1}"/><circle cx="${x+8*s}" cy="${y+3*s}" r="${9*s}" fill="${P.leaf1}"/><circle cx="${x}" cy="${y-4*s}" r="${11*s}" fill="${P.leaf2}"/><circle cx="${x-4*s}" cy="${y-9*s}" r="${6*s}" fill="${P.leaf3}"/><circle cx="${x+5*s}" cy="${y-11*s}" r="${3*s}" fill="#C6EA7A" opacity=".8"/>` +
+    [[-7,2],[2,-3],[8,5],[-1,7],[5,-9]].map(p => `<circle class="an-ripen" style="animation-delay:-${(d + p[0]*.13 + 3).toFixed(1)}s" cx="${x+p[0]*s}" cy="${y+p[1]*s}" r="${2.7*s}" fill="${P.berry}"/><circle cx="${x+p[0]*s-.9*s}" cy="${y+p[1]*s-.9*s}" r="${.85*s}" fill="${P.berryHi}"/>`).join('') + `</g>`;
+}
+const tree = (x, y, s, c) => shadow(x, y+18*s, 16*s) + `<path d="M${x-3*s} ${y+18*s}Q${x} ${y+6*s} ${x-1*s} ${y-4*s}L${x+2*s} ${y-4*s}Q${x+2*s} ${y+8*s} ${x+3*s} ${y+18*s}z" fill="#8A5A3A"/><g class="an-sway" style="transform-origin:${x}px ${y+10*s}px"><circle cx="${x}" cy="${y-8*s}" r="${15*s}" fill="${c||P.leaf1}"/><circle cx="${x-8*s}" cy="${y-2*s}" r="${10*s}" fill="${P.leaf2}"/><circle cx="${x+7*s}" cy="${y-14*s}" r="${7*s}" fill="${P.leaf3}"/><circle cx="${x+4*s}" cy="${y-2*s}" r="${2.4*s}" fill="${P.red}"/><circle cx="${x-6*s}" cy="${y-12*s}" r="${2.2*s}" fill="${P.orange}"/></g>`;
+const gauge = (x, y, r, a) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#FFFDF7" stroke="${P.pipe}" stroke-width="${r*.16}"/><path d="M${x-r*.62} ${y+r*.3}A${r*.68} ${r*.68} 0 0 1 ${x} ${y-r*.68}" fill="none" stroke="${P.leaf3}" stroke-width="${r*.16}" stroke-linecap="round"/><path d="M${x} ${y-r*.68}A${r*.68} ${r*.68} 0 0 1 ${x+r*.62} ${y+r*.3}" fill="none" stroke="${P.orange}" stroke-width="${r*.16}" stroke-linecap="round"/><g class="an-needle" style="transform-origin:${x}px ${y}px"><path d="M${x} ${y}L${x+Math.cos(a)*r*.6} ${y-Math.sin(a)*r*.6}" stroke="${P.red}" stroke-width="${r*.12}" stroke-linecap="round"/></g><circle cx="${x}" cy="${y}" r="${r*.12}" fill="${P.pipe}"/>`;
+const indoor = id => `<defs><linearGradient id="w${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF3DF"/><stop offset="1" stop-color="#FFD9A8"/></linearGradient></defs><rect width="400" height="300" fill="url(#w${id})"/><path d="M0 236 Q200 228 400 236 V300 H0z" fill="#E2B184"/><circle cx="330" cy="70" r="70" fill="#FFE9B8" opacity=".6"/>`;
+const arcs = (cx, cy, list, color, w) => list.map(([dx, h, ex], i) => `<path class="an-flow" style="animation-delay:-${i*.3}s" d="M${cx} ${cy} Q ${cx+dx*.5} ${cy-h} ${cx+dx} ${cy+(ex||0)}" fill="none" stroke="${color}" stroke-width="${w}" stroke-dasharray="2 9" stroke-linecap="round"/>`).join('');
+
+function scene(kind, v){
+  v = v || 0; const id = ++UID; const sh = v * 14;
+  const S = {
+    drip: () => skyBg(v, id) + hills() + flock(100, 62, 1.7) + `<path d="M0 186 Q200 172 400 184 V300 H0z" fill="#5FAE47"/>` +
+      [[200,.5],[222,.7],[250,.95],[288,1.3]].map(([y, s], r) => {
+        let row = `<rect x="0" y="${y+7*s}" width="400" height="${7*s}" rx="${3*s}" fill="${P.soil}"/>`;
+        for (let x = -20 + (r % 2) * 22 + sh; x < 430; x += 46*s) row += bush(x, y, s);
+        row += `<path d="M0 ${y+12*s}Q200 ${y+10*s} 400 ${y+12*s}" stroke="${P.pipe}" stroke-width="${2.2*s}" fill="none" stroke-linecap="round"/>`;
+        let k = 0; for (let x = 4 + sh; x < 400; x += 46*s) { const dd = (k++ * .37) % 2; row += wet(x, y+14*s, s, dd) + drop(x, y+13*s, s*.9, dd); }
+        if (r >= 2) for (let x = 27 + sh; x < 400; x += 92*s) row += sprout(x, y+12*s, s*.9, (x % 9));
+        return row; }).join('') + sparkle(330, 250, 1.2, 0) + sparkle(90, 228, .9, 1.2),
+    landscape: () => skyBg(v, id) + `<path d="M0 150 C 100 118 200 128 260 140 C 320 150 360 132 400 128 V300 H0z" fill="#A6DB82"/>` +
+      tree(40, 122, 1.1) + tree(92, 132, .8, P.grassD) + tree(360, 118, 1.2) + tree(316, 132, .75) +
+      `<path d="M0 172 C 140 150 260 158 400 166 V300 H0z" fill="${P.grass}"/>` + [40,110,290,360].map((x,i) => `<ellipse class="an-wet" style="animation-delay:-${i*.6}s" cx="${x}" cy="${238-(i%2)*6}" rx="22" ry="5" fill="#3F8E3B"/>`).join('') + `<g class="an-sprouts">` + flowers(176, 9, v) + `</g>` + flock(50, 72, 1.6) +
+      `<path d="M0 300 C 120 250 230 232 400 216 V238 C 250 252 160 272 70 300z" fill="${P.sand}"/>` +
+      [['#FF5E5B',150],['#FFB13B',142],['#FFE15A',134],['#7BD389',126],['#5BB5F5',118]].map(([c, r]) => `<path d="M${200-r} 156 A ${r} ${r} 0 0 1 ${200+r} 156" fill="none" stroke="${c}" stroke-width="6" opacity=".45" stroke-linecap="round"/>`).join('') +
+      arcs(200+sh, 222, [[-150,110,10],[-90,80,8],[0,110,-4],[90,84,8],[150,104,10]], P.water2, 3.5) +
+      shadow(200+sh, 240, 14) + `<rect x="${194+sh}" y="218" width="12" height="22" rx="5" fill="${P.steelD}"/><g class="an-spin-fast" style="transform-origin:${200+sh}px 217px"><circle cx="${200+sh}" cy="217" r="6" fill="${P.yellow}"/><path d="M${194+sh} 217h12" stroke="${P.orange}" stroke-width="2.4" stroke-linecap="round"/></g>` + sparkle(150, 140, 1, .4) + sparkle(262, 150, .8, 1.5),
+    storage: () => skyBg(v, id) + hills() + flock(240, 112, 1.5) + `<path d="M0 200 Q200 190 400 200 V300 H0z" fill="${P.grass}"/>` + flowers(214, 8, v+2) +
+      `<defs><linearGradient id="t${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3FA9E8"/><stop offset=".55" stop-color="${P.blue}"/><stop offset="1" stop-color="${P.blueD}"/></linearGradient></defs>` +
+      shadow(145+sh, 244, 92) + `<rect x="${70+sh}" y="70" width="150" height="172" rx="26" fill="url(#t${id})"/><ellipse cx="${145+sh}" cy="76" rx="66" ry="12" fill="#6CC3F2" opacity=".8"/>` +
+      [104,134,164,194,224].map(y => `<path d="M${76+sh} ${y}Q${145+sh} ${y+6} ${214+sh} ${y}" stroke="#fff" stroke-width="2" opacity=".25" fill="none"/>`).join('') +
+      `<rect x="${200+sh}" y="98" width="12" height="126" rx="6" fill="#fff" opacity=".9"/><rect class="an-level" x="${202+sh}" y="146" width="8" height="76" rx="4" fill="${P.water}"/>` +
+      `<path d="M${88+sh} 90V232" stroke="${P.yellow}" stroke-width="4" stroke-linecap="round"/>` + [0,1,2,3,4,5].map(i => `<path d="M${82+sh} ${98+i*22}h12" stroke="${P.yellow}" stroke-width="4" stroke-linecap="round"/>`).join('') +
+      `<path d="M${220+sh} 222C 260 222 280 236 300 250S 360 262 400 262" stroke="${P.steelD}" stroke-width="10" fill="none" stroke-linecap="round"/>` + shadow(282, 240, 22) + `<rect x="262" y="206" width="40" height="34" rx="12" fill="${P.orange}"/><circle cx="282" cy="223" r="9" fill="#FFC27A"/>` + sparkle(122, 120, 1.1, .7),
+    'water-supply': () => skyBg(v, id) + hills() + flock(50, 66, 1.5) + `<path d="M0 206 Q200 198 400 206 V300 H0z" fill="#E3B27E"/><path d="M0 206 Q200 198 400 206 V216 Q200 208 0 216z" fill="${P.grass}"/>` +
+      shadow(200, 238, 150) + `<rect x="${44+sh}" y="226" width="300" height="10" rx="5" fill="${P.steelD}"/>` +
+      `<rect x="${58+sh}" y="148" width="100" height="74" rx="22" fill="${P.orange}"/>` + [160,176,192,208].map(y => `<path d="M${70+sh} ${y}H${146+sh}" stroke="#FFC27A" stroke-width="6" stroke-linecap="round"/>`).join('') +
+      `<circle cx="${170+sh}" cy="186" r="24" fill="${P.red}"/><circle class="an-spin" style="transform-origin:${170+sh}px 186px" cx="${170+sh}" cy="186" r="10" fill="#FF9F86" stroke="#fff" stroke-width="2" stroke-dasharray="4 4"/>` +
+      `<path d="M${194+sh} 180H306Q330 180 330 156V140" stroke="${P.blue}" stroke-width="12" fill="none" stroke-linecap="round"/>` +
+      [0,1].map(i => `<rect x="${226+i*44+sh}" y="126" width="30" height="86" rx="15" fill="${P.steel}"/><rect x="${226+i*44+sh}" y="126" width="30" height="18" rx="9" fill="${P.blue}"/>`).join('') +
+      gauge(336, 116, 18, 1.1) + `<path d="M22 300V256Q22 250 28 250H34Q40 250 40 256V300" fill="${P.steelD}"/>` + drop(30, 270, 1.4, 0) + drop(30, 270, 1.4, 1) + sparkle(112, 128, 1, .3),
+    'high-pressure': () => indoor(id) + `<path d="M0 44 Q200 40 400 44" stroke="${P.steelD}" stroke-width="10" fill="none" stroke-linecap="round"/>` +
+      shadow(275, 196, 125) + `<rect x="150" y="178" width="260" height="14" rx="7" fill="${P.pipe}"/>` + [0,1,2,3,4,5,6].map(i => `<circle cx="${162+i*36}" cy="185" r="5" fill="${P.steel}"/>`).join('') +
+      `<g class="an-belt">` + [0,1,2,3].map(i => `<rect x="${110+i*76-sh}" y="138" width="58" height="40" rx="10" fill="${P.orange}"/><circle cx="${125+i*76-sh}" cy="146" r="8" fill="${P.red}"/><circle cx="${140+i*76-sh}" cy="143" r="8" fill="#FF6A4D"/><circle cx="${155+i*76-sh}" cy="147" r="8" fill="${P.yellow}"/>`).join('') + `</g>` +
+      `<path d="M150 82H400" stroke="${P.blue}" stroke-width="12" stroke-linecap="round"/>` + [0,1,2,3,4].map(i => `<rect x="${176+i*48}" y="86" width="8" height="10" rx="3" fill="${P.pipe}"/>` + [[-14,40],[0,42],[14,40]].map(([dx,dy],k) => `<path class="an-flow" style="animation-delay:-${(i+k)*.2}s" d="M${180+i*48} 98Q${180+i*48+dx*.3} ${98+dy*.5} ${180+i*48+dx} ${98+dy}" stroke="${P.water2}" stroke-width="3.5" fill="none" stroke-dasharray="3 6" stroke-linecap="round"/>`).join('')).join('') +
+      shadow(70, 238, 56) + `<rect x="20" y="166" width="104" height="70" rx="20" fill="${P.blue}"/><rect x="30" y="178" width="58" height="46" rx="12" fill="${P.blueD}"/><path d="M124 200H140Q150 200 150 190V82" stroke="${P.steelD}" stroke-width="10" fill="none" stroke-linecap="round"/>` + gauge(102, 150, 20, .55) + sparkle(260, 122, 1, .6),
+    fountains: () => skyBg(v === 0 ? 1 : v, id) + flock(50, 40, 1.6) +
+      [[0,'#FFB98A',90],[60,'#9ED8E8',70],[118,'#FFE08A',98],[190,'#FF9EAA',78],[252,'#B9E3A6',94],[320,'#FFC28A',74]].map(([x,c,h]) => `<rect x="${x+1}" y="${200-h}" width="62" height="${h}" rx="6" fill="${c}"/><rect x="${x+9}" y="${210-h}" width="14" height="20" rx="7" fill="#FFF8E7"/><rect x="${x+41}" y="${210-h}" width="14" height="20" rx="7" fill="#FFF8E7"/><rect x="${x+4}" y="${236-h}" width="56" height="5" rx="2.5" fill="#9B5B3B"/>${[4,18,32,46,60].map(o => `<path d="M${x+o} ${236-h}v-9" stroke="#9B5B3B" stroke-width="2" stroke-linecap="round"/>`).join('')}<circle cx="${x+16}" cy="${226-h}" r="3" fill="${P.red}"/><circle cx="${x+50}" cy="${226-h}" r="3" fill="${P.coral}"/>`).join('') +
+      `<path d="M0 196 Q200 188 400 196 V300 H0z" fill="#F0DCC0"/>` + shadow(200+sh, 268, 168) + `<ellipse cx="${200+sh}" cy="246" rx="160" ry="32" fill="#D9A97E"/><ellipse cx="${200+sh}" cy="242" rx="146" ry="24" fill="#3CC6E6"/><ellipse class="an-pulse" cx="${200+sh}" cy="240" rx="120" ry="16" fill="#8FE6F8"/>` +
+      arcs(200+sh, 236, [[-110,70],[-70,90],[-35,110],[35,110],[70,90],[110,70]], P.water2, 4) +
+      `<path class="an-flow" d="M${200+sh} 236V70" stroke="#C9F3FF" stroke-width="7" stroke-linecap="round" stroke-dasharray="6 6"/><path d="M${200+sh} 72 q-16 10 -24 28 M${200+sh} 72 q16 10 24 28" stroke="#C9F3FF" stroke-width="4" fill="none" stroke-linecap="round"/>` + sparkle(180, 96, 1.2, 0) + sparkle(232, 130, 1, .8) + sparkle(150, 180, .8, 1.6),
+    automation: () => skyBg(v, id) + hills() + flock(230, 40, 1.5) + `<path d="M0 186 Q200 176 400 186 V300 H0z" fill="#5FAE47"/>` +
+      [[206,.55],[234,.8],[272,1.1]].map(([y,s]) => { let r = `<rect x="0" y="${y+6*s}" width="400" height="${6*s}" rx="${3*s}" fill="${P.soil}"/>`; for (let x = -10; x < 420; x += 44*s) r += bush(x, y, s); return r; }).join('') +
+      shadow(322, 262, 18) + `<rect x="318" y="150" width="8" height="110" rx="4" fill="${P.steelD}"/><rect x="298" y="144" width="46" height="26" rx="6" fill="#2D3F78" transform="rotate(-12 321 157)"/><path d="M302 150l38-8M306 160l38-8" stroke="#6E8EDC" stroke-width="1.5" stroke-linecap="round"/><rect x="311" y="196" width="22" height="28" rx="8" fill="#FFFDF7"/><circle cx="322" cy="206" r="4.5" fill="${P.leaf3}"/>` +
+      [16,30,44].map((r, i) => `<path class="an-wave" style="animation-delay:-${i*.5}s" d="M${322-r} 128 a${r} ${r} 0 0 1 ${2*r} 0" stroke="${P.violet}" stroke-width="4" fill="none" stroke-linecap="round"/>`).join('') +
+      `<g class="an-float" transform="translate(${36+sh} 50)"><rect x="4" y="8" width="188" height="132" rx="20" fill="#5A2E1A" opacity=".12"/><rect width="188" height="132" rx="20" fill="#2B2733"/><rect x="9" y="9" width="170" height="114" rx="12" fill="#FFFDF7"/><rect x="9" y="9" width="170" height="22" rx="11" fill="${P.orange}"/><circle cx="22" cy="20" r="4" fill="#fff"/><rect x="32" y="17" width="60" height="6" rx="3" fill="#fff" opacity=".85"/>
+        <path d="M18 106 C 32 96 40 86 54 90 S 76 70 92 66 S 120 78 132 62 S 158 50 170 54" stroke="${P.red}" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M18 106 C 32 96 40 86 54 90 S 76 70 92 66 S 120 78 132 62 S 158 50 170 54 V114 H18z" fill="${P.yellow}" opacity=".28"/>
+        <rect x="18" y="38" width="46" height="18" rx="9" fill="#E3F4FC"/>${drop(28, 41, .9, 0)}<rect x="40" y="44" width="16" height="5" rx="2.5" fill="${P.blue}"/><rect x="72" y="38" width="46" height="18" rx="9" fill="#FFEBD6"/><circle cx="84" cy="47" r="4.5" fill="${P.orange}"/><rect x="92" y="44" width="16" height="5" rx="2.5" fill="${P.orange}"/></g>`,
+    team: () => indoor(id) + [0,1,2].map(i => { const x = 24 + i*124; return shadow(x+56, 238, 60) + `<rect x="${x}" y="58" width="8" height="178" rx="4" fill="${P.blue}"/><rect x="${x+104}" y="58" width="8" height="178" rx="4" fill="${P.blue}"/>` + [104,164,226].map(y => `<rect x="${x}" y="${y}" width="112" height="8" rx="4" fill="${P.orange}"/>`).join('') +
+      `<rect x="${x+12}" y="70" width="34" height="34" rx="6" fill="#F2C98F"/><rect x="${x+52}" y="78" width="40" height="26" rx="6" fill="#E8B06C"/><circle cx="${x+30}" cy="146" r="16" fill="none" stroke="${P.pipe}" stroke-width="7"/><circle cx="${x+72}" cy="146" r="16" fill="none" stroke="${P.red}" stroke-width="7"/><rect x="${x+14}" y="192" width="28" height="34" rx="8" fill="${P.leaf2}"/><rect x="${x+50}" y="198" width="44" height="28" rx="8" fill="${P.yellow}"/>`; }).join(''),
+    stage: () => STAGES[v % 7](id)
+  };
+  return `<svg viewBox="0 0 400 300" role="img" preserveAspectRatio="xMidYMid slice">${(S[kind] || S.stage)()}</svg>`;
+}
+const desk = id => `<defs><linearGradient id="d${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF4E0"/><stop offset="1" stop-color="#FFDDB0"/></linearGradient></defs><rect width="400" height="300" fill="url(#d${id})"/><path d="M0 190 Q200 184 400 190 V300 H0z" fill="${P.wood}"/><path d="M0 190 Q200 184 400 190 V197 Q200 191 0 197z" fill="#C0844E"/>`;
+const STAGES = [
+  id => desk(id) + `<g transform="rotate(-6 200 190)">${shadow(200, 250, 110)}<rect x="96" y="96" width="210" height="150" rx="12" fill="#FFFDF7"/><rect x="112" y="112" width="80" height="54" rx="8" fill="#C4E8A8"/><rect x="198" y="112" width="92" height="54" rx="8" fill="#FFE08A"/><rect x="112" y="172" width="178" height="56" rx="8" fill="#FFC7A8"/><path d="M106 140C 160 136 240 144 300 140M196 104C 192 160 200 200 196 236" stroke="${P.water}" stroke-width="4" fill="none" stroke-linecap="round"/>${[0,1,2].map(i => `<circle cx="${150+i*50}" cy="200" r="6" fill="${P.red}"/>`).join('')}</g><rect x="300" y="210" width="84" height="10" rx="5" fill="${P.coral}" transform="rotate(-24 340 214)"/>${shadow(64, 236, 26)}<circle cx="64" cy="214" r="22" fill="#FFFDF7"/><circle cx="64" cy="214" r="15" fill="#7A4A30"/><path class="an-steam" d="M58 186q-6-8 0-16M70 186q-6-8 0-16" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>`,
+  id => desk(id) + shadow(200, 246, 140) + `<rect x="70" y="58" width="260" height="182" rx="14" fill="#1E6FB0"/>${Array.from({length:12},(_,i) => `<path d="M${70+i*22} 62V236" stroke="#fff" stroke-width=".6" opacity=".22"/>`).join('')}${Array.from({length:8},(_,i) => `<path d="M74 ${60+i*24}H326" stroke="#fff" stroke-width=".6" opacity=".22"/>`).join('')}<path d="M100 210V120Q100 100 120 100H300M140 100V210M180 100V210M220 100V210M260 100V210" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="86" y="198" width="28" height="28" rx="8" fill="${P.orange}"/>${[140,180,220,260].map((x,i) => `<circle cx="${x}" cy="150" r="5" fill="${[P.yellow,P.coral,P.yellow,P.coral][i]}"/>`).join('')}<rect x="60" y="248" width="290" height="18" rx="6" fill="${P.yellow}" transform="rotate(-3 200 258)"/>${Array.from({length:14},(_,i) => `<path d="M${72+i*20} 250v7" stroke="${P.pipe}" stroke-width="2" stroke-linecap="round" transform="rotate(-3 200 258)"/>`).join('')}`,
+  id => skyBg(1, id) + hills() + `<path d="M0 196 Q200 186 400 196 V300 H0z" fill="#E6B07A"/><path d="M0 238 Q200 232 400 238 V264 Q200 258 0 264z" fill="#A0623E"/><path d="M0 248Q200 242 400 248" stroke="${P.blue}" stroke-width="9" fill="none" stroke-linecap="round"/>${[60,170,280].map(x => `<path d="M${x} 236V176" stroke="${P.wood}" stroke-width="4" stroke-linecap="round"/><path class="an-flag" style="transform-origin:${x}px 180px" d="M${x+2} 176q14 2 26 8q-12 6-26 7z" fill="${P.red}"/>`).join('')}${shadow(334, 230, 46)}<path d="M296 224a38 30 0 0 1 76 0z" fill="${P.yellow}"/><rect x="288" y="220" width="92" height="10" rx="5" fill="#F0A820"/>`,
+  id => indoor(id) + shadow(200, 238, 160) + `<rect x="40" y="170" width="320" height="18" rx="9" fill="${P.wood}"/><rect x="56" y="186" width="10" height="50" rx="5" fill="#9B5B3B"/><rect x="334" y="186" width="10" height="50" rx="5" fill="#9B5B3B"/><path d="M80 150H320M120 150V108M200 150V108M280 150V108" stroke="${P.blue}" stroke-width="13" stroke-linecap="round"/>${[120,200,280].map(x => `<rect x="${x-14}" y="90" width="28" height="12" rx="6" fill="${P.red}"/>`).join('')}<rect x="66" y="128" width="44" height="42" rx="12" fill="${P.orange}"/>${gauge(330, 126, 18, 1.0)}<rect x="250" y="236" width="72" height="46" rx="8" fill="#F2C98F"/><rect x="198" y="246" width="52" height="36" rx="8" fill="#E8B06C"/><circle class="an-spin" style="transform-origin:60px 60px" cx="60" cy="60" r="22" fill="none" stroke="${P.steelD}" stroke-width="8" stroke-dasharray="8 6"/>`,
+  id => skyBg(0, id) + hills() + `<path d="M0 194 Q200 186 400 194 V300 H0z" fill="${P.grass}"/>` + `<g class="an-sprouts">` + flowers(262, 8, 3) + `</g>` + flock(30, 60, 1.5) + `<path d="M40 250Q200 244 360 250" stroke="${P.blue}" stroke-width="12" fill="none" stroke-linecap="round"/>${[90,170,250,330].map((x,i) => `<rect x="${x-6}" y="226" width="12" height="24" rx="5" fill="${P.steelD}"/>` + arcs(x, 224, [[-46,34,10],[46,34,10]], P.water2, 3)).join('')}${gauge(200, 150, 30, 1.25)}<circle class="an-pulse" cx="300" cy="118" r="28" fill="${P.leaf2}"/><path d="M287 118l9 9 17-18" stroke="#fff" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  id => indoor(id) + shadow(145, 238, 92) + `<rect x="60" y="56" width="170" height="180" rx="22" fill="${P.steel}"/><rect x="76" y="72" width="138" height="78" rx="12" fill="#2B1F2E"/><path d="M86 130C 100 120 106 112 118 116S 140 96 156 94S 186 102 204 84" stroke="${P.yellow}" stroke-width="3.5" fill="none" stroke-linecap="round"/>${[0,1,2].map(i => `<circle class="${i===0?'an-pulse':''}" cx="${96+i*46}" cy="182" r="13" fill="${[P.leaf2,P.yellow,P.red][i]}"/>`).join('')}<path d="M262 150v-10a50 50 0 0 1 100 0v10" stroke="${P.pipe}" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="250" y="146" width="26" height="44" rx="12" fill="${P.orange}"/><rect x="348" y="146" width="26" height="44" rx="12" fill="${P.orange}"/><path d="M362 190q0 24-36 26" stroke="${P.pipe}" stroke-width="5" fill="none" stroke-linecap="round"/><g class="an-float"><rect x="246" y="56" width="124" height="54" rx="20" fill="#FFFDF7"/><path d="M276 108l-6 16 22-16z" fill="#FFFDF7"/><rect x="262" y="72" width="70" height="8" rx="4" fill="${P.coral}"/><rect x="262" y="88" width="92" height="8" rx="4" fill="${P.steel}"/></g>`,
+  id => `<rect width="400" height="300" fill="#FFF7EA"/>` + [0,1,2].map(i => shadow(60+i*58, 186, 24) + `<rect x="${40+i*58}" y="58" width="40" height="124" rx="20" fill="${[P.orange,P.red,P.blue][i]}"/>${Array.from({length:8},(_,k) => `<path d="M${46+i*58} ${78+k*12}h28" stroke="#fff" stroke-width="2.4" opacity=".4" stroke-linecap="round"/>`).join('')}<rect x="${44+i*58}" y="196" width="32" height="16" rx="6" fill="${P.yellow}"/>`).join('') +
+    [[250,90,22,P.pipe],[312,92,16,P.red],[352,124,12,P.orange],[262,162,14,P.coral],[322,172,24,P.pipe]].map(([x,y,r,c]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${c}" stroke-width="${r*.38}"/>`).join('') +
+    shadow(300, 266, 72) + `<rect x="230" y="220" width="140" height="44" rx="12" fill="#FFFDF7" stroke="${P.steel}"/><path d="M244 236h70M244 250h104" stroke="${P.steelD}" stroke-width="5" stroke-linecap="round"/><rect x="40" y="232" width="150" height="12" rx="6" fill="${P.leaf2}"/>`
+];
+function heroArt(){
+  let rows = '';
+  [[386,.7],[414,.9],[450,1.15],[496,1.45],[558,1.85],[634,2.3]].forEach(([y, s], r) => {
+    rows += `<rect x="-20" y="${y+7*s}" width="1640" height="${8*s}" rx="${4*s}" fill="#A0623E"/>`;
+    for (let x = -30 + (r % 2) * 26; x < 1640; x += 50*s) rows += bush(x, y, s);
+    rows += `<path d="M0 ${y+13*s}Q800 ${y+10*s} 1600 ${y+13*s}" stroke="#3A3340" stroke-width="${2.2*s}" fill="none" stroke-linecap="round"/>`;
+    let k = 0; for (let x = 10; x < 1600; x += 100*s) { const dd = (k++ * .41) % 2; rows += wet(x, y+15*s, s, dd) + drop(x, y+14*s, s, dd); }
+    if (r >= 3) for (let x = 35 + (r % 2) * 26; x < 1600; x += 100*s) rows += sprout(x, y+13*s, s*.9, (x % 11) * .6);
+    rows += `<g id="ppRow${r}"></g>`;
+  });
+  const rays = Array.from({length:16}, (_, i) => { const a = i * Math.PI / 8; return `<path d="M${1260+Math.cos(a)*76} ${250+Math.sin(a)*76}L${1260+Math.cos(a)*118} ${250+Math.sin(a)*118}" stroke="#FFE27A" stroke-width="10" stroke-linecap="round" opacity=".85"/>`; }).join('');
+  return `<svg viewBox="0 0 1600 640" preserveAspectRatio="xMaxYMid slice" aria-hidden="true"><defs><linearGradient id="hs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4FAEE3"/><stop offset=".45" stop-color="#FFC98A"/><stop offset="1" stop-color="#FF8A5B"/></linearGradient><radialGradient id="hsun"><stop offset="0" stop-color="#FFF6CC"/><stop offset=".35" stop-color="#FFD25A" stop-opacity=".95"/><stop offset="1" stop-color="#FF9F40" stop-opacity="0"/></radialGradient></defs>
+  <rect width="1600" height="640" fill="url(#hs)"/><circle class="an-pulse" cx="1260" cy="250" r="230" fill="url(#hsun)"/><g class="an-spin" style="transform-origin:1260px 250px">${rays}</g><circle cx="1260" cy="250" r="58" fill="#FFE070"/>
+  ${cloud(260, 120, 2.2, 10, true)}${cloud(760, 80, 1.6, 38, true)}${cloud(1480, 130, 1.8, 66, true)}${cloud(1100, 60, 1.1, 52, true, .7)}${cloud(420, 190, 1.2, 82, true, .6)}${flock(900, 150, 2.4, true)}${flock(500, 110, 1.8, true)}
+  <path d="M0 300 C 120 230 220 214 330 250 C 440 190 560 172 680 236 C 800 186 920 176 1040 222 C 1160 180 1300 186 1420 230 C 1500 214 1560 210 1600 216 V380 H0z" fill="#B49AD6"/>
+  <defs><linearGradient id="hsea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8BD8F3"/><stop offset=".5" stop-color="#3FA6DD"/><stop offset="1" stop-color="#1F78B8"/></linearGradient></defs>
+  <path d="M600 330 C 700 290 780 272 880 270 L1600 270 V380 H600z" fill="url(#hsea)"/>
+  <path d="M880 270 H1600" stroke="#D8F4FF" stroke-width="3" opacity=".8"/>
+  ${[0,1,2,3,4,5,6].map(i => `<path class="an-glint" style="animation-delay:-${(i*.37).toFixed(2)}s" d="M${1260-(40-i*4)} ${278+i*7}h${(40-i*4)*2}" stroke="#FFE7A3" stroke-width="${4-i*.35}" stroke-linecap="round"/>`).join('')}
+  ${[[760,300,40],[860,288,30],[960,296,46],[1080,286,34],[1400,292,40],[1500,284,28]].map(([x,y,w],i) => `<path class="an-wavelet" style="animation-delay:-${i*.9}s" d="M${x} ${y}q${w/4}-6 ${w/2} 0t${w/2} 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>`).join('')}
+  <g class="an-sail"><g class="an-rock" style="transform-origin:1000px 282px"><path d="M972 280 Q1000 292 1030 280 Z" fill="#B5502A"/><path d="M1000 278 V236" stroke="#5A3D2A" stroke-width="2.5"/><path d="M1002 238 L1026 274 L1002 274Z" fill="#FFF8E7"/><path d="M998 244 L980 274 L998 274Z" fill="#FF7A59"/></g></g>
+  <path d="M0 336 C 260 288 520 300 800 322 C 1080 296 1340 292 1600 310 V420 H0z" fill="#F4BF5C"/>
+  <path d="M0 362 C 300 336 640 352 900 356 C 1200 344 1420 338 1600 348 V640 H0z" fill="#5FAE47"/>${rows}
+  ${sparkle(1100, 470, 3, 0)}${sparkle(1380, 540, 2.5, 1)}${sparkle(980, 600, 2, 2)}</svg>`;
+}
+
+/* ---------- v8: subtropical trees with colourful birds (screen-edge overlays) ---------- */
+const BP = {
+  bee:{body:'#22B5C9',belly:'#3FD3E6',wing:'#2E9E5B',tip:'#F2C14E',head:'#B5532A',throat:'#FFD23F',tail:'#178C8C'},
+  parrot:{body:'#E8352F',belly:'#FF7A59',wing:'#FFC93C',tip:'#2389D0',head:'#E8352F',throat:'#FFE27A',tail:'#2389D0'},
+  roller:{body:'#3A7BEA',belly:'#6EC6FF',wing:'#7C5CD6',tip:'#22B5C9',head:'#5BC0EB',throat:'#E9F9FF',tail:'#1D3FA8'},
+  oriole:{body:'#FFC21A',belly:'#FFE27A',wing:'#2B2B2B',tip:'#FFF3B0',head:'#FFC21A',throat:'#FFE27A',tail:'#2B2B2B'},
+  pink:{body:'#FF5D8F',belly:'#FFB3C8',wing:'#8E5CE0',tip:'#FFC93C',head:'#FF5D8F',throat:'#FFE0EA',tail:'#8E5CE0'}
+};
+function cbird(x, y, s, pal, flip, d){
+  const p = BP[pal];
+  return `<g transform="translate(${x} ${y}) scale(${flip ? -s : s} ${s})"><g class="an-hop" style="animation-delay:-${d}s">
+    <path class="an-tail" style="animation-delay:-${d*.7}s" d="M-9 1 L-36 12 L-33 4 L-11 -3z" fill="${p.tail}"/>
+    <ellipse cx="0" cy="0" rx="14" ry="9.5" fill="${p.body}"/>
+    <path d="M-8 4 Q 3 13 13 2 Q 4 7 -8 4z" fill="${p.belly}"/>
+    <path d="M-12 -3 Q -1 -11 10 -2 Q 1 5 -14 4z" fill="${p.wing}"/><path d="M-13 1 L-22 3" stroke="${p.tip}" stroke-width="2.6" stroke-linecap="round"/>
+    <g class="an-peck" style="animation-delay:-${d*1.3}s">
+      <circle cx="12" cy="-6" r="7.6" fill="${p.head}"/><path d="M7 -2 Q 13 4 19 -2 Q 13 1 7 -2z" fill="${p.throat}"/>
+      <path d="M7 -8.5 L19.5 -7" stroke="#1C1C1C" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="14.2" cy="-7.6" r="1.8" fill="#fff"/><circle cx="14.6" cy="-7.4" r=".9" fill="#111"/>
+      <path d="M19 -6.5 L31 -4 L19 -3z" fill="#2B2B2B"/>
+      ${pal === 'oriole' || pal === 'pink' ? `<path d="M8 -12 L5 -19 L11 -13 L12 -20 L14 -13" fill="${p.wing}"/>` : ''}
+    </g>
+    <path d="M-2 8 v7 M4 8 v7" stroke="#5A3B2A" stroke-width="1.8" stroke-linecap="round"/></g></g>`;
+}
+function palmSVG(){
+  const crown = [175, 196];
+  const fronds = [-168,-138,-108,-74,-40,-8,24].map((a, i) => `<g class="an-frond" style="transform-origin:${crown[0]}px ${crown[1]}px;animation-delay:-${i*.6}s"><g transform="translate(${crown[0]} ${crown[1]}) rotate(${a})">
+      <path d="M0 0 C 40 -26 96 -16 142 22 C 96 4 44 6 0 0z" fill="${i % 2 ? '#2F9A4E' : '#47B85E'}"/>
+      <path d="M0 0 C 46 -14 96 -6 140 20" stroke="#1F6E36" stroke-width="2" fill="none"/>
+      ${[30,58,86,112].map(t => `<path d="M${t} ${-12+t*.12} l10 16 M${t} ${-12+t*.12} l14 -6" stroke="#2F9A4E" stroke-width="3" stroke-linecap="round"/>`).join('')}
+    </g></g>`).join('');
+  const hib = [[86,470],[120,452],[150,478],[70,500],[132,500],[104,492]].map(([x,y],i) => `<circle cx="${x}" cy="${y}" r="${26-(i%3)*3}" fill="${['#2F8A4F','#3FA35A','#4FB063'][i%3]}"/>`).join('') +
+    [[80,452,'#E8352F'],[128,440,'#FF5D8F'],[150,466,'#E8352F'],[96,486,'#FF7A59'],[60,486,'#FF5D8F']].map(([x,y,c]) => [0,1,2,3,4].map(k => { const a = k*1.2566; return `<circle cx="${x+Math.cos(a)*6}" cy="${y+Math.sin(a)*6}" r="6" fill="${c}"/>`; }).join('') + `<circle cx="${x}" cy="${y}" r="3" fill="#FFE27A"/>`).join('');
+  return `<svg viewBox="0 0 320 560" preserveAspectRatio="xMinYMax meet">
+    <ellipse cx="150" cy="552" rx="120" ry="12" fill="#2E5A1E" opacity=".25"/>
+    <path d="M150 560 C 138 450 150 330 175 200" stroke="#8B5E3C" stroke-width="24" fill="none" stroke-linecap="round"/>
+    <path d="M150 560 C 138 450 150 330 175 200" stroke="#6E4529" stroke-width="24" fill="none" stroke-dasharray="3 14"/>
+    ${fronds}
+    <circle cx="166" cy="212" r="9" fill="#F28C28"/><circle cx="182" cy="216" r="9" fill="#E8752A"/><circle cx="174" cy="226" r="8" fill="#FFB347"/>
+    ${hib}
+    ${cbird(248, 196, 1.25, 'bee', false, 0)}${cbird(92, 160, 1.15, 'parrot', true, 1.4)}${cbird(206, 120, 1, 'roller', false, 2.6)}
+  </svg>`;
+}
+function citrusSVG(){
+  const leaves = [[170,250,120,'#2F8A4F'],[110,220,70,'#3FA35A'],[240,215,74,'#3FA35A'],[175,150,80,'#4FB063'],[110,300,62,'#2F8A4F'],[250,300,66,'#2F8A4F'],[175,320,70,'#3FA35A'],[140,120,48,'#6BC56A'],[220,130,46,'#6BC56A']].map(([x,y,r,c]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join('');
+  const fruits = [[96,200],[132,170],[210,160],[262,196],[240,250],[150,240],[200,226],[120,280],[178,290],[262,290],[90,250],[226,320],[146,330],[196,110],[150,130],[290,250],[70,290]].map(([x,y],i) => `<g class="an-fruit" style="animation-delay:-${(i*.37).toFixed(2)}s;transform-origin:${x}px ${y-10}px"><circle cx="${x}" cy="${y}" r="10" fill="${i%3 ? '#F7882F' : '#FF9E2C'}"/><circle cx="${x-3}" cy="${y-3}" r="3" fill="#FFD08A"/><path d="M${x} ${y-10} q4 -6 9 -4 q-3 5 -9 4z" fill="#2F8A4F"/></g>`).join('');
+  return `<svg viewBox="0 0 340 560" preserveAspectRatio="xMaxYMax meet">
+    <ellipse cx="180" cy="552" rx="130" ry="12" fill="#2E5A1E" opacity=".25"/>
+    <path d="M182 560 C 176 480 186 420 178 330 M180 420 C 150 380 130 360 110 330 M182 400 C 212 370 236 350 252 320" stroke="#7A4A2E" stroke-width="20" fill="none" stroke-linecap="round"/>
+    <g class="an-sway-soft" style="transform-origin:180px 420px">${leaves}${fruits}
+      ${cbird(118, 92, 1.2, 'oriole', false, .5)}${cbird(262, 140, 1.15, 'pink', true, 1.9)}${cbird(176, 70, 1.05, 'bee', true, 3.1)}${cbird(70, 228, 1.1, 'roller', false, 2.2)}
+    </g>
+    ${cbird(118, 318, 1.15, 'parrot', false, 1.1)}
+  </svg>`;
+}
+
+/* ---------- v9: people working in the field (driven by JS, 4 variants) ---------- */
+const PEOPLE_CFG = [
+  {kind:'picker', row:2, k:1.0,  sx:-80,  ex:1700, wx:980,  v:24, work:12,  idle:10, off:0,
+   pal:{shirt:'#E8352F',shirtD:'#B8281F',pants:'#2D4A7A',pantsD:'#20365A',skin:'#E0AC85',hat:'#E9C46A'}},
+  {kind:'hoe',    row:3, k:1.25, sx:1700, ex:-80,  wx:1180, v:21, work:12, idle:14, off:12,
+   pal:{shirt:'#FFC93C',shirtD:'#D9A21E',pants:'#5A3D2A',pantsD:'#3F2A1C',skin:'#C98E64',hat:'#E9C46A'}},
+  {kind:'carrier',row:1, k:.8,   sx:-80,  ex:1700, wx:-80,  v:27, work:0,  idle:18, off:25,
+   pal:{shirt:'#22B5C9',shirtD:'#178C9C',pants:'#3A3340',pantsD:'#26222B',skin:'#E8B793',hat:'#FF5D8F'}},
+  {kind:'agro',   row:4, k:1.6,  sx:1700, ex:-80,  wx:1350, v:20, work:10,  idle:20, off:40,
+   pal:{shirt:'#F4F7F8',shirtD:'#D5DEE2',pants:'#2D4A7A',pantsD:'#20365A',skin:'#D9A07A',hat:'#2389D0'}}
+];
+const ROWS_Y = [[386,.7],[414,.9],[450,1.15],[496,1.45],[558,1.85],[634,2.3]];
+function personSVG(c){
+  const p = c.pal;
+  const leg = (r, col) => `<g data-r="${r}"><path d="M0 -26 L0 -4" stroke="${col}" stroke-width="6" stroke-linecap="round"/><path d="M0 -2.5 h6" stroke="#3A2A20" stroke-width="5" stroke-linecap="round"/></g>`;
+  const hand = `<circle cx="0" cy="-29" r="2.8" fill="${p.skin}"/>`;
+  let item = '', back = '', hat = '', front = '';
+  if (c.kind === 'picker') { front = `<path d="M3 -34 h12 l-2 10 h-8z" fill="#C98A3E"/><path d="M3 -34 q6 -7 12 0" stroke="#8B5E3C" stroke-width="1.6" fill="none"/>${[5,8,11,13].map((x,i) => `<circle cx="${x}" cy="${-34.5 - (i%2)}" r="1.7" fill="#3346A8"/>`).join('')}`;
+    hat = `<ellipse cx="1" cy="-61.5" rx="11.5" ry="3" fill="${p.hat}"/><path d="M-5 -61.5 Q1 -71 7 -61.5z" fill="${p.hat}"/><path d="M-5 -62.5 h12" stroke="#E8352F" stroke-width="1.6"/>`; }
+  if (c.kind === 'hoe') { item = `<path d="M0 -29 L24 6" stroke="#8B5E3C" stroke-width="2.6" stroke-linecap="round"/><path d="M22 4 l9 -1 l-1 6 z" fill="#7D8E98"/>`;
+    hat = `<ellipse cx="1" cy="-61.5" rx="11.5" ry="3" fill="${p.hat}"/><path d="M-5 -61.5 Q1 -71 7 -61.5z" fill="${p.hat}"/>`; }
+  if (c.kind === 'carrier') { back = `<rect x="-11" y="-80" width="24" height="13" rx="2.5" fill="#F7882F"/><path d="M-11 -73.5 h24" stroke="#D96E1A" stroke-width="1.2"/>${[-7,-2,3,8].map(x => `<circle cx="${x}" cy="-81" r="2.4" fill="#3346A8"/><circle cx="${x+2.5}" cy="-82.5" r="2.2" fill="#5566C9"/>`).join('')}`;
+    hat = `<path d="M-6 -59 Q1 -69 8 -59 Q9 -55 6 -53 L-4 -53 Q-8 -56 -6 -59z" fill="${p.hat}"/><path d="M-6 -55 q-4 3 -5 8" stroke="${p.hat}" stroke-width="3" stroke-linecap="round"/>`; }
+  if (c.kind === 'agro') { item = `<rect x="1" y="-37" width="13" height="10" rx="1.6" fill="#2B2733"/><rect x="2.5" y="-35.5" width="10" height="7" rx="1" fill="#7FD3F2"/><path d="M4 -30 l3 -3 l2 2 l3 -4" stroke="#2B7A4B" stroke-width="1" fill="none"/>`;
+    front = `<path d="M-6 -26 Q-7 -40 -5 -48 L-1 -48 L-1 -26z M6 -26 Q7 -40 5 -48 L1 -48 L1 -26z" fill="#2B7A4B"/>`;
+    hat = `<path d="M-6 -59 Q1 -67 8 -59z" fill="${p.hat}"/><path d="M6 -59.5 h7" stroke="${p.hat}" stroke-width="2.4" stroke-linecap="round"/>`; }
+  return `<ellipse cx="0" cy="1" rx="12" ry="2.6" fill="#2E3A1E" opacity=".25"/>` + leg('legB', p.pantsD) +
+    `<g data-r="torso"><g data-r="armB"><path d="M0 -46 L0 -30" stroke="${p.shirtD}" stroke-width="5.5" stroke-linecap="round"/>${hand}</g>
+     <path d="M-6 -26 Q-7 -40 -5 -48 Q0 -51 5 -48 Q7 -40 6 -26z" fill="${p.shirt}"/>${front}
+     <rect x="-2" y="-52" width="4" height="4" fill="${p.skin}"/><circle cx="1" cy="-56" r="7" fill="${p.skin}"/><circle cx="5" cy="-57" r=".9" fill="#2B2B2B"/>${hat}${back}
+     <g data-r="armF"><path d="M0 -46 L0 -30" stroke="${p.shirt}" stroke-width="5.5" stroke-linecap="round"/>${hand}${item}</g></g>` + leg('legF', p.pants);
+}
+let PEOPLE = [];
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function initPeople(){
+  PEOPLE = [];
+  PEOPLE_CFG.forEach((c, i) => {
+    const host = document.getElementById('ppRow' + c.row); if (!host) return;
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.innerHTML = personSVG(c); host.appendChild(g);
+    const q = r => g.querySelector(`[data-r="${r}"]`);
+    const [y, s] = ROWS_Y[c.row];
+    const d1 = Math.abs(c.wx - c.sx) / c.v, d2 = d1 + c.work, d3 = d2 + Math.abs(c.ex - c.wx) / c.v;
+    PEOPLE.push({c, g, y: y + 11*s, legF:q('legF'), legB:q('legB'), torso:q('torso'), armF:q('armF'), armB:q('armB'), d1, d2, d3, cycle: d3 + c.idle, dir: c.ex > c.sx ? 1 : -1});
+  });
+  if (reduceMotion) PEOPLE.forEach(P => pose(P, P.c.work ? P.c.wx : 760, 0, false, 0));
+}
+function rot(el, a, cx, cy){ el.setAttribute('transform', `rotate(${a.toFixed(1)} ${cx} ${cy})`); }
+function pose(P, x, phase, walking, wt){
+  const c = P.c; let lf = 0, lb = 0, af = 0, ab = 0, tr = 0, bob = 0;
+  if (walking) { const a = Math.sin(phase) * 24; lf = a; lb = -a; af = -a * .8; ab = a * .8; bob = -Math.abs(Math.sin(phase)) * 1.6; }
+  else if (c.kind === 'picker') { tr = 34; af = -62 + Math.sin(wt * 2.4) * 24; ab = -28 + Math.sin(wt * 2.4 + 1.5) * 14; lf = 8; lb = -8; }
+  else if (c.kind === 'hoe') { const h = Math.sin(wt * 2); tr = 14 + h * 6; af = -38 + h * 42; ab = -30 + h * 40; lf = 14; lb = -12; }
+  else if (c.kind === 'agro') { tr = 4 + Math.sin(wt * 1.4) * 4; af = -72; ab = -58; lf = 6; lb = -6; }
+  if (c.kind === 'carrier') af = -172;
+  if (c.kind === 'agro' && walking) af = -60 + Math.sin(phase) * 6;
+  P.g.setAttribute('transform', `translate(${x.toFixed(1)} ${(P.y + bob).toFixed(1)}) scale(${P.dir * c.k} ${c.k})`);
+  rot(P.legF, lf, 0, -26); rot(P.legB, lb, 0, -26); rot(P.torso, tr, 0, -26); rot(P.armF, af, 0, -46); rot(P.armB, ab, 0, -46);
+}
+function peopleTick(now){
+  if (!reduceMotion && PEOPLE.length && PEOPLE[0].g.isConnected) {
+    const t = now / 1000;
+    PEOPLE.forEach(P => {
+      const c = P.c, T = (t + c.off) % P.cycle;
+      if (T < P.d1) { const dist = c.v * T; pose(P, c.sx + P.dir * dist, dist * .2, true, 0); }
+      else if (T < P.d2) pose(P, c.wx, 0, false, T - P.d1);
+      else if (T < P.d3) { const dist = c.v * (T - P.d2); pose(P, c.wx + P.dir * dist, dist * .2, true, 0); }
+      else pose(P, c.ex, 0, true, 0);
+    });
+  }
+  requestAnimationFrame(peopleTick);
+}
+requestAnimationFrame(peopleTick);
+
+/* ---------- content ---------- */
+const CATS = ['drip','landscape','storage','water-supply','high-pressure','fountains','automation'];
+const CATC = {drip:'#E8462F',landscape:'#F2A20C',storage:'#2389D0','water-supply':'#F7882F','high-pressure':'#D9362B',fountains:'#FF6F4E',automation:'#8E5CE0'};
+const BRANDS = [
+  ['Netafim','https://www.netafim.com/'],['Rivulis','https://www.rivulis.com/'],['Talgil','https://www.talgil.com/'],
+  ['Genap','https://genap.com/'],['Sea-Land','https://www.sea-land.it/'],['Nortek','https://nortekpompa.com/'],
+  ['Poelsan','https://www.poelsan.com/en/'],['Armas','https://www.armas.com.tr/'],['Pimtas','https://pimtas.com/en/']
+];
+
+const T = {
+ru: {
+  soundLbl:'Звук', birdsOn:'Включить звук', birdsOff:'Выключить звук',
+  proto:'Прототип v19 по ТЗ, редакция 2. Фото и логотипы — подписанные места; контактные данные предоставляет заказчик.',
+  nav:{about:'О компании',solutions:'Решения',products:'Товары',turnkey:'Проект под ключ',contact:'Контакты',gallery:'Галерея'},
+  cta:'Обсудить проект',
+  kaNote:'Грузинская версия появится после перевода и вычитки. Пока показана русская.',
+  heroT:'Системы орошения и водоснабжения в Грузии', heroS:'Оборудование, инженерные решения и реализация проектов под ключ',
+  heroB1:'Наши решения', heroB2:'Обсудить проект', heroCredit:'Место для фото: орошение, горизонтальный кадр 16:9',
+  aboutH:'О компании',
+  aboutP:['Компания «Irrigation Systems LLC» специализируется на импорте, проектировании и монтаже оборудования для систем орошения и водоснабжения в Грузии. Мы выполняем проекты под ключ, а также предлагаем заказчикам инжиниринговую поддержку и технический контроль.','Мы поставляем высококачественное оборудование таких брендов, как Netafim, Rivulis, Talgil, Genap, Sea-Land, Nortek, Poelsan, Armas, Pimtas и других.'],
+  aboutPhoto:'Место для фото: команда или склад',
+  quick:[['solutions','Решения','Семь направлений — от капельного орошения до автоматизации'],['products','Товары','Оборудование девяти брендов-партнёров'],['turnkey','Проект под ключ','Семь этапов — от технического задания до обслуживания']],
+  more:'Подробнее', ctaBandT:'Расскажите о своём объекте', ctaBandB:'Обсудить проект',
+  solIntro:'Подбираем оборудование и инженерные решения под задачи вашего объекта — от капельного орошения до хранения воды, насосных систем и автоматизации.',
+  sol:{
+    drip:['Капельное орошение для сельского хозяйства','Доставляйте воду и питание непосредственно в корневую зону растений. Мы проектируем и комплектуем системы капельного орошения для ягодных хозяйств, садов, виноградников и других сельскохозяйственных культур. Для голубики учитываем условия выращивания в грунте или субстрате, качество воды и режим подачи питательного раствора. Капельные линии, фильтрацию и узлы фертигации подбираем под особенности культуры и участка.','плантация голубики с видимой капельной линией'],
+    landscape:['Системы полива для ландшафтных проектов','Равномерный полив помогает сохранять ухоженный вид газонов, парков и озеленённых территорий. Подбираем дождеватели, капельные линии и управление с учётом планировки, рельефа и потребностей растений. Разделяем участок на зоны, чтобы каждая получала необходимое количество воды в подходящее время.','работающий полив газона или парка'],
+    storage:['Решения для хранения воды','Создавайте запас воды для устойчивой работы системы. Предлагаем резервуары и ёмкости для накопления и последующей подачи воды на орошение и другие нужды объекта. Подбираем объём, конструкцию и оснащение с учётом источника, графика потребления и условий площадки, предусматривая подключение к насосному и распределительному оборудованию.','резервуар или ёмкость в составе системы'],
+    'water-supply':['Водоснабжение','Обеспечьте подачу воды с требуемыми расходом и давлением. Подбираем скважинные и поверхностные насосы, решения для повышения давления и фильтрации. Объединяем оборудование в систему с учётом характеристик источника, качества воды, режима потребления и условий эксплуатации.','насосная станция с фильтрами'],
+    'high-pressure':['Системы высокого давления для моечных линий','Стабильное давление для организованного процесса мойки. Подбираем насосное оборудование и компоненты систем высокого давления с учётом производительности линии, качества воды и рабочего режима. Помогаем согласовать параметры подачи, управление и подключение оборудования к технологическому процессу.','насосный модуль высокого давления или моечная линия'],
+    fountains:['Фонтаны','Вода как часть архитектуры и ландшафта. Подбираем насосы, форсунки, фильтрацию и управление для фонтанных систем. Согласуем водную композицию с техническими условиями объекта, обеспечивая совместную работу оборудования и удобство дальнейшей эксплуатации.','фонтан общего плана'],
+    automation:['Автоматизация','Управляйте орошением на основе данных. Умные решения объединяют контроллеры, датчики и цифровые инструменты для планирования полива, контроля подачи воды и питания растений. Дистанционный доступ, история работы и уведомления помогают специалистам своевременно замечать отклонения и корректировать режимы. Состав функций подбирается под оборудование, задачи хозяйства и доступную связь.','специалист с планшетом на участке']
+  },
+  photoOf:'Место для фото: ', seePhotos:'Смотреть фото решений', discuss:'Обсудить решение',
+  smartH:'От данных к управлению поливом',
+  smart:[['Дистанционный контроль','Просмотр состояния и настройка программ'],['Полив и питание','Согласованное управление орошением и фертигацией'],['Данные участка','Показания датчиков почвы и агроклиматические данные'],['История и уведомления','Анализ работы и информация об отклонениях']],
+  prodIntro:'Оборудование для орошения и водоснабжения от наших партнёров. Выберите бренд, чтобы перейти на сайт производителя. По вопросам подбора и поставки оборудования в Грузию свяжитесь с Irrigation Systems LLC.',
+  logoPh:'Место для оригинального логотипа', site:'Сайт производителя',
+  helpH:'Нужна помощь с подбором оборудования?', helpB:'Связаться с нами',
+  tkIntro:'От первых технических требований до запуска и сопровождения системы. Irrigation Systems LLC помогает согласовать решение, подготовить оборудование и организовать его внедрение. Состав работ и границы ответственности закрепляются для каждого проекта.',
+  stages:[
+    ['Поддержка при подготовке технического задания','Помогаем сформулировать задачи объекта и собрать исходные данные: потребность в воде, параметры источника, особенности участка и условия эксплуатации. Совместно с заказчиком уточняем требования, на основе которых будет разработано решение.','Согласованный перечень технических требований и исходных данных.'],
+    ['Проектирование и составление сметы','Разрабатываем решение на основе согласованных технических требований. Подбираем оборудование, определяем состав системы и готовим смету, чтобы заказчик мог оценить техническую конфигурацию и объём необходимых затрат.','Проектное решение и смета в согласованном договором объёме.'],
+    ['Сопровождение подготовки объекта','Помогаем подготовить площадку к установке системы. Консультируем дистанционно или выезжаем на объект, проверяем готовность предусмотренных проектом оснований, трасс и подключений, согласуем организационные и технические вопросы.','Зафиксированная готовность объекта либо перечень необходимых доработок.'],
+    ['Сборка и подготовка оборудования на складе','Комплектуем оборудование на нашем складе, собираем предусмотренные проектом узлы и проверяем комплектность перед отправкой. Подготавливаем компоненты к монтажу, чтобы работы на объекте проходили последовательно и организованно.','Подготовленный и проверенный комплект оборудования.'],
+    ['Монтаж и ввод систем в эксплуатацию','Устанавливаем оборудование, соединяем элементы системы и выполняем пусконаладочные работы. Проверяем работу в предусмотренных режимах и передаём заказчику основные рекомендации по эксплуатации.','Система, прошедшая согласованные проверки и переданная заказчику.'],
+    ['Техническая поддержка в процессе эксплуатации','Помогаем разобраться с настройками и работой системы после запуска. Консультируем по возникающим техническим вопросам и согласуем необходимые действия с учётом оборудования и условий эксплуатации.','Понятный порядок связи и технические рекомендации в согласованном объёме поддержки.'],
+    ['Подготовка перечня комплектующих для технического обслуживания','Формируем перечень расходных материалов и комплектующих для обслуживания установленного оборудования. Помогаем определить совместимые позиции и подготовиться к плановым работам.','Перечень совместимых комплектующих с артикулами при наличии.']
+  ],
+  result:'Результат этапа: ', stagePhoto:'Фото этапа', photosToggle:'Показать, как выглядят этапы без фотографий',
+  tkCta:'Обсудить проект под ключ',
+  galIntro:'Фотографии по семи направлениям. Нажмите на фото, чтобы увеличить; стрелки листают внутри категории.',
+  desc:'Описание решения', photoN:'Фото',
+  galPh:'Место для фото',
+  contH:'Контакты', contIntro:'Расскажите о своём объекте — подберём решение и ответим в рабочее время.',
+  cd:[['Компания','Irrigation Systems LLC',false],['Адрес офиса','предоставляет заказчик',true],['Склад','при необходимости, от заказчика',true],['Телефон','+995 … от заказчика',true],['Email','от заказчика',true],['Часы работы','по времени Тбилиси, от заказчика',true],['Мессенджеры','только подтверждённые',true]],
+  mapPh:'Место для карты или ссылки на маршрут',
+  formH:'Обсудить проект',
+  f:{name:'Имя',company:'Компания или хозяйство',contact:'Телефон или email',topic:'Тема обращения',msg:'Сообщение',opt:'необязательно',send:'Отправить',contactHint:'Достаточно одного способа связи; принимаем +995 и другие международные номера'},
+  topics:['Подбор товара','Проект под ключ','Другое'],
+  e:{name:'Укажите имя',contact:'Укажите телефон или email',email:'Проверьте адрес email',phone:'Проверьте номер: цифры, можно с +',msg:'Напишите сообщение',long:'Не больше 2000 символов'},
+  okH:'Спасибо! Ваше сообщение получено.', okP:'Мы свяжемся с вами в рабочее время.', okDemo:'В прототипе заявка никуда не отправляется. Так выглядит запись в журнале обращений (без UTM — их добавит рабочая версия):',
+  again:'Отправить ещё одно', privacy:'Политика конфиденциальности',
+  privH:'Политика конфиденциальности', privP:'Текст политики готовит заказчик с местным юристом по закону Грузии о защите персональных данных (раздел 10 ТЗ). Здесь будет его утверждённая версия на трёх языках.',
+  backHome:'На главную'
+},
+en: {
+  soundLbl:'Sound', birdsOn:'Turn sound on', birdsOff:'Turn sound off',
+  proto:'Prototype v19 based on the brief (rev. 2). Photos and logos are labelled placeholders; contact details come from the client.',
+  nav:{about:'About',solutions:'Solutions',products:'Products',turnkey:'Turnkey project',contact:'Contacts',gallery:'Gallery'},
+  cta:'Discuss a project',
+  kaNote:'The Georgian version will appear after translation and proofreading. English is shown for now.',
+  heroT:'Irrigation and water supply systems in Georgia', heroS:'Equipment, engineering solutions and turnkey project delivery',
+  heroB1:'Our solutions', heroB2:'Discuss a project', heroCredit:'Photo placeholder: irrigation, landscape 16:9 shot',
+  aboutH:'About the company',
+  aboutP:['Irrigation Systems LLC specialises in importing, designing and installing equipment for irrigation and water supply systems in Georgia. We deliver turnkey projects and offer our clients engineering support and technical supervision.','We supply high-quality equipment from brands such as Netafim, Rivulis, Talgil, Genap, Sea-Land, Nortek, Poelsan, Armas, Pimtas and others.'],
+  aboutPhoto:'Photo placeholder: team or warehouse',
+  quick:[['solutions','Solutions','Seven areas — from drip irrigation to automation'],['products','Products','Equipment from nine partner brands'],['turnkey','Turnkey project','Seven stages — from technical brief to maintenance']],
+  more:'Learn more', ctaBandT:'Tell us about your site', ctaBandB:'Discuss a project',
+  solIntro:'We select equipment and engineering solutions for your site’s needs — from drip irrigation to water storage, pumping systems and automation.',
+  sol:{
+    drip:['Drip irrigation for agriculture','Deliver water and nutrients directly to the root zone. We design and supply drip irrigation systems for berry farms, orchards, vineyards and other crops. For blueberries, we take into account growing in soil or substrate, water quality and the nutrient solution regime. Drip lines, filtration and fertigation units are selected for the specific crop and site.','blueberry plantation with a visible drip line'],
+    landscape:['Landscape irrigation systems','Even watering keeps lawns, parks and green areas well kept. We select sprinklers, drip lines and controls based on layout, terrain and plant needs. The site is divided into zones so that each one receives the right amount of water at the right time.','lawn or park irrigation in operation'],
+    storage:['Water storage solutions','Build a water reserve for reliable system operation. We offer tanks and reservoirs for storing water and supplying it for irrigation and other site needs. Volume, design and equipment are selected for the water source, consumption schedule and site conditions, with connection to pumping and distribution equipment.','tank or reservoir as part of a system'],
+    'water-supply':['Water supply','Get water at the required flow and pressure. We select borehole and surface pumps, pressure boosting and filtration solutions, and combine the equipment into one system based on source characteristics, water quality, consumption pattern and operating conditions.','pumping station with filters'],
+    'high-pressure':['High-pressure systems for washing lines','Stable pressure for a well-organised washing process. We select pumping equipment and high-pressure components based on line capacity, water quality and operating mode, and help align supply parameters, controls and connection to the production process.','high-pressure pump module or washing line'],
+    fountains:['Fountains','Water as part of architecture and landscape. We select pumps, nozzles, filtration and controls for fountain systems, matching the water feature to the site’s technical conditions so the equipment works together and is easy to maintain.','fountain, general view'],
+    automation:['Automation','Manage irrigation based on data. Smart solutions combine controllers, sensors and digital tools to plan irrigation and monitor water and nutrient supply. Remote access, operating history and notifications help specialists spot deviations early and adjust schedules. The feature set is matched to the equipment, the farm’s tasks and available connectivity.','specialist with a tablet in the field']
+  },
+  photoOf:'Photo placeholder: ', seePhotos:'See solution photos', discuss:'Discuss this solution',
+  smartH:'From data to irrigation control',
+  smart:[['Remote control','View status and set up programmes'],['Irrigation and nutrition','Coordinated control of irrigation and fertigation'],['Field data','Soil sensor readings and agro-climatic data'],['History and alerts','Performance analysis and deviation alerts']],
+  prodIntro:'Irrigation and water supply equipment from our partners. Choose a brand to visit the manufacturer’s website. For equipment selection and delivery to Georgia, contact Irrigation Systems LLC.',
+  logoPh:'Original logo placeholder', site:'Manufacturer’s website',
+  helpH:'Need help choosing equipment?', helpB:'Contact us',
+  tkIntro:'From the first technical requirements to commissioning and support. Irrigation Systems LLC helps agree on the solution, prepare the equipment and organise its implementation. The scope of work and responsibilities are set for each project.',
+  stages:[
+    ['Support in preparing the technical brief','We help define the site’s objectives and gather input data: water demand, source parameters, site features and operating conditions. Together with the client we clarify the requirements the solution will be based on.','An agreed list of technical requirements and input data.'],
+    ['Design and cost estimate','We develop the solution based on the agreed requirements. We select equipment, define the system configuration and prepare a cost estimate so the client can assess the technical set-up and the budget.','Design solution and estimate within the scope agreed in the contract.'],
+    ['Site preparation support','We help prepare the site for installation. We consult remotely or visit the site, check that foundations, routes and connections provided for in the design are ready, and resolve organisational and technical questions.','Confirmed site readiness or a list of required improvements.'],
+    ['Assembly and preparation at our warehouse','We put the equipment together at our warehouse, assemble the units provided for in the design and check completeness before dispatch, so that on-site work runs in a clear sequence.','A prepared and checked equipment set.'],
+    ['Installation and commissioning','We install the equipment, connect the system and carry out commissioning. We check operation in the intended modes and hand over key operating recommendations to the client.','A system that has passed the agreed checks and been handed over to the client.'],
+    ['Technical support during operation','We help with settings and system operation after start-up, consult on technical questions and agree on the necessary actions for the equipment and operating conditions.','A clear contact procedure and technical recommendations within the agreed support scope.'],
+    ['Spare parts list for maintenance','We compile a list of consumables and components for maintaining the installed equipment, help identify compatible items and prepare for scheduled work.','A list of compatible components with part numbers where available.']
+  ],
+  result:'Stage result: ', stagePhoto:'Stage photo', photosToggle:'Show how stages look without photos',
+  tkCta:'Discuss a turnkey project',
+  galIntro:'Photos for all seven areas. Tap a photo to enlarge it; arrows browse within the category.',
+  desc:'Solution description', photoN:'Photo',
+  galPh:'Photo placeholder',
+  contH:'Contacts', contIntro:'Tell us about your site — we’ll suggest a solution and reply during business hours.',
+  cd:[['Company','Irrigation Systems LLC',false],['Office address','provided by the client',true],['Warehouse','if needed, from the client',true],['Phone','+995 … from the client',true],['Email','from the client',true],['Business hours','Tbilisi time, from the client',true],['Messengers','confirmed channels only',true]],
+  mapPh:'Placeholder for a map or route link',
+  formH:'Discuss a project',
+  f:{name:'Name',company:'Company or farm',contact:'Phone or email',topic:'Topic',msg:'Message',opt:'optional',send:'Send',contactHint:'One contact method is enough; +995 and other international numbers are accepted'},
+  topics:['Product selection','Turnkey project','Other'],
+  e:{name:'Enter your name',contact:'Enter a phone number or email',email:'Check the email address',phone:'Check the number: digits, + allowed',msg:'Write a message',long:'2000 characters maximum'},
+  okH:'Thank you! Your message has been received.', okP:'We’ll get back to you during business hours.', okDemo:'In the prototype nothing is sent. This is how the record looks in the enquiry log (UTM tags will be added in the live version):',
+  again:'Send another message', privacy:'Privacy policy',
+  privH:'Privacy policy', privP:'The policy text is prepared by the client with a local lawyer under the Law of Georgia on Personal Data Protection (brief, section 10). The approved version in three languages will appear here.',
+  backHome:'Back to home'
+}
+};
+
+/* ---------- state ---------- */
+let lang = 'ru';
+try { const l = localStorage.getItem('isl-proto-lang'); if (l === 'ru' || l === 'en') lang = l; } catch (e) {}
+const t = () => T[lang];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let formTopic = '';
+
+/* ---------- v15: birdsong ON by default; browsers allow audio only after the first click/tap/key ---------- */
+const Birdsong = (() => {
+  let ac = null, master = null, timer = null, playing = false;
+  let wanted = true;
+  try { if (localStorage.getItem('isl-birds') === 'off') wanted = false; } catch (e) {}
+  function ctx(){
+    if (!ac) {
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      ac = new AC();
+      const comp = ac.createDynamicsCompressor(); comp.connect(ac.destination);
+      master = ac.createGain(); master.gain.value = 0; master.connect(comp);
+    }
+    return ac;
+  }
+  function note(t, f0, f1, dur, vol, pan, opts){
+    opts = opts || {};
+    const o = ac.createOscillator(), g = ac.createGain(), p = ac.createStereoPanner ? ac.createStereoPanner() : null;
+    o.type = opts.type || 'sine';
+    o.frequency.setValueAtTime(f0, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(f1, 40), t + dur);
+    if (opts.fm) { const l = ac.createOscillator(), lg = ac.createGain(); l.frequency.value = opts.fm; lg.gain.value = opts.fmDepth || 150; l.connect(lg); lg.connect(o.frequency); l.start(t); l.stop(t + dur + .02); }
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + Math.min(.012, dur * .3));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    let out = g;
+    if (opts.band) { const b = ac.createBiquadFilter(); b.type = 'bandpass'; b.frequency.value = opts.band; b.Q.value = 3; g.connect(b); out = b; }
+    o.connect(g);
+    if (p) { p.pan.value = pan; out.connect(p); p.connect(master); } else out.connect(master);
+    o.start(t); o.stop(t + dur + .03);
+  }
+  const R = (a, b) => a + Math.random() * (b - a);
+  /* quiet running water: looped pink noise, slowly modulated, plus soft bubbles */
+  let waterReady = false, bubbleTimer = null;
+  function waterStart(){
+    if (waterReady) return; waterReady = true;
+    const len = ac.sampleRate * 4, buf = ac.createBuffer(2, len, ac.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch); let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; b0 = .997 * b0 + w * .029591; b1 = .985 * b1 + w * .032534; b2 = .95 * b2 + w * .048056; d[i] = (b0 + b1 + b2 + w * .1848) * .5; }
+    }
+    const src = ac.createBufferSource(); src.buffer = buf; src.loop = true;
+    const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 850; bp.Q.value = .7;
+    const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400; lp.Q.value = .9;
+    const wg = ac.createGain(); wg.gain.value = .075;
+    const lfo = ac.createOscillator(), lfoG = ac.createGain(); lfo.frequency.value = .13; lfoG.gain.value = 280; lfo.connect(lfoG); lfoG.connect(bp.frequency);
+    const lfo2 = ac.createOscillator(), lfo2G = ac.createGain(); lfo2.frequency.value = .21; lfo2G.gain.value = .02; lfo2.connect(lfo2G); lfo2G.connect(wg.gain);
+    src.connect(bp); bp.connect(lp); lp.connect(wg); wg.connect(master);
+    /* v18: only the low and mid stream (what v17 removed); the high hiss layer is gone */
+    src.start(); lfo.start(); lfo2.start();
+  }
+  function bubble(){
+    if (!playing) return;
+    if (ac.state === 'running') {
+      const n = Math.random() < .35 ? 2 : 1;
+      for (let i = 0; i < n; i++) {
+        const t = ac.currentTime + .02 + i * R(.04, .09), f = R(380, 720), d = R(.03, .07);
+        const o = ac.createOscillator(), g = ac.createGain(), pn = ac.createStereoPanner ? ac.createStereoPanner() : null;
+        o.type = 'sine'; o.frequency.setValueAtTime(f, t); o.frequency.exponentialRampToValueAtTime(f * R(1.6, 2.3), t + d);
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(R(.025, .05), t + .006); g.gain.exponentialRampToValueAtTime(.0001, t + d);
+        o.connect(g); if (pn) { pn.pan.value = R(-.6, .6); g.connect(pn); pn.connect(master); } else g.connect(master);
+        o.start(t); o.stop(t + d + .02);
+      }
+    }
+    bubbleTimer = setTimeout(bubble, R(140, 700));
+  }
+  const SONGS = [
+    (t, pan) => { const n = 2 + (Math.random() * 3 | 0); for (let i = 0; i < n; i++) note(t + i * .19, R(2300, 2600), R(1900, 2100), .13, .35, pan, {fm: 38, fmDepth: 220}); },
+    (t, pan) => { const b = R(1150, 1350); note(t, b, b * 1.3, .16, .4, pan); note(t + .2, b * 1.35, b * 1.15, .18, .38, pan); note(t + .42, b * .9, b * 1.12, .24, .36, pan); },
+    (t, pan) => { const n = 8 + (Math.random() * 6 | 0), f = R(3600, 4400); for (let i = 0; i < n; i++) note(t + i * .055, f * (1 - i * .012), f * .88, .045, .22, pan); note(t + n * .055 + .05, f * .7, f * 1.05, .12, .25, pan); },
+    (t, pan) => { const hi = R(3600, 4000), lo = hi * .74; for (let i = 0; i < 3; i++) { note(t + i * .3, hi, hi * .97, .08, .3, pan); note(t + i * .3 + .12, lo, lo * .96, .1, .3, pan); } },
+    (t, pan) => { let tt = t; for (let i = 0; i < 6; i++) { const f = R(2400, 4800), d = R(.05, .12); note(tt, f, f * R(.8, 1.25), d, .2, pan); tt += d + R(.02, .06); } },
+    (t, pan) => { for (let i = 0; i < 2; i++) note(t + i * .16, R(900, 1100), R(1300, 1500), .1, .12, pan, {type: 'sawtooth', band: 1400}); }
+  ];
+  function loop(){
+    if (!playing) return;
+    if (ac.state === 'running') {
+      const t = ac.currentTime + .05;
+      const k = Math.random() < .08 ? 5 : Math.random() * 5 | 0;
+      SONGS[k](t, R(-.85, .85));
+      if (Math.random() < .3) SONGS[Math.random() * 5 | 0](t + R(.3, .9), R(-.85, .85));
+    }
+    timer = setTimeout(loop, R(900, 3200));
+  }
+  function play(){
+    if (!wanted || playing || !ctx()) return;
+    playing = true; ac.resume().catch(() => {});
+    master.gain.cancelScheduledValues(ac.currentTime);
+    master.gain.setValueAtTime(master.gain.value, ac.currentTime);
+    master.gain.linearRampToValueAtTime(.16, ac.currentTime + .8);
+    waterStart();
+    clearTimeout(timer); loop();
+    clearTimeout(bubbleTimer); bubble();
+  }
+  function pause(){
+    playing = false; clearTimeout(timer); clearTimeout(bubbleTimer);
+    if (ac) { master.gain.cancelScheduledValues(ac.currentTime); master.gain.setValueAtTime(master.gain.value, ac.currentTime); master.gain.linearRampToValueAtTime(0, ac.currentTime + .5); }
+  }
+  function setWanted(v){ wanted = v; try { localStorage.setItem('isl-birds', v ? 'on' : 'off'); } catch (e) {} }
+  // first gesture anywhere on the page unlocks audio (browser autoplay rule)
+  const unlock = () => { if (ac && playing && ac.state !== 'running') ac.resume().catch(() => {}); };
+  ['pointerdown','keydown','touchend'].forEach(ev => document.addEventListener(ev, unlock, {capture:true, passive:true}));
+  document.addEventListener('visibilitychange', () => { if (!ac) return; if (document.hidden) ac.suspend(); else if (playing) ac.resume().catch(() => {}); });
+  return { play, pause, setWanted, get wanted(){ return wanted; }, get playing(){ return playing; } };
+})();
+const SPK_ON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const SPK_OFF = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+function soundInner(){ const x = t(); return (Birdsong.wanted ? SPK_ON : SPK_OFF) + `<span>${esc(x.soundLbl)}</span>`; }
+function soundBtnHTML(){ const x = t(); return `<button class="sound-btn" id="soundBtn" type="button" aria-pressed="${Birdsong.wanted}" aria-label="${esc(Birdsong.wanted ? x.birdsOff : x.birdsOn)}" title="${esc(Birdsong.wanted ? x.birdsOff : x.birdsOn)}">${soundInner()}</button>`; }
+function bindSound(){
+  const b = document.getElementById('soundBtn'); if (!b) return;
+  Birdsong.play();
+  b.addEventListener('click', e => {
+    e.stopPropagation();
+    if (Birdsong.wanted) { Birdsong.setWanted(false); Birdsong.pause(); }
+    else { Birdsong.setWanted(true); Birdsong.play(); }
+    b.setAttribute('aria-pressed', String(Birdsong.wanted)); b.innerHTML = soundInner(); const lbl = Birdsong.wanted ? t().birdsOff : t().birdsOn; b.setAttribute('aria-label', lbl); b.title = lbl;
+  });
+}
+
+/* ---------- views ---------- */
+function fig(kind, v, cap){ return `<figure class="ph">${scene(kind, v)}<figcaption>${esc(cap)}</figcaption></figure>`; }
+
+function vAbout(){
+  const x = t();
+  let n = 0;
+  const letters = x.heroT.split(' ').map(w => `<span class="ww">${[...w].map(ch => { const i = n++; return `<span class="wl${i % 4 === 1 ? ' drip' : ''}" style="--i:${i}">${esc(ch)}</span>`; }).join('')}</span>`).join(' ');
+  return `<section class="hero hero-full"><div class="art">${heroArt()}</div>
+    <div class="hero-sky"><h1 class="water-title drift" aria-label="${esc(x.heroT)}"><span aria-hidden="true">${letters}</span></h1></div>
+    <p class="sr-only">${esc(x.heroS)}</p>
+    <div class="tree tree-l" aria-hidden="true">${palmSVG()}</div><div class="tree tree-r" aria-hidden="true">${citrusSVG()}</div>
+    ${soundBtnHTML()}<div class="credit">${esc(x.heroCredit)}</div></section>
+  <section class="block"><div class="wrap split">
+    <div class="prose"><h2>${esc(x.aboutH)}</h2>${x.aboutP.map(p => `<p>${esc(p)}</p>`).join('')}
+      <div class="brands-line">${BRANDS.map(b => `<span>${b[0]}</span>`).join('')}</div></div>
+    ${fig('team', 0, x.aboutPhoto)}
+  </div></section>
+  <section class="block" style="padding-top:0"><div class="wrap grid3">
+    ${x.quick.map((q,qi) => `<div class="card" style="--cat:${['#E8462F','#F7882F','#F2A20C'][qi]}"><h3>${esc(q[1])}</h3><p class="muted" style="margin:0">${esc(q[2])}</p><a class="go" href="#${q[0]}">${esc(x.more)}</a></div>`).join('')}
+  </div></section>
+  <section class="cta-band"><div class="wrap"><h2>${esc(x.ctaBandT)}</h2><a class="btn light" href="#contact">${esc(x.ctaBandB)}</a></div></section>`;
+}
+
+function vSolutions(){
+  const x = t();
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.nav.solutions)}</h1><p>${esc(x.solIntro)}</p>
+    <nav class="chips" aria-label="${esc(x.nav.solutions)}">${CATS.map(c => `<a href="#solutions-${c}" style="--cat:${CATC[c]}">${ICON[c]}${esc(x.sol[c][0])}</a>`).join('')}</nav></div></section>
+  <div class="wrap">${CATS.map((c,i) => `<article class="sol" id="sol-${c}" style="--cat:${CATC[c]}">
+      <div><div class="sol-num"><span class="ic">${ICON[c]}</span>${String(i+1).padStart(2,'0')}</div>
+        <h2>${esc(x.sol[c][0])}</h2><p class="prose">${esc(x.sol[c][1])}</p>
+        <div class="links"><a class="btn line" href="#gallery-${c}">${esc(x.seePhotos)}</a><a class="btn" href="#contact-${c}">${esc(x.discuss)}</a></div>
+        ${c === 'automation' ? `<div class="smart"><h3>${esc(x.smartH)}</h3><div class="smart-grid">${x.smart.map(s => `<div><b>${esc(s[0])}</b><span class="muted">${esc(s[1])}</span></div>`).join('')}</div></div>` : ''}
+      </div>
+      <div class="sol-media">${fig(c, 0, x.photoOf + x.sol[c][2])}</div>
+    </article>`).join('')}</div>`;
+}
+
+function vProducts(){
+  const x = t();
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.nav.products)}</h1><p>${esc(x.prodIntro)}</p></div></section>
+  <section class="block"><div class="wrap"><div class="grid3">
+    ${BRANDS.map(b => `<div class="card"><a class="brand-logo" href="${b[1]}" target="_blank" rel="noopener" aria-label="${b[0]}"><span><b>${b[0]}</b>${esc(x.logoPh)}</span></a>
+      <h3 style="margin:4px 0 0">${b[0]}</h3>
+      <a class="ext" href="${b[1]}" target="_blank" rel="noopener" data-supplier="${b[0]}">${esc(x.site)} ${ICON.ext}</a></div>`).join('')}
+  </div>
+  <div class="help"><h3>${esc(x.helpH)}</h3><a class="btn" href="#contact-product">${esc(x.helpB)}</a></div></div></section>`;
+}
+
+let hidePhotos = false;
+function vTurnkey(){
+  const x = t();
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.nav.turnkey)}</h1><p>${esc(x.tkIntro)}</p>
+    <label class="toggle-photos"><input type="checkbox" id="hidePh" ${hidePhotos?'checked':''}> ${esc(x.photosToggle)}</label></div></section>
+  <div class="wrap"><ol class="stages">${x.stages.map((s,i) => `<li class="stage ${hidePhotos?'nophoto':''}">
+      <div><div class="stage-head"><span class="stage-no">${String(i+1).padStart(2,'0')}</span><span class="stage-ic">${ICON['s'+(i+1)]}</span></div>
+        <h2 style="font-size:24px">${esc(s[0])}</h2><p class="prose" style="margin:0">${esc(s[1])}</p>
+        <div class="result"><b>${esc(x.result)}</b>${esc(s[2])}</div></div>
+      ${hidePhotos ? '' : `<div class="stage-media">${fig('stage', i, x.stagePhoto + ' ' + String(i+1).padStart(2,'0'))}</div>`}
+    </li>`).join('')}</ol>
+    <div style="padding:36px 0 64px;border-top:1px solid var(--line)"><a class="btn" href="#contact-turnkey">${esc(x.tkCta)}</a></div></div>`;
+}
+
+function vGallery(){
+  const x = t();
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.nav.gallery)}</h1><p>${esc(x.galIntro)}</p>
+    <nav class="chips">${CATS.map(c => `<a href="#gallery-${c}" style="--cat:${CATC[c]}">${ICON[c]}${esc(x.sol[c][0])}</a>`).join('')}</nav></div></section>
+  <div class="wrap">${CATS.map(c => `<section class="gal-sec" id="gal-${c}">
+      <div class="gal-head" style="--cat:${CATC[c]}"><h2 style="margin:0;border-left:6px solid var(--cat);padding-left:12px">${esc(x.sol[c][0])}</h2><a href="#solutions-${c}">${esc(x.desc)}</a></div>
+      <div class="gal-grid">${[0,1,2].map(v => `<button data-cat="${c}" data-i="${v}" aria-label="${esc(x.sol[c][0])} — ${esc(x.photoN)} ${v+1}">${fig(c, v, x.galPh + ' ' + (v+1))}</button>`).join('')}</div>
+    </section>`).join('')}<div style="height:48px"></div></div>`;
+}
+
+function vContact(){
+  const x = t(), f = x.f;
+  const opts = CATS.map(c => [c, x.sol[c][0]]).concat([['product', x.topics[0]],['turnkey', x.topics[1]],['other', x.topics[2]]]);
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.contH)}</h1><p>${esc(x.contIntro)}</p></div></section>
+  <section class="block"><div class="wrap contact-grid">
+    <div><dl class="cdata">${x.cd.map(r => `<dt>${esc(r[0])}</dt><dd>${r[2] ? `<span class="todo">${esc(r[1])}</span>` : esc(r[1])}</dd>`).join('')}</dl>
+      <div class="map">${esc(x.mapPh)}</div></div>
+    <div id="formBox">
+    <form class="lead" id="leadForm" novalidate>
+      <h2 style="font-size:24px">${esc(x.formH)}</h2>
+      <div class="two">
+        <div class="f" id="f-name"><label for="i-name">${esc(f.name)}</label><input id="i-name" autocomplete="name"><div class="err" aria-live="polite"></div></div>
+        <div class="f"><label for="i-company">${esc(f.company)} <span class="hint">— ${esc(f.opt)}</span></label><input id="i-company" autocomplete="organization"></div>
+      </div>
+      <div class="f" id="f-contact"><label for="i-contact">${esc(f.contact)}</label><input id="i-contact" autocomplete="email" inputmode="email"><span class="hint">${esc(f.contactHint)}</span><div class="err" aria-live="polite"></div></div>
+      <div class="f"><label for="i-topic">${esc(f.topic)} <span class="hint">— ${esc(f.opt)}</span></label><select id="i-topic"><option value=""></option>${opts.map(o => `<option value="${o[0]}" ${formTopic===o[0]?'selected':''}>${esc(o[1])}</option>`).join('')}</select></div>
+      <div class="f" id="f-msg"><label for="i-msg">${esc(f.msg)}</label><textarea id="i-msg" maxlength="2000"></textarea><div class="counter"><span id="cnt">0</span> / 2000</div><div class="err" aria-live="polite"></div></div>
+      <button class="btn" type="submit" id="sendBtn">${esc(f.send)}</button>
+      <p class="muted" style="font-size:13px;margin:14px 0 0"><a href="#privacy">${esc(x.privacy)}</a></p>
+    </form></div>
+  </div></section>`;
+}
+
+function vPrivacy(){
+  const x = t();
+  return `<section class="phead"><div class="wrap"><h1>${esc(x.privH)}</h1><p>${esc(x.privP)}</p><p style="margin-top:20px"><a class="btn line" href="#about">${esc(x.backHome)}</a></p></div></section>`;
+}
+
+const VIEWS = {about:vAbout, solutions:vSolutions, products:vProducts, turnkey:vTurnkey, contact:vContact, gallery:vGallery, privacy:vPrivacy};
+const ORDER = ['about','solutions','products','turnkey','contact','gallery'];
+
+/* ---------- chrome ---------- */
+function chrome(view){
+  const x = t();
+  document.documentElement.lang = lang;
+  document.getElementById('protoNote').textContent = x.proto;
+  document.getElementById('mainNav').innerHTML = ORDER.map(k => `<a href="#${k}" ${k===view?'aria-current="page"':''}>${esc(x.nav[k])}</a>`).join('');
+  document.getElementById('headCta').textContent = x.cta;
+  document.getElementById('headCta2').textContent = x.heroB1;
+
+  document.getElementById('footLinks').innerHTML = `<a href="#privacy">${esc(x.privacy)}</a>`;
+  document.querySelectorAll('.isx-lang button').forEach(b => { const on = b.dataset.lang === lang; b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.classList.toggle('is-active', on); });
+}
+
+function route(){
+  const h = location.hash.slice(1);
+  const parts = h.split('-');
+  let view = parts[0], sub = parts.slice(1).join('-');
+  if (!VIEWS[view]) { view = 'about'; sub = ''; }
+  if (view === 'contact') formTopic = sub || formTopic;
+  chrome(view);
+  document.getElementById('app').innerHTML = VIEWS[view]();
+  document.getElementById('isxHeader').classList.remove('is-open');
+  document.getElementById('burger').setAttribute('aria-expanded','false');
+  document.title = 'Irrigation Systems LLC — ' + (t().nav[view] || t().privH) + ' (v19)';
+  bind(view);
+  if (view === 'about') { initPeople(); bindSound(); } else Birdsong.pause();
+  const target = sub && (view === 'solutions' ? document.getElementById('sol-' + sub) : view === 'gallery' ? document.getElementById('gal-' + sub) : null);
+  if (target) { requestAnimationFrame(() => target.scrollIntoView({block:'start'})); }
+  else window.scrollTo(0, 0);
+  if (view === 'gallery' && sub) track('gallery_open', {category: sub});
+}
+
+/* ---------- analytics stub (no personal data) ---------- */
+const events = [];
+function track(name, p){ events.push(Object.assign({event:name, language:lang, page_path:location.hash || '#about'}, p)); }
+
+/* ---------- behaviour ---------- */
+function bind(view){
+  if (view === 'turnkey') document.getElementById('hidePh').addEventListener('change', e => { hidePhotos = e.target.checked; route(); });
+  if (view === 'gallery') document.querySelectorAll('.gal-grid button').forEach(b => b.addEventListener('click', () => openLb(b.dataset.cat, +b.dataset.i)));
+  if (view === 'products') document.querySelectorAll('[data-supplier]').forEach(a => a.addEventListener('click', () => track('supplier_click', {brand:a.dataset.supplier})));
+  if (view === 'contact') bindForm();
+}
+
+function bindForm(){
+  const x = t(), F = document.getElementById('leadForm');
+  const msg = document.getElementById('i-msg'), cnt = document.getElementById('cnt');
+  msg.addEventListener('input', () => cnt.textContent = msg.value.length);
+  let sending = false;
+  F.addEventListener('submit', e => {
+    e.preventDefault(); if (sending) return;
+    const v = id => document.getElementById(id).value.trim();
+    const setErr = (fid, text) => { const box = document.getElementById(fid); box.classList.toggle('bad', !!text); box.querySelector('.err').textContent = text || ''; };
+    let ok = true;
+    const name = v('i-name'), contact = v('i-contact'), m = v('i-msg');
+    setErr('f-name', name ? '' : x.e.name); ok = ok && !!name;
+    let cErr = '';
+    if (!contact) cErr = x.e.contact;
+    else if (contact.includes('@')) { if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact)) cErr = x.e.email; }
+    else if (!/^\+?[0-9\s()\-]{7,20}$/.test(contact)) cErr = x.e.phone;
+    setErr('f-contact', cErr); ok = ok && !cErr;
+    const mErr = !m ? x.e.msg : (m.length > 2000 ? x.e.long : '');
+    setErr('f-msg', mErr); ok = ok && !mErr;
+    if (!ok) { F.querySelector('.bad input, .bad textarea').focus(); return; }
+    sending = true; document.getElementById('sendBtn').disabled = true;
+    setTimeout(() => {
+      track('generate_lead', {topic: v('i-topic') || 'none'});
+      const rec = { date: new Date().toISOString(), language: lang, topic: v('i-topic') || '—', name, company: v('i-company') || '—', contact, message: m, source_page: '/' + lang + '/contact/' };
+      document.getElementById('formBox').innerHTML = `<div class="ok" role="status"><h2 style="font-size:24px">${esc(x.okH)}</h2><p>${esc(x.okP)}</p><p class="muted" style="font-size:14px">${esc(x.okDemo)}</p><pre>${esc(JSON.stringify(rec, null, 2))}</pre><button class="btn line" id="againBtn">${esc(x.again)}</button></div>`;
+      document.getElementById('againBtn').addEventListener('click', () => route());
+    }, 600);
+  });
+}
+
+/* lightbox */
+const lb = document.getElementById('lb'); let lbCat = '', lbI = 0;
+function drawLb(){
+  const x = t();
+  document.getElementById('lbFig').innerHTML = fig(lbCat, lbI, x.galPh + ' ' + (lbI+1));
+  document.getElementById('lbCap').textContent = x.sol[lbCat][0];
+  document.getElementById('lbCount').textContent = (lbI+1) + ' / 3';
+}
+function openLb(cat, i){ lbCat = cat; lbI = i; drawLb(); if (typeof lb.showModal === 'function') lb.showModal(); else lb.setAttribute('open',''); track('gallery_open', {category: cat}); }
+function step(d){ lbI = (lbI + d + 3) % 3; drawLb(); }
+document.getElementById('lbPrev').addEventListener('click', () => step(-1));
+document.getElementById('lbNext').addEventListener('click', () => step(1));
+document.getElementById('lbClose').addEventListener('click', () => lb.close());
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+lb.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+let tx = null;
+lb.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+lb.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1); tx = null; });
+
+/* language */
+let toastT;
+function toast(msg){ let el = document.querySelector('.toast'); if (!el) { el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role','status'); document.body.appendChild(el); } el.textContent = msg; clearTimeout(toastT); toastT = setTimeout(() => el.remove(), 3500); }
+document.querySelectorAll('.isx-lang button').forEach(b => b.addEventListener('click', () => {
+  if (b.dataset.lang === 'ka') { toast(t().kaNote); return; }
+  lang = b.dataset.lang; try { localStorage.setItem('isl-proto-lang', lang); } catch (e) {}
+  const y = window.scrollY; route(); if (!location.hash.includes('-')) window.scrollTo(0, y);
+}));
+document.getElementById('burger').addEventListener('click', () => {
+  const h = document.getElementById('isxHeader'); const open = h.classList.toggle('is-open');
+  document.getElementById('burger').setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+document.addEventListener('click', e => { const a = e.target.closest('a[href^="tel:"],a[href^="mailto:"]'); if (a) track('contact_click', {channel: a.href.split(':')[0]}); });
+
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
