@@ -1,0 +1,394 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Покупатель для кедрового шале</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+/* Layout: узкая колонка отчёта, липкая полоса шагов, таблицы в собственных прокрутках */
+:root{
+  --bg:#f5f6f3; --surface:#ffffff; --ink:#1d2621; --muted:#5d6a62; --line:#dde2dc;
+  --pine:#24493a; --cedar:#a8582a; --cedar-soft:#f3e3d6; --pine-soft:#e2ece6;
+  --ok:#2f7a4f; --warn:#b07a12; --bad:#b23b2e;
+  --f-display:"Literata", Georgia, "Times New Roman", serif;
+  --f-body:"Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#141917; --surface:#1c2320; --ink:#e6ebe7; --muted:#9aa89f; --line:#2f3934;
+  --pine:#8cc4a8; --cedar:#e39a68; --cedar-soft:#3a2a20; --pine-soft:#1f3229;
+  --ok:#6cc290; --warn:#e0b04a; --bad:#ec7c6f; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#141917; --surface:#1c2320; --ink:#e6ebe7; --muted:#9aa89f; --line:#2f3934;
+  --pine:#8cc4a8; --cedar:#e39a68; --cedar-soft:#3a2a20; --pine-soft:#1f3229;
+  --ok:#6cc290; --warn:#e0b04a; --bad:#ec7c6f; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1080px;margin:0 auto}
+header.top{padding-block:28px 18px;display:grid;gap:10px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:12.5px;font-weight:500;background:var(--pine-soft);color:var(--pine);white-space:nowrap}
+.pill.cedar{background:var(--cedar-soft);color:var(--cedar)}
+.pill.warn{background:transparent;border:1px solid var(--warn);color:var(--warn)}
+h1{font:650 clamp(26px,4.4vw,38px)/1.15 var(--f-display);margin:0;text-wrap:balance}
+h2{font:650 22px/1.25 var(--f-display);margin:0 0 6px;text-wrap:balance}
+h3{font:600 15px/1.3 var(--f-body);margin:18px 0 8px;letter-spacing:.01em}
+p{margin:0 0 10px;max-width:72ch}
+.lead{color:var(--muted);max-width:72ch}
+nav.steps{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:thin}
+nav.steps button{font:500 13.5px var(--f-body);color:var(--muted);background:none;border:1px solid transparent;border-radius:8px;padding:6px 12px;cursor:pointer;white-space:nowrap}
+nav.steps button:hover{color:var(--ink);border-color:var(--line)}
+nav.steps button[aria-selected="true"]{color:var(--surface);background:var(--pine);border-color:var(--pine)}
+nav.steps button:focus-visible,button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--cedar);outline-offset:2px}
+section.view{padding-top:22px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0 6px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+.kpi b{display:block;font:650 22px/1.2 var(--f-display);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.callout{border-left:3px solid var(--cedar);background:var(--surface);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;max-width:80ch}
+.callout.pine{border-left-color:var(--pine)}
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:8px 0 14px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:600;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);background:var(--bg);position:sticky;top:0;white-space:nowrap}
+th.sort{cursor:pointer;user-select:none}
+th.sort::after{content:" ↕";opacity:.5}
+td.num{text-align:right;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.ours td{background:var(--cedar-soft)}
+a{color:var(--pine);text-underline-offset:2px}
+.prob{font-weight:600}
+.prob.hi{color:var(--ok)} .prob.mid{color:var(--warn)} .prob.lo{color:var(--bad)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.chip{font:500 13px var(--f-body);padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--pine);color:var(--surface);border-color:var(--pine)}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;margin:10px 0}
+.chart svg{display:block;min-width:520px;width:100%;height:auto}
+.letter{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0;max-width:80ch}
+.letter pre{white-space:pre-wrap;font:14px/1.6 var(--f-body);margin:10px 0 0}
+.letter .row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{font:500 13px var(--f-body);padding:6px 12px;border-radius:8px;border:1px solid var(--pine);background:transparent;color:var(--pine);cursor:pointer}
+.btn:hover{background:var(--pine-soft)}
+ul.tight{margin:6px 0 10px;padding-left:20px;max-width:80ch} ul.tight li{margin:3px 0}
+ol.tight{margin:6px 0 10px;padding-left:22px;max-width:80ch} ol.tight li{margin:4px 0}
+.small{font-size:12.5px;color:var(--muted)}
+footer{margin-top:36px;border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){ section.view{animation:fade .18s ease-out} @keyframes fade{from{opacity:.4}to{opacity:1}} }
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div class="meta"><span class="pill cedar">v1 · 2026-11-09</span><span class="pill">Шаги 0–6 выполнены</span><span class="pill warn">Авито не проверено</span></div>
+  <h1>Покупатель для кедрового шале в «Никольской слободе»</h1>
+  <p class="lead">Объект: шале из кедра 550 м² + гостевой дом 370 м² + банный комплекс 370 м² + гараж с блоком персонала 250 м², участок 46 сот., Новорижское ш., 12 км, 640 млн ₽. <a href="https://www.cian.ru/sale/suburban/332053789/" target="_blank" rel="noopener">Объявление ЦИАН 332053789</a></p>
+</header>
+
+<nav class="steps" role="tablist" aria-label="Шаги отчёта" id="nav"></nav>
+
+<!-- ИТОГ -->
+<section class="view" id="v-itog" data-name="Итог" hidden>
+  <h2>Итог: каналы, цена, подача</h2>
+  <div class="kpis">
+    <div class="kpi"><b>640 млн ₽</b><span>цена; бюджет-середина посёлка (350 млн – 1,8 млрд)</span></div>
+    <div class="kpi"><b>≈416 тыс. ₽/м²</b><span>по всем строениям ≈1 540 м²; в объявлении — 1,16 млн по дому</span></div>
+    <div class="kpi"><b>6–9 агентств</b><span>уже выставляют объект, площади расходятся</span></div>
+    <div class="kpi"><b>366</b><span>просмотров на ЦИАН; обновлено 16 июля</span></div>
+  </div>
+  <div class="callout"><b>Главное.</b> Цена в рынке по общей площади строений, но основной дом мал на фоне соседей (там 1 000–1 700 м² за 590–700 млн), а деревянный конкурент в том же посёлке стоит 380 млн. Объект висит у многих агентств с разными данными — это сигнал «давно на рынке». Сначала навести порядок в данных, потом выходить к брокерам и private banking.</div>
+
+  <h3>Топ-10 каналов по приоритету</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>№</th><th>Канал</th><th>Кандидат</th><th>Почему подходит</th><th>Первый шаг</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Брокер, объект уже есть</td><td><a href="https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9923348" target="_blank" rel="noopener">NF Group</a></td><td>Самый большой портфель в посёлке, объект в базе (hs9923348)</td><td>Звонок: показы и запросы за 4 месяца; одна версия площадей; эксклюзив</td></tr>
+      <tr><td>2</td><td>Брокер, объекта нет</td><td><a href="https://www.kalinka-realty.ru/zagorod/dom/rublevo-uspenskoe/163810/" target="_blank" rel="noopener">Kalinka Group</a></td><td>Продаёт деревянный аналог со СПА в кедре (≈736 млн), международные клиенты</td><td>Письмо брокеру</td></tr>
+      <tr><td>3</td><td>Брокер, объект уже есть</td><td><a href="https://www.tweed.ru/node/24505" target="_blank" rel="noopener">Tweed</a></td><td>Офис на Рублёвке; у них баня 200 м² — сверить</td><td>Сверка данных, вопрос о клиентах</td></tr>
+      <tr><td>4</td><td>Брокер, объекта нет</td><td><a href="https://buro-estate.ru/objects/sovremennyy-derevyannyy-dom-s-basseynom_9317" target="_blank" rel="noopener">Buro Estate</a></td><td>Продаёт деревянный дом за 380 млн — его покупатели «на дерево» и есть наша аудитория</td><td>Письмо брокеру</td></tr>
+      <tr><td>5</td><td>Брокер, объекта нет</td><td><a href="https://intermark.ru/objects/dom-novorizhskoe-shosse-nikolskaya-sloboda-7578" target="_blank" rel="noopener">Intermark</a></td><td>Бывший Savills; лоты в посёлке, в том числе с гостевым домом и баней</td><td>Письмо брокеру</td></tr>
+      <tr><td>6</td><td>Private banking</td><td><a href="https://www.gazprombank.ru/private/realty/" target="_blank" rel="noopener">Газпромбанк Private</a></td><td>Подбор недвижимости — отдельная услуга</td><td>Письмо в private banking</td></tr>
+      <tr><td>7</td><td>Private banking</td><td><a href="https://www.kommersant.ru/doc/5998058" target="_blank" rel="noopener">ДОМ.РФ Private</a></td><td>«Полный цикл» по элитной недвижимости плюс кредит</td><td>Письмо через форму на сайте</td></tr>
+      <tr><td>8</td><td>Private banking / family office</td><td><a href="https://snob.ru/money/kak-ustroeny-ofisy-private-banking-i-chto-oni-predlagaiut-klientam/" target="_blank" rel="noopener">Sber PB</a> + мультисемейный офис</td><td>Самая большая база клиентов с активами от 100 млн ₽</td><td>Через знакомого клиентского менеджера</td></tr>
+      <tr><td>9</td><td>Посёлок</td><td>УК КП «Никольская слобода»</td><td>Видит интерес к посёлку; соседи покупают «для семьи рядом»</td><td>Найти контакт УК (пока не найден)</td></tr>
+      <tr><td>10</td><td>Аренда → покупка</td><td><a href="https://www.slrealty.ru/house/village/nikolskaya-sloboda" target="_blank" rel="noopener">SL Realty</a> и NF (1,95 млн ₽/мес)</td><td>Арендатор такого уровня — тёплый кандидат на выкуп</td><td>Узнать о запросах на аренду; аренда с правом выкупа</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Дополнительно: А-Клуб.Pro Альфа-Банка — если собственник или его окружение клиенты А-Клуба, объект можно разместить на закрытой площадке через финансового советника.</p>
+
+  <h3>Цена и подача</h3>
+  <ol class="tight">
+    <li><b>Одна версия данных.</b> Сейчас площади 500 / 570 / 1 200 / 1 320 / 1 540 м², баня 200 или 370 м², участок 46 или 50 сот. Согласовать по техпаспорту, единое описание и цена, лучше эксклюзив у 1–2 агентств.</li>
+    <li><b>Не показывать 1,16 млн ₽/м².</b> Хуже всех аналогов посёлка. Подавать комплекс: «усадьба ≈1 540 м² строений — ≈416 тыс. ₽/м²».</li>
+    <li><b>Заголовок про образ жизни:</b> «Кедровое шале и усадебный комплекс в 12 км от МКАД: гостевой дом с кинотеатром, банный комплекс с купелями, парк с вековыми деревьями».</li>
+    <li><b>Обновить объявление:</b> новые фото, видео с дрона, ролик о бане и гостевом доме.</li>
+    <li><b>Цена — решение собственника.</b> Ориентир: если после наведения порядка за 1–2 месяца нет показов — пересмотреть цену или усилить условия (аренда с выкупом, мебель в цене).</li>
+  </ol>
+
+  <h3>Что не сделано</h3>
+  <ul class="tight">
+    <li>Авито (аналоги и «куплю»): сайт закрыт для робота, нужен Claude in Chrome — расширение к сессии не подключилось.</li>
+    <li>Сайты ВТБ, ДОМ.РФ, Уралсиба, МКБ, ПСБ, Т-Банка закрыты для робота — контакты уточнить вручную.</li>
+    <li>Контакт УК «Никольской слободы» не найден.</li>
+  </ul>
+</section>
+
+<!-- ШАГ 0 -->
+<section class="view" id="v-s0" data-name="0 · Объект" hidden>
+  <h2>Шаг 0. Сверка объекта</h2>
+  <p class="lead">Карточка ЦИАН прочитана полностью, 09.11.2026. Размещает собственник, обновлено 16 июля (год не указан), 366 просмотров.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Параметр</th><th>Исходные данные</th><th>ЦИАН</th><th>Агентства</th></tr></thead>
+    <tbody>
+      <tr><td>Цена</td><td class="num">640 млн ₽</td><td>640 000 000 ₽</td><td>640 млн (NF, SL, Terra, Tweed, LetoEstate и др.)</td></tr>
+      <tr><td>Шале</td><td class="num">550 м²</td><td>550 м², 2 эт., 6 спален, 6 с/у</td><td>NF: 500 м²; FOX: 420 м²</td></tr>
+      <tr><td>Гостевой дом</td><td class="num">370 м²</td><td>370 м²</td><td>NF: 400 м²; Tweed: 370 м²</td></tr>
+      <tr><td>Банный комплекс</td><td class="num">370 м²</td><td>370 м² — как у гостевого, возможно ошибка</td><td>NF: 300 м²; Tweed: 200 м²</td></tr>
+      <tr><td>Гараж / персонал</td><td class="num">250 м²</td><td>250 м², квартира персонала в гаражном блоке, 8–10 машин</td><td>—</td></tr>
+      <tr><td>Всего строений</td><td class="num">≈1 540 м²</td><td>—</td><td>1 200 / 1 320 / 1 500 / 1 540 м²</td></tr>
+      <tr><td>Участок</td><td class="num">46 сот.</td><td>46 сот., ИЖС</td><td>NF: 50 сот.</td></tr>
+      <tr><td>Удалённость</td><td>Новорижское, 12 км</td><td>12 км; в тексте «до Москвы 9 км»</td><td>NF: 9 км</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Преимущества из описания</h3>
+  <ul class="tight">
+    <li>Натуральное кедровое бревно большого диаметра, второй свет выше 10 м, панорамные окна, террасы.</li>
+    <li>Мебель Poltrona Frau, текстиль Loro Piana, камин.</li>
+    <li>Центральные вода, канализация, газ; охраняемый элитный посёлок.</li>
+    <li>Взрослые лесные деревья на участке, рядом озеро.</li>
+    <li>Гостевой дом: кинотеатр, спортзал, бильярд, барбекю. Баня: русская парная, 2 купели, уличное джакузи.</li>
+  </ul>
+</section>
+
+<!-- ШАГ 1 -->
+<section class="view" id="v-s1" data-name="1 · Аналоги" hidden>
+  <h2>Шаг 1. Рынок-аналоги</h2>
+  <p class="lead">23 объекта дороже 300 млн ₽. Повторы у разных агентств сведены в одну строку. Цена за м² посчитана по цене основного источника. Нажмите заголовок колонки, чтобы отсортировать.</p>
+  <div class="chart" aria-label="Цена за м² дома в Никольской слободе">
+    <div class="small" style="margin-bottom:6px">«Никольская слобода»: цена за м² основного дома, тыс. ₽. Пунктир — наш объект по всем строениям.</div>
+    <svg id="chart" viewBox="0 0 720 330" role="img"></svg>
+  </div>
+  <div class="controls" id="filters">
+    <button class="chip" data-f="all" aria-pressed="true">Все</button>
+    <button class="chip" data-f="ns" aria-pressed="false">Никольская слобода</button>
+    <button class="chip" data-f="nr" aria-pressed="false">Новорижское, соседи</button>
+    <button class="chip" data-f="ru" aria-pressed="false">Рублёвка</button>
+    <button class="chip" data-f="wood" aria-pressed="false">Дерево / шале</button>
+  </div>
+  <div class="tbl"><table id="analogs">
+    <thead><tr>
+      <th class="sort" data-k="v">Посёлок</th><th class="sort" data-k="km">км</th><th class="sort" data-k="h">Дом, м²</th><th class="sort" data-k="l">Сот.</th><th>Доп. строения</th>
+      <th class="sort" data-k="p">Цена, млн ₽</th><th class="sort" data-k="ph">₽/м² дома</th><th class="sort" data-k="pa">₽/м² всех</th><th>Продавцы</th><th>Ссылка</th>
+    </tr></thead><tbody></tbody>
+  </table></div>
+  <div class="callout pine"><b>Вывод.</b> Медиана цены за м² дома в посёлке — ≈556 тыс. ₽, по всем строениям известные значения 261–725 тыс. Наш объект: 1,16 млн по дому (дороже всех) и ≈416 тыс. по всем строениям (нижняя половина). По данным NF Group за I кв. 2026, средний бюджет на вторичном рынке: Новорижское 381 млн, Рублёвское 642 млн (<a href="https://realty.rbc.ru/news/69f080de9a7947700e33b311" target="_blank" rel="noopener">РБК</a>).</div>
+  <p class="small">Источники: kf.expert, buro-estate, slrealty, gethome, Kalinka, Tweed, Terra, HomeHunter, one-estate, выдача ЦИАН. Авито заблокирован. На ЦИАН цены в выдаче склеиваются с номером дома — сверялись по сайтам агентств.</p>
+</section>
+
+<!-- ШАГ 2 -->
+<section class="view" id="v-s2" data-name="2 · Покупатели" hidden>
+  <h2>Шаг 2. Портрет покупателя</h2>
+  <p class="lead">Оценка экспертная: по составу объекта и аналогам. Статистики сделок по сегментам в открытом доступе нет.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Сегмент</th><th>Мотив</th><th>Главное в объекте</th><th>Что оттолкнёт</th><th>Вероятность</th><th>Через кого</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ценитель дерева и бани</b></td><td>«Живой» дом из массива, эко-люкс</td><td>Кедровое бревно, второй свет, русская парная, купели, лес</td><td>На 260 млн дороже деревянного №8 в посёлке; уход за бревном</td><td class="prob hi">высокая</td><td>NF, Kalinka, Tweed; напрямую</td></tr>
+      <tr><td><b>Представительская резиденция</b></td><td>Приёмы, переговоры, гости</td><td>Гостевой дом с кинотеатром, баня, парковка 8–10 машин, мебель</td><td>Основной дом скромнее соседей за ту же цену</td><td class="prob hi">средняя–высокая</td><td>Private banking, family office, брокеры</td></tr>
+      <tr><td><b>Семья с детьми</b></td><td>Переезд за город рядом с Москвой</td><td>12 км, 6 спален с с/у, охрана, парк, газ</td><td>Тесновато для большой семьи с персоналом</td><td class="prob mid">средняя</td><td>Брокеры, рекомендации</td></tr>
+      <tr><td><b>«Второй дом»</b></td><td>База на выходные и лето</td><td>Готов к въезду, баня и SPA, близко к городу</td><td>Дорого для дома выходного дня; выберет аренду</td><td class="prob mid">средняя</td><td>Брокеры, private banking</td></tr>
+      <tr><td><b>Аренда → выкуп / инвестор</b></td><td>Пожить и купить; или сдавать</td><td>Объект уже сдаётся за 1,95 млн ₽/мес</td><td>Доходность ≈3,7% годовых</td><td class="prob lo">низкая</td><td>Брокеры по аренде (NF, SL)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout pine">Объект выигрывает «комплексом удовольствий», а не площадью дома. Продавать образ жизни; главные каналы — брокеры с покупателями на дерево и шале, и private banking для резиденций.</div>
+</section>
+
+<!-- ШАГ 3 -->
+<section class="view" id="v-s3" data-name="3 · Брокеры" hidden>
+  <h2>Шаг 3. Брокеры элитного загорода</h2>
+  <p class="lead">Только корпоративные контакты. Телефоны и почту показываю текстом — их можно выделить и скопировать.</p>
+  <h3>Объект уже выставлен</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Агентство</th><th>Статус объекта</th><th>Карточка</th><th>Контакт</th></tr></thead>
+    <tbody>
+      <tr><td>NF Group (бывш. Knight Frank)</td><td>да — 1 200 м², 50 сот.</td><td><a href="https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9923348" target="_blank" rel="noopener">hs9923348</a></td><td>+7 495 032-68-64</td></tr>
+      <tr><td>SL Realty</td><td>да — 1 320 м², аренда 1,95 млн/мес</td><td><a href="https://www.slrealty.ru/house/village/nikolskaya-sloboda" target="_blank" rel="noopener">лот 30516</a></td><td>+7 495 925-33-77</td></tr>
+      <tr><td>LetoEstate</td><td>да — 1 540 м², «кедр»</td><td><a href="https://letoestate.ru/poselki/nikol-skaya-sloboda/dom-iz-kedra-v-nikol-skoj-slobode/" target="_blank" rel="noopener">карточка</a></td><td>+7 495 120-12-48 · info@letoestate.ru</td></tr>
+      <tr><td>Terra-недвижимость</td><td>почти наверняка — 1 320 м²</td><td><a href="https://www.terra.ru/zagorodnaya-nedvizhimost/novoridjskoe/item19229.html" target="_blank" rel="noopener">item19229</a></td><td>+7 495 788-77-88</td></tr>
+      <tr><td>Tweed</td><td>почти наверняка — баня 200 м²</td><td><a href="https://www.tweed.ru/node/24505" target="_blank" rel="noopener">024505</a></td><td>+7 495 125-00-85 · info@tweed.ru</td></tr>
+      <tr><td>FOX Property</td><td>вероятно — дом 420/570 м²</td><td><a href="https://foxproperty.ru/zagorod/sale/novorizhskoe-shosse/nikolskaya-sloboda-544100" target="_blank" rel="noopener">544100</a></td><td>+7 495 790-48-88 · info@foxproperty.ru</td></tr>
+      <tr><td>One Estate</td><td>вероятно — 500 м²</td><td><a href="https://one-estate.ru/poselki/nikol-skaya-sloboda/" target="_blank" rel="noopener">страница КП</a></td><td>+7 495 120-11-21 · info@one-estate.ru</td></tr>
+      <tr><td>gethome</td><td>вероятно — 1 500 м²</td><td><a href="https://gethome.ru/poselok-nikolskaa-sloboda/102026" target="_blank" rel="noopener">102026</a></td><td>+7 495 215-04-00</td></tr>
+      <tr><td>Choice Estate</td><td>вероятно — 1 320 м²</td><td><a href="https://choice-estate.ru/zagorodnaya/49940/" target="_blank" rel="noopener">49940</a></td><td>нет данных</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Объекта нет — кандидаты на совместную продажу</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Агентство</th><th>Профиль</th><th>Похожие объекты</th><th>Контакт</th></tr></thead>
+    <tbody>
+      <tr><td>Buro Estate</td><td>город и загород, активен в посёлке</td><td><a href="https://buro-estate.ru/objects/sovremennyy-derevyannyy-dom-s-basseynom_9317" target="_blank" rel="noopener">дерево, 1 248 м², 380 млн</a></td><td>+7 495 323-84-48 · info@buro-estate.ru</td></tr>
+      <tr><td>Intermark (бывш. Savills)</td><td>с 1993 г.</td><td><a href="https://intermark.ru/objects/dom-novorizhskoe-shosse-nikolskaya-sloboda-7578" target="_blank" rel="noopener">571 м², 590 млн</a></td><td>+7 495 252-00-99</td></tr>
+      <tr><td>Kalinka Group</td><td>с 1999 г., офисы в Дубае и Лондоне</td><td><a href="https://www.kalinka-realty.ru/zagorod/dom/rublevo-uspenskoe/163810/" target="_blank" rel="noopener">брус, СПА в кедре, ≈736 млн</a></td><td>+7 495 725-25-81</td></tr>
+      <tr><td>Whitewill</td><td>≈1 000 загородных лотов, офис в Усово</td><td><a href="https://whitewill.ru/en/lots/show/country/256" target="_blank" rel="noopener">1 866 м², 746 млн</a></td><td>+7 499 877-49-39 (загородный)</td></tr>
+      <tr><td>Point Estate</td><td>с 2013 г., офис в Захарово</td><td><a href="https://www.pointestate.ru/zagorodnaya/buy/104615/" target="_blank" rel="noopener">600 м², посёлок</a></td><td>+7 499 288-88-67 · info@pointestate.ru</td></tr>
+      <tr><td>«Времена года»</td><td>элитная недвижимость</td><td><a href="https://vgrealty.ru/catalog/show/4748/" target="_blank" rel="noopener">1 250 м², 640 млн — прямой конкурент</a></td><td>promo@vgrealty.ru</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Не проверены: Villagio, Life Realty, Prime, Stone Bridge, Victory, BARN, «Высота». Sotheby's и Barnes — присутствие в Москве не подтверждено.</p>
+</section>
+
+<!-- ШАГ 4 -->
+<section class="view" id="v-s4" data-name="4 · Private banking" hidden>
+  <h2>Шаг 4. Private banking и family office</h2>
+  <p class="lead">Пороги входа — из обзоров и рейтинга Forbes 2025; банки их обычно не публикуют.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>№</th><th>Организация</th><th>Услуга по недвижимости</th><th>Порог</th><th>Контакт</th><th>Источник</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Газпромбанк Private</td><td>Отдельный раздел: подбор, сопровождение, ипотека</td><td class="num">≈50 млн</td><td>+7 495 719-19-00</td><td><a href="https://www.gazprombank.ru/private/realty/" target="_blank" rel="noopener">сайт</a></td></tr>
+      <tr><td>2</td><td>ДОМ.РФ Private</td><td>Полный цикл подбора и продажи элитной недвижимости</td><td class="num">≈30 млн</td><td>нет данных</td><td><a href="https://www.kommersant.ru/doc/5998058" target="_blank" rel="noopener">Коммерсантъ</a></td></tr>
+      <tr><td>3</td><td>Уралсиб Private</td><td>Подбор с проверкой юридической чистоты</td><td class="num">≈40 млн</td><td>нет данных</td><td><a href="https://style.rbc.ru/life/683063d29a7947c1cc49b222" target="_blank" rel="noopener">РБК Стиль</a></td></tr>
+      <tr><td>4</td><td>Sber Private Banking</td><td>Сопровождение сделки, закрытые продажи, цифровой семейный офис</td><td class="num">100 млн</td><td>нет данных</td><td><a href="https://www.ixbt.com/news/2026/07/06/420775-vse-vaznye-voprosy-v-odnom-meste-sber-zapustil-pervyi-v-rossii-cifrovoi-semeinyi-ofis.html" target="_blank" rel="noopener">iXBT</a></td></tr>
+      <tr><td>5</td><td>Альфа-Банк, А-Клуб.Pro</td><td>Закрытая площадка сделок между клиентами</td><td class="num">≈60 млн</td><td>форма на сайте</td><td><a href="https://www.comnews.ru/digital-economy/content/236304/2024-11-15/2024-w46/1012/klub-razrabotal-cifrovuyu-platformu-dlya-sdelok-mezhdu-sostoyatelnymi-klientami" target="_blank" rel="noopener">ComNews</a></td></tr>
+      <tr><td>6</td><td>ВТБ Private Banking</td><td>Покупка на льготных условиях, юрсопровождение</td><td class="num">15 млн</td><td>нет данных</td><td><a href="https://private.vtb.ru/contact/novosti/klienty-vtb-private-banking-poluchat-skidki-na-elitnuyu-nedvizhimost/" target="_blank" rel="noopener">новость ВТБ</a></td></tr>
+      <tr><td>7</td><td>BSPB Private</td><td>Каталог недвижимости в небанковских услугах</td><td>индивид.</td><td>+7 495 221-31-63 · vip@bspb.ru</td><td><a href="https://pb.bspb.ru/estate" target="_blank" rel="noopener">сайт</a></td></tr>
+      <tr><td>8</td><td>Ак Барс Private</td><td>Family Office, в основном зарубежная недвижимость</td><td>по пригл.</td><td>+7 495 258-06-62</td><td><a href="https://private.akbars.ru/" target="_blank" rel="noopener">сайт</a></td></tr>
+      <tr><td>—</td><td>«Катамаран Фэмили Офис»</td><td>Управление резиденциями и персоналом</td><td>нет данных</td><td>+7 495 796-78-00</td><td><a href="https://veryimportantpersonnel.ru/clients/our-services/" target="_blank" rel="noopener">сайт</a></td></tr>
+      <tr><td>—</td><td>Бюро «Арбитр»</td><td>Семейный офис, раздел «Недвижимость»</td><td>нет данных</td><td>+7 495 608-43-42</td><td><a href="https://buro-arbitr.ru/family-office" target="_blank" rel="noopener">сайт</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Только общий консьерж: T-Private, БКС Ультима, Совкомбанк, ПСБ, ОТП, МТС Банк, Райффайзен, Росбанк, Синара. Частные семейные офисы в России непрозрачны — выход через знакомства.</p>
+</section>
+
+<!-- ШАГ 5 -->
+<section class="view" id="v-s5" data-name="5 · Спрос" hidden>
+  <h2>Шаг 5. Активный спрос</h2>
+  <div class="callout">Публичных запросов «куплю дом» с бюджетом от 200 млн ₽ на Новорижском и Рублёвском направлениях за 2025–2026 не найдено.</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Площадка</th><th>Что проверено</th><th>Итог</th></tr></thead>
+    <tbody>
+      <tr><td>ЦИАН</td><td>Выдача, форум риэлторов</td><td>Раздела «Куплю» нет; одна ветка 2010 г., не наш сегмент</td></tr>
+      <tr><td>Авито</td><td>Только сниппеты поиска</td><td>Совпадений нет; сайт нужно проверить через Claude in Chrome</td></tr>
+      <tr><td>Яндекс Недвижимость, Домклик, irr, Юла, move, mirkvartir</td><td>Поиск</td><td>Запросов покупателей нет</td></tr>
+      <tr><td>Telegram: <a href="https://t.me/s/mnr_life" target="_blank" rel="noopener">@mnr_life</a>, <a href="https://t.me/s/eliterealestatemoscow" target="_blank" rel="noopener">@eliterealestatemoscow</a></td><td>Публичные ленты</td><td>Запросов нет</td></tr>
+    </tbody>
+  </table></div>
+  <p>Покупатели в этом бюджете на открытые площадки не выходят: работают через закреплённого брокера, private banking, закрытые брокерские чаты и управляющих посёлков. Брокерам стоит задать прямой вопрос: «есть ли клиенты на дерево или резиденцию в бюджете 500–700 млн».</p>
+</section>
+
+<!-- ПИСЬМА -->
+<section class="view" id="v-pisma" data-name="Письма" hidden>
+  <h2>Черновики писем</h2>
+  <p class="lead">Ничего не отправлено. Подставьте комиссию и контакты.</p>
+  <div class="letter"><div class="row"><b>Брокеру — совместная продажа</b><button class="btn" data-copy="l1" id="c1">Копировать</button></div>
+<pre id="l1">Тема: Кедровое шале, КП «Никольская слобода», 640 млн ₽ — предложение о совместной продаже
+
+Добрый день!
+
+Представляю собственника усадьбы в КП «Никольская слобода» (Новорижское ш., 12 км). На участке 46 сот.: шале из кедрового бревна 550 м², гостевой дом 370 м² с кинотеатром, спортзалом и бильярдом, банный комплекс с русской парной и купелями, гараж с блоком персонала на 8–10 машин. Мебель Poltrona Frau, текстиль Loro Piana, центральные коммуникации. Цена — 640 млн ₽.
+
+Предлагаем совместную продажу на условиях: комиссия [указать], единый пакет данных (техпаспорт, фото, видео), показы по согласованию.
+
+Если у вас есть клиенты на деревянный дом или представительскую резиденцию в бюджете 500–700 млн ₽, будем рады организовать закрытый показ.
+
+[Имя], [телефон], [почта]</pre></div>
+  <div class="letter"><div class="row"><b>В private banking</b><button class="btn" data-copy="l2" id="c2">Копировать</button></div>
+<pre id="l2">Тема: Объект для клиентов: усадьба из кедра на Новой Риге, 12 км от МКАД
+
+Добрый день!
+
+Предлагаем вниманию ваших клиентов, которые ищут загородную резиденцию, закрытую продажу усадьбы в КП «Никольская слобода» (Новорижское ш., 12 км). Кедровое шале 550 м², гостевой дом и банный комплекс по 370 м², гараж с блоком персонала, 46 сот. с лесными деревьями, рядом озеро. Объект меблирован и готов к проживанию. Цена — 640 млн ₽.
+
+Готовы:
+— предоставить полный пакет документов для юридической проверки;
+— провести сделку через аккредитив или эскроу;
+— организовать конфиденциальный показ.
+
+Есть вариант аренды с последующим выкупом.
+
+[Имя], [телефон], [почта]</pre></div>
+</section>
+
+<footer>Версия v1 от 09.11.2026. Данные — публичные страницы агентств, банков и СМИ на дату отчёта; цены за м² рассчитаны. Личные данные частных лиц не собирались.</footer>
+</div>
+
+<script>
+const A=[
+ {g:"ns",v:"Никольская слобода",km:9,h:1238,l:50,x:"персонал, SPA и бассейн в доме",p:1250,pa:null,s:"NF, Buro, SL, Vesco",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9919399"},
+ {g:"ns",v:"Никольская слобода",km:9,h:1457,l:44,x:"дом персонала 60 м²",p:1100,pa:725115,s:"NF, Buro, SL, Vesco",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs1300507"},
+ {g:"ns",v:"Никольская слобода",km:9,h:1800,l:50,x:"гараж на 4 машины с квартирой персонала",p:1000,pa:null,s:"NF, Buro, SL",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs1300546"},
+ {g:"ns",v:"Никольская слобода",km:9,h:2600,l:105,x:"гостевой, персонал с гаражом, склад",p:1772,pa:null,s:"NF, SL",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9923180"},
+ {g:"ns",v:"Никольская слобода",km:9,h:1711,l:41,x:"персонал 234 м², баня, SPA, гараж",p:700,pa:360045,s:"NF, Terra, Buro",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9922374"},
+ {g:"ns",v:"Никольская слобода",km:9,h:1000,l:60,x:"гостевой, охрана и персонал",p:680,pa:null,s:"NF, Высота, SL",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs1300552"},
+ {g:"ns",v:"Никольская слобода",km:9,h:1650,l:49,x:"баня 200 м², охрана 250 м², персонал",p:590,pa:280948,s:"NF, Buro, SL",u:"https://buro-estate.ru/objects/osobnyak_v_klassicheskom_stile_so_spa_zonoy_2834"},
+ {g:"ns",w:1,v:"Никольская слобода",km:9,h:1242,l:44,x:"гостевой с баней и купелью, персонал",p:380,pa:261168,s:"NF, Buro, SL",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9913363"},
+ {g:"ns",v:"Никольская слобода",km:9,h:800,l:15,x:"студия персонала",p:350,pa:null,s:"NF, Buro, Terra",u:"https://kf.expert/zagorod/dom/nikolskaya-sloboda-hs9915826"},
+ {g:"nr",v:"Павлово",km:15,h:1400,l:66,x:"гостевой 167 м², гараж, корт",p:590,pa:376516,s:"NF Group",u:"https://kf.expert/zagorod/dom/pavlovo-hs9919216"},
+ {g:"nr",v:"Павлово",km:15,h:1500,l:24,x:"2 гаража, дом персонала",p:580,pa:null,s:"NF Group",u:"https://kf.expert/zagorod/dom/pavlovo-hs1300398"},
+ {g:"nr",v:"Millennium Park",km:23,h:2700,l:57,x:"нет данных",p:1200,pa:null,s:"NF Group",u:"https://kf.expert/zagorod/dom/millenium-park-hs9920102"},
+ {g:"nr",v:"Монолит",km:23,h:1110,l:40,x:"нет данных",p:380,pa:null,s:"One Estate",u:"https://one-estate.ru/doma/prodazha-doma-v-kp-monolit-id-4542/"},
+ {g:"ru",w:1,v:"Знаменское поле",km:15,h:726,l:146,x:"2 гостевых, СПА в кедре, охрана",p:736,pa:null,s:"Kalinka, Tweed, Terra",u:"https://www.kalinka-realty.ru/zagorod/dom/rublevo-uspenskoe/163810/"},
+ {g:"ru",w:1,v:"Успенские Дачи (Honka)",km:20,h:871,l:52,x:"баня 118 м², гараж 98 м²",p:1300,pa:1195952,s:"NF Group",u:"https://kf.expert/zagorod/dom/uspenskie-dachi-hs9923785"},
+ {g:"ru",w:1,v:"Сосновый бор (Honka)",km:23,h:1176,l:46,x:"СПА в доме, охрана, гараж",p:370,pa:null,s:"NF, Kalinka, Terra",u:"https://kf.expert/zagorod/dom/sosnovyj-bor-hs9920356"},
+ {g:"ru",w:1,v:"Барвиха (шале)",km:5,h:790,l:52,x:"дом охраны, гараж",p:530,pa:null,s:"NF Group",u:"https://kf.expert/zagorod/dom/barvikha-hs9922763"},
+ {g:"ru",v:"Сосновый бор",km:23,h:1500,l:30,x:"гостевой 950 м², гараж с персоналом",p:986,pa:402312,s:"Villagio Realty",u:null},
+ {g:"ru",v:"Николина Гора",km:22,h:1010,l:45,x:"гостевой дом",p:534,pa:null,s:"Terra",u:"https://zvenigorod.cian.ru/kupit-dom-elitnie-moskovskaya-oblast-odincovskiy-gorodskoy-okrug-nikolina-gora-01104759/"},
+ {g:"ru",v:"Ранис (Николина Гора)",km:24,h:680,l:25,x:"гостевой с гаражом 227 м²",p:320,pa:352811,s:"NF Group",u:"https://kf.expert/zagorod/dom/ranis-hs1108339"},
+ {g:"ru",v:"Жуковка",km:10,h:600,l:32,x:"дом персонала, беседка",p:565,pa:714861,s:"Life Realty",u:"https://homehunter.ru/mo/cottage/4770369"},
+ {g:"ru",v:"Шульгино, «Десять ярдов»",km:7,h:950,l:30,x:"гостевой 250 м²",p:750,pa:625000,s:"агентство",u:"https://www.cian.ru/kupit-dom-u-reki-moskovskaya-oblast-rublevo-uspenskoe-shosse-0627/"},
+ {g:"ru",v:"Жуковка-2",km:9,h:821,l:25,x:"СПА-комплекс, гараж с персоналом",p:850,pa:837438,s:"Prime",u:"https://homehunter.ru/mo/cottage/212011"}
+];
+A.forEach(r=>r.ph=Math.round(r.p*1e6/r.h));
+const OURS={ours:1,g:"ns",w:1,v:"Наш объект — кедровое шале",km:12,h:550,l:46,x:"гостевой 370, баня 370, гараж 250 м²",p:640,ph:1163636,pa:415584,s:"собственник + 6–9 агентств",u:"https://www.cian.ru/sale/suburban/332053789/"};
+const fmt=n=>n==null?"нет данных":n.toLocaleString("ru-RU");
+let filt="all",sortK="ph",dir=1;
+function render(){
+  let rows=[OURS,...A].filter(r=>filt==="all"||(filt==="wood"?r.w:r.g===filt)||r.ours);
+  rows.sort((a,b)=>{if(a.ours)return -1;if(b.ours)return 1;const x=a[sortK],y=b[sortK];
+    if(x==null)return 1;if(y==null)return -1;return (typeof x==="string"?x.localeCompare(y,"ru"):x-y)*dir});
+  document.querySelector("#analogs tbody").innerHTML=rows.map(r=>`<tr class="${r.ours?"ours":""}">
+    <td>${r.ours?"<b>"+r.v+"</b>":r.v}${r.w&&!r.ours?' <span class="pill cedar">дерево</span>':""}</td><td class="num">${r.km}</td><td class="num">${fmt(r.h)}</td><td class="num">${r.l}</td>
+    <td>${r.x}</td><td class="num">${fmt(r.p)}</td><td class="num">${fmt(r.ph)}</td><td class="num">${fmt(r.pa)}</td><td>${r.s}</td>
+    <td>${r.u?`<a href="${r.u}" target="_blank" rel="noopener">открыть</a>`:"нет ссылки"}</td></tr>`).join("");
+}
+document.querySelectorAll("#analogs th.sort").forEach(th=>th.addEventListener("click",()=>{
+  const k=th.dataset.k; dir=(sortK===k)?-dir:1; sortK=k; render();}));
+document.querySelectorAll("#filters .chip").forEach(b=>b.addEventListener("click",()=>{
+  filt=b.dataset.f; document.querySelectorAll("#filters .chip").forEach(c=>c.setAttribute("aria-pressed",c===b)); render();}));
+render();
+
+/* Chart */
+(function(){
+  const svg=document.getElementById("chart"), NS="http://www.w3.org/2000/svg";
+  const data=[...A.filter(r=>r.g==="ns").map(r=>({n:fmt(r.h)+" м²"+(r.w?" · дерево":""),v:r.ph/1000})),{n:"Наш объект, 550 м²",v:OURS.ph/1000,o:1}].sort((a,b)=>b.v-a.v);
+  const W=720,L=170,R=60,T=10,rowH=30,max=1200,sx=v=>L+(W-L-R)*v/max;
+  const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+  const H=T+data.length*rowH+24; svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  [0,300,600,900,1200].forEach(t=>{el("line",{x1:sx(t),x2:sx(t),y1:T,y2:H-22,stroke:"var(--line)"});el("text",{x:sx(t),y:H-6,"text-anchor":"middle","font-size":11,fill:"var(--muted)"},t)});
+  data.forEach((d,i)=>{const y=T+i*rowH;
+    el("text",{x:L-8,y:y+19,"text-anchor":"end","font-size":12,fill:d.o?"var(--cedar)":"var(--ink)","font-weight":d.o?600:400},d.n);
+    el("rect",{x:L,y:y+6,width:Math.max(1,sx(d.v)-L),height:18,rx:3,fill:d.o?"var(--cedar)":"var(--pine)",opacity:d.o?1:.75});
+    el("text",{x:sx(d.v)+6,y:y+19,"font-size":12,fill:"var(--ink)"},Math.round(d.v));});
+  const ox=sx(OURS.pa/1000); el("line",{x1:ox,x2:ox,y1:T,y2:H-22,stroke:"var(--cedar)","stroke-dasharray":"4 4","stroke-width":1.5});
+  el("text",{x:ox+4,y:T+10,"font-size":11,fill:"var(--cedar)"},"наш по всем строениям ≈416");
+})();
+
+/* Tabs with hash */
+const views=[...document.querySelectorAll("section.view")], nav=document.getElementById("nav");
+views.forEach(v=>{const b=document.createElement("button");b.textContent=v.dataset.name;b.setAttribute("role","tab");b.dataset.id=v.id.slice(2);
+  b.addEventListener("click",()=>{location.hash=b.dataset.id;show(b.dataset.id)});nav.appendChild(b)});
+function show(id){ if(!views.some(v=>v.id==="v-"+id)) id="itog";
+  views.forEach(v=>v.hidden=v.id!=="v-"+id);
+  nav.querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.id===id));
+  try{localStorage.setItem("tab",id)}catch(e){} }
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
+let start=location.hash.slice(1); if(!start){try{start=localStorage.getItem("tab")||"itog"}catch(e){start="itog"}}
+show(start);
+
+/* Copy */
+document.querySelectorAll("[data-copy]").forEach(b=>b.addEventListener("click",()=>{
+  const pre=document.getElementById(b.dataset.copy), t=pre.textContent;
+  const done=()=>{b.textContent="Скопировано";setTimeout(()=>b.textContent="Копировать",1600)};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Текст выделен"};
+  try{navigator.clipboard.writeText(t).then(done,sel)}catch(e){sel()}
+}));
+</script>
+
+</body></html>
