@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Магазин агентов · v1.0</title>
+<style>
+/* VOICE: витрина живых агентов — легко, как полка с готовыми помощниками
+   IDEA: прилавок: каждый агент — карточка-коробка с тем, что он делает, и кнопкой «Открыть»
+   PICTURE: сетка карточек с крупным знаком агента и рядом действий
+   COLOUR and TYPE: фирменные цвета свободного сайта — лиловый, мята, солнце; системный шрифт
+   LAYOUT: заголовок, фильтр «для кого», сетка карточек, внизу — как заказать своего агента */
+:root{color-scheme:light;--ink:#16132b;--soft:#4a4566;--bg:#f7f5fd;--line:#e7e3f3;--sun:#ffd60a}
+*{box-sizing:border-box;min-width:0}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,'Segoe UI',sans-serif;overflow-x:clip}
+header{background:linear-gradient(120deg,#5b6bff,#b14dff 55%,#ff4f8b);color:#fff;padding:clamp(22px,4vw,46px) max(5vw,16px)}
+header h1{margin:0;font-size:clamp(30px,5vw,48px);line-height:1.05}header p{margin:10px 0 0;max-width:62ch;font-size:16.5px;opacity:.95}
+.note{font-size:13px;color:var(--soft)}header .note{color:#f3eaff}
+.flt{display:flex;gap:6px;flex-wrap:wrap;padding:14px max(5vw,16px) 0}.flt button{border:0;background:#fff;border-radius:14px;min-height:44px;padding:0 14px;font:600 14.5px inherit;cursor:pointer;box-shadow:0 2px 8px rgba(22,19,43,.08)}.flt button.on{background:var(--ink);color:#fff}
+button:focus-visible,a:focus-visible{outline:3px solid #7b61ff;outline-offset:2px}
+main{max-width:1240px;margin:0 auto;padding:14px max(5vw,16px) 50px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.card{background:#fff;border-radius:24px 14px 24px 14px;padding:16px;box-shadow:0 8px 24px rgba(22,19,43,.08);display:flex;flex-direction:column;gap:8px}
+.ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;font-size:28px}
+.card h2{margin:0;font-size:20px;line-height:1.2}.card .who{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:8px;background:#f1eefb;white-space:nowrap}.tag.live{background:#dff7ec;color:#0f7a4c}.tag.demo{background:#fff3c4;color:#8a6500}
+.card ul{margin:0;padding-left:18px;font-size:14.5px}.card li{margin:2px 0}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.acts a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:14px;text-decoration:none;font-weight:700;font-size:14px;background:#f1eefb;color:var(--ink)}.acts a.p{background:var(--ink);color:#fff}
+.url{font:12.5px ui-monospace,monospace;color:var(--soft);overflow-wrap:anywhere}
+.own{margin-top:20px;background:var(--ink);color:#fff;border-radius:28px 16px 28px 16px;padding:clamp(18px,3vw,30px)}.own h2{margin:0 0 8px;font-size:24px}
+.own .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-top:10px}.own .row div{background:rgba(255,255,255,.08);border-radius:16px;padding:12px}.own a{color:var(--sun);font-weight:700}
+footer{padding:16px max(5vw,16px);font-size:13px;color:var(--soft)}
+</style></head><body>
+<header><h1>Магазин агентов</h1><p>Живые агенты: открывайте, пробуйте, заказывайте такого же для себя. Отдельная страница сайта agentic-comm.ru.</p>
+<p class="note">20.11.2026 · v1.0 · ИП Кузин С. К. · агенты на условных данных магазинов — демо для показа, не официальные сервисы этих компаний; бренды на рабочем сайте — только с согласия</p></header>
+<div class="flt" id="flt"></div>
+<main>
+<div class="grid" id="grid"></div>
+<section class="own"><h2>Нужен такой же агент?</h2><p>Каждый агент — настройка: манифест, каталог одного продавца, решатель и оформление. Подключили предприятие один раз по паспорту — работают все его агенты.</p>
+<div class="row"><div><b>Торговым и сервисным предприятиям</b><br>5–10 агентов под ваш формат: гипермаркет, производитель-специалист, магазин у дома, сервис. <a href="https://claude.ai/artifact/HMsHrUL6GCPp6pBd5bN7ax">Типовое предложение 2 →</a></div>
+<div><b>Банкам: пилот</b><br>Клиент поручает покупку агенту, банк гарантирует рамки. <a href="https://claude.ai/artifact/HMsHrUL6GCPp6pBd5bN7ax">Типовое предложение 1 →</a></div>
+<div><b>Банкам: платформа и «Свой агент» для клиентов</b><br>Агент под брендом банка и магазин агентов для физлиц. <a href="https://claude.ai/artifact/HMsHrUL6GCPp6pBd5bN7ax">Типовое предложение 3 →</a></div></div></section>
+</main>
+<footer>Магазин агентов · v1.0 · 20.11.2026 · ИП Кузин Сергей Константинович · +7 925 378-14-81 · @SergeyKKuzin. В магазине — наши агенты и, по стандарту подключения, агенты сторонних авторов.</footer>
+<script>
+{
+const $=id=>document.getElementById(id);
+const AUD={all:'Все',buy:'Покупателям',sell:'Предприятиям',bank:'Банкам'};
+const A=[
+{ic:'🛒',bg:'#bdf0dc',n:'Агенты гипермаркета',sub:'в формате «Глобуса»',st:'demo',aud:['buy','sell'],url:'https://lucklyrics.ru/globus',
+ does:['«Ужин под бюджет», «Рецепт → корзина», «Продукты на неделю»','Список текстом, фото или голосом → корзина','Акции как экономия, а не проданное место','Сборка по поручению с заменами по согласию'],kp:'2'},
+{ic:'🥩',bg:'#ffc9b5',n:'Агенты мясной лавки',sub:'в формате «Мясницкого ряда»',st:'live',aud:['buy','sell'],url:'https://lucklyrics.ru/meet',
+ does:['«Собрать стол»: вес нарезки на гостей, сыр, соус, горчица','«Готовим по рецепту»: блюдо → корзина, недостающее — «купить отдельно»','Десять агентов: от «Ужин сегодня» до «Фуршета для компаний»','Заказ — в систему продавца, оплата продавцу напрямую'],kp:'2'},
+{ic:'💬',bg:'#e6ebff',n:'Помощник в MAX «Стол на 8»',sub:'тот же агент в мессенджере',st:'live',aud:['buy','sell'],url:'https://kuzin4u.github.io/meat_agent/',
+ does:['Агент живёт там, где клиент уже переписывается','Кнопки вместо меню: гости, повод, бюджет','Корзина и передача заказа продавцу'],kp:'2'},
+{ic:'🏦',bg:'#ffe0e6',n:'Агент привлечения бизнес-клиентов',sub:'для сотрудника банка или партнёра банка',st:'demo',aud:['bank'],url:'https://lucklyrics.ru/alfa',
+ does:['Каждое утро — новые ООО и ИП из ЕГРЮЛ и ЕГРИП','Образ клиента по ОКВЭД и аргументы для открытия счёта','Предложение банка под отрасль клиента','Связь с клиентом — только законными каналами и с его согласия'],kp:'1'}];
+let f='all';
+$('flt').innerHTML=Object.keys(AUD).map(k=>`<button data-f="${k}">${AUD[k]}</button>`).join('');
+for(const b of $('flt').children)b.onclick=()=>{f=b.dataset.f;draw();};
+function draw(){for(const b of $('flt').children)b.classList.toggle('on',b.dataset.f===f);
+ $('grid').innerHTML=A.filter(a=>f==='all'||a.aud.includes(f)).map(a=>`<div class="card"><div class="ic" style="background:${a.bg}">${a.ic}</div><h2>${a.n}</h2><div class="note">${a.sub}</div><div class="who"><span class="tag ${a.st}">${a.st==='live'?'работает':'демо'}</span>${a.aud.map(x=>`<span class="tag">${AUD[x].toLowerCase()}</span>`).join('')}</div><ul>${a.does.map(x=>'<li>'+x+'</li>').join('')}</ul><span class="url">${a.url.replace('https://','')}</span><div class="acts"><a class="p" href="${a.url}" target="_blank" rel="noopener">Открыть агента</a><a href="https://claude.ai/artifact/HMsHrUL6GCPp6pBd5bN7ax" target="_blank" rel="noopener">Хочу такого же</a></div></div>`).join('');}
+draw();
+}
+</script></body></html>
