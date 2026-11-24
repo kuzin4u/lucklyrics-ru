@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic — инвестпроект v1.3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: деловая записка инвестору — вывод сверху, цифры честные, допущения редактируются
+   IDEA: финансовая модель на линованной бумаге планового отдела
+   PICTURE: живой денежный поток — столбцы выручки и затрат, линия накопленного итога
+   COLOUR and TYPE: камень #e7e4df, чёрный, кирпич #c8371e, белые панели; Schibsted Grotesk
+   LAYOUT: итог и график в первом экране, ниже таблицы допущений по разделам */
+:root{color-scheme:light dark;--bg:light-dark(#e7e4df,#171513);--pan:light-dark(#fff,#211f1c);--ink:light-dark(#111,#eeeae4);--mut:light-dark(#5d5952,#a8a29a);--rule:light-dark(#cfcac2,#3a3631);--brick:#c8371e;--pos:light-dark(#1d1d1d,#eeeae4)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px);max-width:1340px;margin:0 auto}
+h1{font-size:clamp(28px,3.2vw,40px);line-height:1.05;margin:0 0 10px;text-wrap:balance;font-weight:700}
+h2{font-size:24px;line-height:1.15;margin:0 0 6px}
+p{max-width:72ch;margin:0 0 10px}.mut{color:var(--mut);font-size:14px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:28px;align-items:start}
+@media(max-width:900px){.top{grid-template-columns:minmax(0,1fr)}}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:14px 0}
+.kpi{background:var(--pan);padding:12px 14px}.kpi b{display:block;font-size:clamp(22px,2.6vw,30px);line-height:1.1;white-space:nowrap}.kpi span{font-size:13px;color:var(--mut)}
+.kpi.hot b{color:var(--brick)}
+.pan{background:var(--pan);border:1px solid var(--rule);padding:16px}
+.fig{position:relative;min-height:340px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+button{font:inherit;font-size:15px;min-height:44px;padding:0 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--brick);outline-offset:2px}
+nav.scroll{display:flex;gap:18px;white-space:nowrap;padding:10px max(5vw,16px);border-block:1px solid var(--rule);background:var(--pan)}
+nav a{color:var(--ink);text-decoration:none;font-weight:500}nav a:hover{color:var(--brick)}
+@media(min-width:900px){nav.scroll{position:sticky;top:0;z-index:5}}
+table{border-collapse:collapse;width:100%;background:var(--pan);font-size:15px}
+th,td{padding:7px 9px;border-bottom:1px solid var(--rule);vertical-align:top;text-align:left}
+th{font-weight:500;color:var(--mut);font-size:13px;border-bottom:2px solid var(--ink)}
+td.n,th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:700;border-top:2px solid var(--ink)}tr.neg td.n{color:var(--brick)}
+input[type=number]{font:inherit;font-size:16px;width:100%;min-width:70px;max-width:130px;text-align:right;padding:6px;border:1px solid var(--rule);background:var(--bg);color:var(--ink)}
+.sec{margin-top:8px}.note{border-left:3px solid var(--brick);padding:8px 12px;background:var(--pan);margin:10px 0;font-size:15px}
+pre,.scroll{overflow-x:auto}html{scroll-padding-top:72px}
+.lg{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--mut)}.lg i{display:inline-block;width:12px;height:12px;margin-right:5px;vertical-align:-1px}
+details summary{cursor:pointer;font-weight:500;min-height:44px;display:flex;align-items:center}
+textarea{width:100%;min-height:120px;font:13px/1.4 ui-monospace,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--rule)}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mut)}.stack td:empty{display:none}}
+</style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head><body>
+
+<div class="band top">
+ <div>
+  <p class="mut">Инвестиционный проект · версия 1.3 · 24.11.2026 · модель для обсуждения с инвестором</p>
+  <h1 id="verdict">Agentic Commerce: агентная коммерция для банков, торговцев и людей</h1>
+  <p id="lead"></p>
+  <div class="ctl" role="group" aria-label="Сценарий">
+   <button id="sc0" data-sc="0">Осторожный</button><button id="sc1" data-sc="1">Базовый</button><button id="sc2" data-sc="2">Смелый</button>
+  </div>
+  <div class="ctl" role="group" aria-label="Вариант инвестиций">
+   <button data-vr="max">MAX — команда и рынок</button><button data-vr="min">MIN — бережливый</button>
+  </div>
+  <div class="ctl" role="group" aria-label="Налог на прибыль">
+   <button id="tx0" data-tx="25">Налог 25%</button><button id="tx1" data-tx="5">ИТ-аккредитация, 5%</button>
+  </div>
+  <div class="kpis" id="kpis"></div>
+ </div>
+ <div class="pan">
+  <h2>Денежный поток проекта, млн ₽</h2>
+  <div class="lg"><span><i style="background:var(--ink)"></i>выручка</span><span><i style="background:var(--mut)"></i>затраты</span><span><i style="background:var(--brick)"></i>накопленный поток</span></div>
+  <div class="fig" id="fig"><svg id="svg" role="img" aria-label="Выручка, затраты и накопленный денежный поток по годам"></svg></div>
+  <p class="mut">Все суммы — без НДС, в ценах 2026 года. Допущения ниже можно менять: модель пересчитывается сразу.</p>
+ </div>
+</div>
+
+<nav class="scroll" aria-label="Разделы"><a href="#agent">Что за агент</a><a href="#mandates">Мандаты</a><a href="#struct">Продукты и доходы</a><a href="#done">Сделанное</a><a href="#rev">Допущения доходов</a><a href="#cost">Затраты</a><a href="#flow">Денежный поток</a><a href="#deal">Сделка с инвестором</a><a href="#risk">Риски и условия</a></nav>
+
+<section class="band" id="agent">
+ <h2>Что за агент сделан</h2>
+ <p>Агент покупателя и платформа агентных платежей, доведённые до пройденного MVP (14.11.2026): человек даёт поручение, агент ищет и собирает корзину у продавцов, человек подтверждает, деньги идут через банк. Модель повторяет то, что сейчас строят мировые сети, но собрана под российский контур и для банков без своей экосистемы.</p>
+ <div class="scroll"><table class="stack"><thead><tr><th>Свойство</th><th>Как сделано у нас</th><th>Мировой аналог</th></tr></thead><tbody>
+ <tr><td>Мандаты по модели AP2</td><td>Поручение (INTENT) и корзина (CART) — подписанные записи; оплата подтверждается отдельно. Подписывается ровно то, что человек видел: хэш показанного, отказ при смене текста</td><td>Google AP2: Intent Mandate, Cart Mandate, Payment Mandate</td></tr>
+ <tr><td>Реестр и опознание агентов</td><td>Реестр агентов, ключи и PKI, протокол ПАО 1.4.0: продавец и банк знают, какой агент и от чьего имени пришёл</td><td>Visa Trusted Agent Protocol и Agent Directory</td></tr>
+ <tr><td>Агентский реквизит</td><td>Реквизит выдаётся агенту на одну покупку в пределах поручения; номер карты агенту и экрану недоступен</td><td>Mastercard Agentic Tokens, токены Visa Intelligent Commerce</td></tr>
+ <tr><td>Банк в момент решения</td><td>Точка решения в пути авторизации, бюджет поручения у платформы, подтверждение выше порога — в банке</td><td>Правила и контроль эмитента в Visa Intelligent Commerce</td></tr>
+ <tr><td>Российские стандарты</td><td>Подпись поручения — в банке, усиленная (Р-1657); уровни: простая, усиленная, с проверкой личности; суммы — рубли в копейках с кодом валюты; слот под НСПК, «Мир» и СБП; нейтральный оператор по Правилам ред. 3</td><td>—</td></tr>
+ <tr><td>Санкционная устойчивость</td><td>Решает детерминированный конвейер, языковая модель только предлагает (Р-1415) — модель заменяется отечественной без переделки</td><td>—</td></tr>
+ <tr><td>Доказательность</td><td>Журнал согласий с хэш-цепочкой, акт приёмки, 1 756 автоматических проверок, реестр из 1 700+ решений и 145+ жизненных ситуаций</td><td>—</td></tr>
+ </tbody></table></div>
+ <div class="note"><b>Выигрышные моменты.</b> Один агент — много банков: коллективный агент для банков АРБ одной сборкой под бренд каждого банка. Нейтральный оператор: выдача не продаётся, продавец не платит за место (ст. 19). Человеку — 1 копейка за агента. Банк видит покупку в момент решения и может <b>предложить кредит или рассрочку прямо в корзине</b>: деньги и решение — банка, агент лишь показывает предложение и спрашивает согласие человека.</div>
+ <p class="mut">Совместимость с AP2 — по модели мандатов, без сертификации. Аналоги: AP2 строит доверие на мандатах — криптографически подписанных записях инструкций пользователя; Visa Trusted Agent Protocol помогает продавцу опознать агента; Mastercard Agent Pay вводит Agentic Tokens. Ссылки — в ответе чата.</p>
+</section>
+
+<section class="band" id="mandates">
+ <h2>Мандаты — главный актив проекта</h2>
+ <p>Агент, который тратит деньги человека, упирается в один вопрос: <b>кто и что именно поручил</b>. Ответ на него — мандат, подписанное поручение с пределами. От качества мандатов зависит всё остальное: возьмёт ли банк агента, примет ли его торговец, выдержит ли сделка спор, пропустит ли регулятор. Мировые сети строят агентную коммерцию именно вокруг этого: у Google AP2 мандаты — основа доверия. У нас мандаты не концепция, а работающий код, протокол и правила, проверенные на MVP.</p>
+ <div class="two" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:12px 0">
+  <div class="pan"><b>Почему это важно инвестору</b><ul style="margin:6px 0 0;padding-left:18px"><li>Мандат — то, за что платит банк: контроль над деньгами клиента в момент решения</li><li>Без мандата нет доказательства в споре — нет и сделки</li><li>Правила мандатов — порог входа: их нельзя быстро скопировать, они выросли из сотен решений по граничным случаям</li><li>Совместимость по модели с AP2 открывает Запад, российская подпись — банки и НСПК</li></ul></div>
+  <div class="pan"><b>Глубина проработки</b><ul style="margin:6px 0 0;padding-left:18px"><li>Два вида: поручение (INTENT) и корзина (CART); оплата — отдельное подтверждение</li><li>Жизненный цикл: ожидает подписи → действует → исполнен, отозван, истёк</li><li>Пределы: сумма, срок, продавцы, режим подтверждения</li><li>Бюджет держит платформа; остаток — только из проверки, не из памяти агента</li></ul></div>
+  <div class="pan"><b>Что уже доказано кодом</b><ul style="margin:6px 0 0;padding-left:18px"><li>MVP пройден 14.11.2026: 25 тестов пульта, 0 «нет»</li><li>1 756 автоматических проверок приложения</li><li>Протокол ПАО 1.4.0, контракт экранов К-Б v1.4</li><li>Реестр из 1 700+ решений, 145+ жизненных ситуаций</li></ul></div>
+ </div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Вопрос, на котором ломаются агенты</th><th>Как решено в мандатах Agentic</th><th>Где закреплено</th></tr></thead><tbody>
+ <tr><td>Кто подписал поручение?</td><td>Поручение подписывает человек в банке, а не ключ агента; ключ агента подписывает только обращения агента</td><td>РП36, Р-1657; К-Б § 5.2</td></tr>
+ <tr><td>Подписал ли он то, что видел?</td><td>Хэш ровно показанного текста; сменился текст — подпись отвергается, человек видит новую карточку со словами об изменении</td><td>К-Б правило 1, ситуация С-144</td></tr>
+ <tr><td>Даёт ли поручение право тратить?</td><td>Нет: поручение — указание агенту, не платёжное полномочие; каждую оплату человек подтверждает отдельно</td><td>Р-1657</td></tr>
+ <tr><td>Сколько ещё можно потратить?</td><td>Остаток считает платформа и отдаёт по проверке; экран и агент суммы не складывают; возврат лимит не восстанавливает</td><td>К-Б § 5.3, § 5.8; РП71</td></tr>
+ <tr><td>Двойное нажатие, обрыв связи</td><td>Ключ повтора на каждое действие: второго списания нет, чужой ответ не выдаётся</td><td>К-Б правило 2, С-145</td></tr>
+ <tr><td>Чем подписано и переживёт ли смену банка?</td><td>Три уровня подписи: простая, усиленная, с проверкой личности; при смене банка сохраняются подписанные с проверкой личности</td><td>Р-1662, Р-1684, Р-1704</td></tr>
+ <tr><td>Как отозвать?</td><td>Отзыв клиентом — через банк; агент со своей стороны отказывается от полномочий; отзыв поручения гасит и его корзины; уже авторизованное исполняется</td><td>РП35, РП37, РП38</td></tr>
+ <tr><td>Что предъявить в споре?</td><td>Журнал согласий с хэш-цепочкой: что показали, что подтвердили, кто нажал — человек, эмулятор или тест</td><td>П26, П32; К-Б § 5.14, § 5.19</td></tr>
+ <tr><td>Сколько самостоятельности у агента?</td><td>Лестница автономии: советник → с подтверждением каждой покупки → сам в лимите разового поручения → сам по постоянному мандату → полная автономия; уровень выбирает человек</td><td>Принципы Грефа, 22–23.11.2026</td></tr>
+ </tbody></table></div>
+ <div class="note"><b>Что ещё впереди — честно.</b> Постоянный мандат для регулярных покупок (уровень У3) — в постановке, код после ответа банка-партнёра и НСПК. Спор по поручению на стенде — после задачи PS-22. Формулировку простой электронной подписи в оферте проверяет юрист до пилота.</div>
+</section>
+
+<section class="band" id="struct">
+ <h2>Три агента × три формы продажи — выручка по годам</h2>
+ <p>Проект шире ИП: отдельная компания без ограничений по видам деятельности. Доход приносят три агента — <b>банковский агент</b> (под брендом банка), <b>агент торговца</b> (пучки агентов формата «Глобус», «Мясницкий ряд») и <b>свой агент</b> человека (М2). Каждый продаётся тремя способами: упакованным продуктом, в аренду и как обслуживание операций.</p>
+ <div class="scroll"><table id="tStruct"></table></div>
+</section>
+
+<section class="band" id="done">
+ <h2>Что уже сделано и сколько это стоит</h2>
+ <p>Оценка затратным методом: сколько стоило бы сделать то же самое обычной командой. Это не рыночная цена компании, а нижняя граница вклада основателя. Работа сделана в режиме «владелец + Claude Code», поэтому фактические деньги — малая часть оценки.</p>
+ <div class="scroll"><table class="stack" id="tDone"></table></div>
+ <div class="note">Сделано по планам на 23.11.2026: MVP пройден 14.11 и принят 17.11 (51,3 сессии); боевой контур «Россия» — 50 задач из 89 (52,0 сессии); интерфейс после MVP — 8 задач (10,0 сессии); «Запад» — 1 задача. Плюс Правила ред. 3, протокол ПАО 1.4.0, контракт экранов К-Б v1.4, реестр из 1 700+ развилок, библиотека из 145+ жизненных ситуаций, типовые КП, демо-агенты и магазин «Сонеты».</div>
+</section>
+
+<section class="band" id="rev">
+ <h2>Допущения доходов</h2>
+ <p>Цена и объём по годам. Для продажи — число новых продаж за год; для аренды — среднее число арендаторов; для операций — расчёт от числа активных клиентов. Сценарий умножает объёмы: осторожный ×0,5, базовый ×1, смелый ×1,6.</p>
+ <div class="scroll"><table id="tRev"></table></div>
+ <div class="scroll" style="margin-top:14px"><table id="tOps"></table></div>
+</section>
+
+<section class="band" id="cost">
+ <h2>Затраты на разработку и продвижение</h2>
+ <p>Завершение продукта — остаток планов на 23.11.2026 в тех же единицах, что и оценка сделанного. Дальше — команда, продвижение, инфраструктура и соответствие требованиям.</p>
+ <div class="scroll"><table class="stack" id="tLeft"></table></div>
+ <div class="scroll" style="margin-top:14px"><table id="tCost"></table></div>
+</section>
+
+<section class="band" id="flow">
+ <h2>Денежный поток, млн ₽</h2>
+ <div class="scroll"><table id="tFlow"></table></div>
+ <p class="mut" style="margin-top:8px">Убыток прошлых лет переносится на будущее и уменьшает налог. Остаточная стоимость — мультипликатор выручки последнего года.</p>
+ <div class="ctl"><label>Ставка дисконтирования, %&nbsp;<input type="number" id="pDr" value="30" step="1"></label><label>Мультипликатор выручки 2031&nbsp;<input type="number" id="pMult" value="2" step="0.5"></label></div>
+</section>
+
+<section class="band" id="deal">
+ <h2>Два варианта инвестиций: MAX и MIN</h2>
+ <p><b>MAX</b> — команда с первого года, широкое продвижение, все три агента сразу. <b>MIN</b> — бережливый: продукт доделывается в нынешнем режиме «владелец + Claude Code» по фактической цене сессии, команда растёт из выручки, продвижение — через пилоты, АРБ и собственных агентов сайта. Цена бережливости — более медленные продажи (коэффициент ниже).</p>
+ <div class="scroll"><table id="tCmp"></table></div>
+ <div class="scroll" style="margin-top:14px"><table id="tMin"></table></div>
+ <h2 style="margin-top:22px">Сделка с инвестором</h2>
+ <div class="scroll"><table class="stack" id="tDeal"></table></div>
+ <p class="mut">Инвестиции — это наибольшая глубина накопленного отрицательного потока плюс резерв. Оценка до денег — по выбору: затратная (сделанное) или доходная (NPV).</p>
+ <div class="ctl"><label>Резерв к потребности, %&nbsp;<input type="number" id="pRes" value="20" step="5"></label></div>
+</section>
+
+<section class="band" id="risk">
+ <h2>Риски и условия</h2>
+ <div class="scroll"><table class="stack"><thead><tr><th>Что</th><th>Почему важно</th><th>Как закрываем</th></tr></thead><tbody>
+ <tr><td>Деньги проходят только через банки</td><td>Обслуживание операций — плата за технологию и информацию. Если компания примет деньги клиентов, ей нужна лицензия оператора</td><td>Расчёты — банк и НСПК, компания — нейтральный оператор (Правила, ст. 20); юрист до пилота</td></tr>
+ <tr><td>Кредиты через агента</td><td>Предложение кредита в корзине — розничное кредитование: требования ЦБ к дистанционной выдаче и к раскрытию условий</td><td>Решение и деньги — банка; агент показывает предложение банка и берёт явное согласие человека, никогда не навязывает; вознаграждение — по агентскому договору с банком</td></tr>
+ <tr><td>Пилот с банком и НСПК</td><td>Без пилота нет продаж банкам в 2027</td><td>Пилот с НСПК и банком — апрель 2027; КП через АРБ</td></tr>
+ <tr><td>Запад: Visa и Mastercard</td><td>Агент под брендом банка в ЕС требует регистрации в программах сетей</td><td>OWN-1 — регистрация до 27–28.11.2026; пилот в ЕС — апрель 2027</td></tr>
+ <tr><td>Языковая модель в санкционном контуре</td><td>Демо работает на Claude; боевой контур в России — на отечественной модели</td><td>Модель только предлагает, решает детерминированный конвейер (Р-1415); стоимость модели — строка на операцию</td></tr>
+ <tr><td>Подпись поручения</td><td>Формулировка простой подписи в оферте может не выдержать спора</td><td>В MVP — подпись в банке (Р-1657); юрист до пилота</td></tr>
+ <tr><td>Конкуренция экосистем</td><td>Банки с экосистемами строят своих агентов</td><td>Ниша — банки без экосистемы (АРБ, коллективный агент), продавцы вне маркетплейсов, свой агент человека</td></tr>
+ <tr><td>⚠ Лицензии компонентов</td><td>Trader Skill — MIT; нормативные тексты — CC BY-ND 4.0; наш код — Apache 2.0</td><td>NOTICE с копирайтами; для «Профиля агентной сделки» — отдельное решение об условиях</td></tr>
+ </tbody></table></div>
+ <details><summary>Параметры модели — скопировать или вставить свои</summary>
+  <textarea id="json" aria-label="Параметры модели в формате JSON"></textarea>
+  <div class="ctl"><button id="bCopy">Скопировать</button><button id="bLoad">Применить вставленное</button><button id="bReset">Вернуть исходные</button><span id="msg" class="mut" style="align-self:center"></span></div>
+ </details>
+ <p class="mut">Все цены, объёмы и ставки — допущения для обсуждения, не прогноз и не данные рынка. Ставка команды — по вакансиям senior-разработчиков в Москве осенью 2026 (350–400 тыс. ₽ в месяц на руки) с налогами работодателя. Не инвестиционная рекомендация.</p>
+</section>
+
+<script>
+{
+const Y=[2027,2028,2029,2030,2031],SC=[0.5,1,1.6];
+const DEF={
+ done:[
+  ["Код: сессии Claude Code по планам (MVP, «Россия», интерфейс, «Запад»)",114.25,"сессий",24,3500],
+  ["Постановка и архитектура: Правила ред. 3, протокол ПАО, контракт К-Б, развилки, ситуации",1500,"ч",1,4500],
+  ["Руководство проектом и экспертиза основателя (август — ноябрь 2026)",800,"ч",1,6000],
+  ["Демо и продажи: сайт, магазин «Сонеты», демо-агенты, типовые КП",400,"ч",1,3000]],
+ cash:0.4,
+ left:[["«Россия»: песочница, допуск, НСПК",64.22],["«Запад»: Visa, Mastercard, ЕС",21],["Интерфейс и пучки после MVP",39],["Отложенное после MVP (ACC-1, пульт)",15.25],["Принципы Грефа, группы А–В",12.25],["Подписи",1.5],["Trader Skill до учебного периода",7.75],["Магазин «Сонеты»",1]],
+ hps:24, rate:3500,
+ rev:[
+  ["bank","sale","Банковский агент · продажа банку (лицензия и внедрение)",15,"млн ₽ за продажу",[0,2,3,4,5]],
+  ["bank","rent","Банковский агент · аренда (коллективный агент для банков АРБ)",0.3,"млн ₽ в месяц",[0,2,6,12,18]],
+  ["merch","sale","Агент торговца · продажа пучка агентов",1.0,"млн ₽ за продажу",[2,8,15,25,35]],
+  ["merch","rent","Агент торговца · аренда",0.04,"млн ₽ в месяц",[3,25,80,160,260]],
+  ["own","sale","Свой агент · продажа упакованного агента человеку",0.00299,"млн ₽ за продажу",[0,3000,10000,20000,30000]],
+  ["own","rent","Свой агент · подписка",0.000199,"млн ₽ в месяц",[500,6000,25000,60000,100000]]],
+ sup:{bank:18,merch:15},
+ ops:{bankFee:1,bankOps:[0,0.5,1.5,3,4],merchFee:10,merchDeals:[6,12,18,24,30],ownFee:0.01,ownMerchFee:6,ownBuys:36},
+ credit:{share:1,avg:20000,fee:1.5},
+ minSess:30000, minVol:0.85,
+ costMin:{fte:[3,5,8,12,16],fteCost:0.45,over:10,promo:[4,10,20,40,70],cac:600,infra:[2,4,8,14,22],llm:0.5,comp:[6,4,4,4,4],legal:[2,2,2,2,2]},
+ cost:{fte:[8,12,16,22,28],fteCost:0.45,over:10,promo:[15,30,50,80,110],cac:800,infra:[4,8,14,22,32],llm:0.5,comp:[10,6,6,6,6],legal:[4,3,3,3,3]}
+};
+let S=JSON.parse(JSON.stringify(DEF)),sc=1,tax=25,vr="max";
+try{const s=JSON.parse(localStorage.getItem("agInv5")||"null");if(s&&s.S)S=s.S,sc=s.sc,tax=s.tax,vr=s.vr||"max"}catch(e){}
+const $=id=>document.getElementById(id);
+const f1=v=>(Math.round(v*10)/10||0).toLocaleString("ru-RU",{minimumFractionDigits:1,maximumFractionDigits:1});
+const fi=v=>Math.round(v).toLocaleString("ru-RU");
+const inp=(k,v,st)=>`<input type="number" data-k="${k}" value="${v}" step="${st||"any"}" aria-label="${k}">`;
+function calc(V){V=V||vr;const C=V=="min"?S.costMin:S.cost;
+ const m=SC[sc]*(V=="min"?S.minVol:1),D=S.done.map(r=>r[1]*r[3]*r[4]/1e6),done=D.reduce((a,b)=>a+b,0);
+ const leftS=S.left.reduce((a,r)=>a+r[1],0),leftC=V=="min"?leftS*S.minSess/1e6:leftS*S.hps*S.rate/1e6;
+ const st={};let cumB=0,cumM=0,cumO=0;const rows=[];
+ for(let i=0;i<5;i++){
+  const v=k=>S.rev.find(r=>r[0]+r[1]==k);
+  const bS=v("banksale")[5][i]*m,bR=v("bankrent")[5][i]*m,mS=v("merchsale")[5][i]*m,mR=v("merchrent")[5][i]*m,oS=v("ownsale")[5][i]*m,oR=v("ownrent")[5][i]*m;
+  const bInst=cumB,mInst=cumM;cumB+=bS;cumM+=mS;cumO+=oS;
+  const r={};
+  r.bank_sale=bS*v("banksale")[3]+bInst*v("banksale")[3]*S.sup.bank/100;
+  r.bank_rent=bR*v("bankrent")[3]*12;
+  r.bank_ops=(cumB+bR)*S.ops.bankOps[i]*S.ops.bankFee;
+  const cr=S.credit,loans=(cumB+bR)*S.ops.bankOps[i]*1e6*cr.share/100;
+  r.bank_credit=loans*cr.avg*cr.fee/100/1e6;
+  r.merch_sale=mS*v("merchsale")[3]+mInst*v("merchsale")[3]*S.sup.merch/100;
+  r.merch_rent=mR*v("merchrent")[3]*12;
+  r.merch_ops=(cumM+mR)*S.ops.merchDeals[i]*1000*S.ops.merchFee/1e6;
+  r.own_sale=oS*v("ownsale")[3];
+  r.own_rent=oR*v("ownrent")[3]*12;
+  const users=cumO+oR,buys=users*S.ops.ownBuys;
+  r.own_ops=buys*(S.ops.ownFee+S.ops.ownMerchFee)/1e6;
+  const revT=Object.values(r).reduce((a,b)=>a+b,0);
+  const opsN=(cumB+bR)*S.ops.bankOps[i]*1e6+(cumM+mR)*S.ops.merchDeals[i]*1000+buys;
+  const team=C.fte[i]*C.fteCost*12,over=team*C.over/100,cac=(oS+(i?oR-v("ownrent")[5][i-1]*m:oR))*C.cac/1e6;
+  const c={complete:i==0?leftC:0,team,over,promo:C.promo[i]+Math.max(0,cac),infra:C.infra[i]+opsN*C.llm/1e6,comp:C.comp[i]+C.legal[i]};
+  const cosT=Object.values(c).reduce((a,b)=>a+b,0);
+  rows.push({r,revT,c,cosT,ebitda:revT-cosT,users:Math.round(users)});
+ }
+ let loss=0,cum=0,minC=0,pay=null;
+ rows.forEach((x,i)=>{let base=x.ebitda;if(base<0){loss+=-base;x.tax=0}else{const u=Math.min(loss,base);loss-=u;x.tax=(base-u)*tax/100}x.fcf=x.ebitda-x.tax;cum+=x.fcf;x.cum=cum;minC=Math.min(minC,cum);if(pay===null&&cum>=0&&i>0)pay=Y[i]});
+ const dr=+$("pDr").value/100,mult=+$("pMult").value,tv=rows[4].revT*mult;
+ const flows=rows.map((x,i)=>x.fcf+(i==4?tv:0));
+ const npvAt=r=>flows.reduce((a,f,i)=>a+f/Math.pow(1+r,i+1),0);
+ const npv=npvAt(dr);let irr=null,lo=-0.9,hi=50;
+ if(npvAt(lo)>0&&npvAt(hi)<0){for(let k=0;k<100;k++){const md=(lo+hi)/2;npvAt(md)>0?lo=md:hi=md}irr=(lo+hi)/2}
+ const need=-minC*(1+(+$("pRes").value)/100);
+ return{D,done,leftS,leftC,rows,npv,irr,tv,need,pay,minC};
+}
+function draw(){const s=$("svg"),W=s.clientWidth,H=s.clientHeight;if(!W)return;const R=calc().rows;
+ const vals=R.flatMap(x=>[x.revT,x.cosT,x.cum,0]),mx=Math.max(...vals),mn=Math.min(...vals),pl=44,pr=10,pt=14,pb=28,y=v=>pt+(mx-v)/(mx-mn||1)*(H-pt-pb),bw=(W-pl-pr)/5;
+ let g=`<line x1="${pl}" x2="${W-pr}" y1="${y(0)}" y2="${y(0)}" stroke="currentColor" opacity=".5"/>`;
+ [mn,0,mx].forEach(t=>{g+=`<text x="${pl-6}" y="${y(t)+4}" text-anchor="end" font-size="12" fill="currentColor" opacity=".7">${fi(t)}</text>`});
+ let pts=[];R.forEach((x,i)=>{const cx=pl+bw*i+bw/2,w=Math.min(26,bw/4);
+  g+=`<rect x="${cx-w-2}" y="${Math.min(y(x.revT),y(0))}" width="${w}" height="${Math.abs(y(x.revT)-y(0))}" fill="currentColor"/>`;
+  g+=`<rect x="${cx+2}" y="${y(x.cosT)}" width="${w}" height="${Math.max(0,y(0)-y(x.cosT))}" fill="var(--mut)"/>`;
+  g+=`<text x="${cx}" y="${H-8}" text-anchor="middle" font-size="12" fill="currentColor">${W<520?String(Y[i]).slice(2):Y[i]}</text>`;pts.push([cx,y(x.cum)])});
+ g+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="var(--brick)" stroke-width="3"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="var(--brick)"/>`).join("");
+ s.innerHTML=g;s.style.color="var(--ink)"}
+const ro=new ResizeObserver(draw);ro.observe($("svg"));
+function render(){
+ const K=calc(),R=K.rows,mr=x=>`<td class="n">${f1(x)}</td>`;
+ document.querySelectorAll("[data-sc]").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.sc===sc));
+ document.querySelectorAll("[data-vr]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.vr===vr));
+ document.querySelectorAll("[data-tx]").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.tx===tax));
+ const rev31=R[4].revT;
+ $("verdict").textContent=`Agentic Commerce: ${fi(K.need)} млн ₽ инвестиций, ${fi(rev31)} млн ₽ выручки в 2031`;
+ $("lead").innerHTML=`Вариант <b>${vr.toUpperCase()}</b>, сценарий «${["осторожный","базовый","смелый"][sc]}». Сделанное оценено в <b>${f1(K.done)} млн ₽</b> по затратам на замену. Остаток разработки до продукта — ${f1(K.leftS)} сессии (${f1(K.leftC)} млн ₽${vr=="min"?" по фактической цене сессии":" по цене команды"}). ${K.pay?`Накопленный поток выходит в плюс в ${K.pay} году.`:"За пять лет накопленный поток в плюс не выходит."}`;
+ $("kpis").innerHTML=[["Нужно инвестиций",f1(K.need)+" млн ₽","с резервом "+$("pRes").value+"%",1],["NPV при "+$("pDr").value+"%",f1(K.npv)+" млн ₽","с остаточной стоимостью"],["IRR",K.irr===null?"—":Math.round(K.irr*100)+"%","внутренняя доходность"],["Окупаемость",K.pay||"после 2031","накопленный поток ≥ 0"],["Стоимость сделанного",f1(K.done)+" млн ₽","затратный метод"],["Выручка 2031",f1(rev31)+" млн ₽",fi(R[4].users)+" пользователей своего агента"]].map(k=>`<div class="kpi${k[3]?" hot":""}"><b>${k[1]}</b><span>${k[0]} · ${k[2]}</span></div>`).join("");
+ const A=[["bank","Банковский агент"],["merch","Агент торговца"],["own","Свой агент"]],F=[["sale","Продажа упакованного"],["rent","Аренда"],["ops","Обслуживание операций"]];
+ const rowS=(k,t)=>{const v=R.map(x=>x.r[k]);return`<tr><td>${t}</td>${v.map(mr).join("")}${mr(v.reduce((p,q)=>p+q,0))}</tr>`};
+ $("tStruct").innerHTML=`<thead><tr><th>Агент · форма</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}<th class="n">Итого</th></tr></thead><tbody>`+A.map(a=>F.map(f=>rowS(a[0]+"_"+f[0],a[1]+" · "+f[1].toLowerCase())).join("")+(a[0]=="bank"?rowS("bank_credit","Банковский агент · кредиты и рассрочка через агента"):"")).join("")+`<tr class="tot"><td>Выручка, млн ₽</td>${R.map(x=>mr(x.revT)).join("")}${mr(R.reduce((p,x)=>p+x.revT,0))}</tr></tbody>`;
+ $("tDone").innerHTML=`<thead><tr><th>Что сделано</th><th class="n">Объём</th><th class="n">Чел.-ч на ед.</th><th class="n">₽ за час</th><th class="n">Оценка, млн ₽</th></tr></thead><tbody>`+S.done.map((r,i)=>`<tr><td>${r[0]}</td><td class="n">${inp("done."+i+".1",r[1])} ${r[2]}</td><td class="n">${r[2]=="ч"?"—":inp("done."+i+".3",r[3])}</td><td class="n">${inp("done."+i+".4",r[4],100)}</td>${mr(K.D[i])}</tr>`).join("")+`<tr class="tot"><td>Итого сделанное</td><td></td><td></td><td></td>${mr(K.done)}</tr><tr><td>Фактически потрачено деньгами (подписки, домены, облако) — уточнить</td><td></td><td></td><td></td><td class="n">${inp("cash",S.cash)}</td></tr></tbody>`;
+ $("tRev").innerHTML=`<thead><tr><th>Поток</th><th class="n">Цена</th><th>Единица</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}</tr></thead><tbody>`+S.rev.map((r,i)=>`<tr><td>${r[2]}</td><td class="n">${inp("rev."+i+".3",r[3])}</td><td class="mut">${r[4]}</td>${r[5].map((v,j)=>`<td class="n">${inp("rev."+i+".5."+j,v)}</td>`).join("")}</tr>`).join("")+`<tr><td>Сопровождение проданных агентов, % цены в год: банки / торговцы</td><td class="n">${inp("sup.bank",S.sup.bank)}</td><td class="n">${inp("sup.merch",S.sup.merch)}</td>${Y.map(()=>"<td></td>").join("")}</tr></tbody>`;
+ const O=S.ops;
+ $("tOps").innerHTML=`<thead><tr><th>Обслуживание операций</th><th class="n">Плата</th><th>Единица</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}</tr></thead><tbody>
+ <tr><td>Банковский агент: операций на одного банка-клиента</td><td class="n">${inp("ops.bankFee",O.bankFee)}</td><td class="mut">₽ за операцию; объём — млн операций в год</td>${O.bankOps.map((v,j)=>`<td class="n">${inp("ops.bankOps."+j,v)}</td>`).join("")}</tr>
+ <tr><td>Агент торговца: подтверждённых сделок на одного торговца</td><td class="n">${inp("ops.merchFee",O.merchFee)}</td><td class="mut">₽ за сделку; объём — тыс. сделок в год</td>${O.merchDeals.map((v,j)=>`<td class="n">${inp("ops.merchDeals."+j,v)}</td>`).join("")}</tr>
+ <tr><td>Кредиты и рассрочка через банковского агента: доля покупок с кредитом</td><td class="n">${inp("credit.share",S.credit.share)}</td><td class="mut">% покупок; средний кредит, ₽ → ${inp("credit.avg",S.credit.avg,1000)}</td><td class="n" colspan="5" style="text-align:left">вознаграждение агенту, % суммы кредита: ${inp("credit.fee",S.credit.fee)}</td></tr>
+ <tr><td>Свой агент: цена агента для человека за покупку</td><td class="n">${inp("ops.ownFee",O.ownFee)}</td><td class="mut">₽ (1 копейка)</td><td class="n" colspan="5" style="text-align:left">покупок на человека в год: ${inp("ops.ownBuys",O.ownBuys)}</td></tr>
+ <tr><td>Свой агент: плата продавца за приведённую подтверждённую сделку</td><td class="n">${inp("ops.ownMerchFee",O.ownMerchFee)}</td><td class="mut">₽ за сделку</td><td colspan="5"></td></tr></tbody>`;
+ $("tLeft").innerHTML=`<thead><tr><th>Остаток разработки до продукта</th><th class="n">Сессий</th></tr></thead><tbody>`+S.left.map((r,i)=>`<tr><td>${r[0]}</td><td class="n">${inp("left."+i+".1",r[1])}</td></tr>`).join("")+`<tr class="tot"><td>Итого: ${f1(K.leftS)} сессии × ${S.hps} чел.-ч × ${fi(S.rate)} ₽ = ${f1(K.leftC)} млн ₽ (в 2027)</td><td class="n">${f1(K.leftS)}</td></tr><tr><td>Чел.-часов на сессию / ₽ за час команды</td><td class="n">${inp("hps",S.hps)} ${inp("rate",S.rate,100)}</td></tr></tbody>`;
+ const C=S.cost,row=(t,k,u)=>`<tr><td>${t}</td><td class="mut">${u}</td>${C[k].map((v,j)=>`<td class="n">${inp("cost."+k+"."+j,v)}</td>`).join("")}</tr>`;
+ $("tCost").innerHTML=`<thead><tr><th>Затраты варианта MAX — допущения</th><th>Единица</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}</tr></thead><tbody>${row("Команда: разработка, безопасность, аналитика, продукт","fte","человек")}${row("Продвижение и продажи: сайт, конференции, АРБ, команда продаж","promo","млн ₽")}${row("Инфраструктура: облако, PKI, ключи","infra","млн ₽")}${row("Соответствие: НСПК, Visa/MC, аудит ИБ","comp","млн ₽")}${row("Юристы: оферта, подпись, лицензии","legal","млн ₽")}
+ <tr><td>Стоимость человека в месяц с налогами / накладные</td><td class="mut">млн ₽ / %</td><td class="n">${inp("cost.fteCost",C.fteCost)}</td><td class="n">${inp("cost.over",C.over)}</td><td colspan="3"></td></tr>
+ <tr><td>Привлечение человека (своему агенту) / языковая модель на операцию</td><td class="mut">₽ / ₽</td><td class="n">${inp("cost.cac",C.cac)}</td><td class="n">${inp("cost.llm",C.llm)}</td><td colspan="3"></td></tr></tbody>`;
+ const L=[["Выручка",x=>x.revT],["Завершение продукта",x=>-x.c.complete],["Команда и накладные",x=>-(x.c.team+x.c.over)],["Продвижение и привлечение",x=>-x.c.promo],["Инфраструктура и модель",x=>-x.c.infra],["Соответствие и юристы",x=>-x.c.comp],["EBITDA",x=>x.ebitda,1],["Налог на прибыль",x=>-x.tax],["Свободный денежный поток",x=>x.fcf,1],["Накопленный поток",x=>x.cum,1]];
+ $("tFlow").innerHTML=`<thead><tr><th>млн ₽</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}</tr></thead><tbody>`+L.map(l=>`<tr class="${l[2]?"tot":""}">`+`<td>${l[0]}</td>`+R.map(x=>{const v=l[1](x);return`<td class="n" style="${v<0?"color:var(--brick)":""}">${f1(v)}</td>`}).join("")+"</tr>").join("")+`<tr><td>Остаточная стоимость в 2031</td><td colspan="4"></td>${mr(K.tv)}</tr></tbody>`;
+ const pc=Math.max(K.done,0),pi=Math.max(K.npv,0),I=K.need;
+ $("tDeal").innerHTML=`<thead><tr><th>Показатель</th><th class="n">Затратная оценка</th><th class="n">Доходная оценка (NPV)</th></tr></thead><tbody>
+ <tr><td>Оценка до денег, млн ₽</td>${mr(pc)}${mr(pi)}</tr><tr><td>Инвестиции, млн ₽</td>${mr(I)}${mr(I)}</tr><tr><td>Оценка после денег, млн ₽</td>${mr(pc+I)}${mr(pi+I)}</tr>
+ <tr class="tot"><td>Доля инвестора</td><td class="n">${I?Math.round(I/(pc+I)*100):0}%</td><td class="n">${I?Math.round(I/(pi+I)*100):0}%</td></tr>
+ <tr><td>Доля основателя</td><td class="n">${I?100-Math.round(I/(pc+I)*100):100}%</td><td class="n">${I?100-Math.round(I/(pi+I)*100):100}%</td></tr></tbody>`;
+ const KX=calc("max"),KN=calc("min"),cr=(t,f)=>`<tr><td>${t}</td><td class="n">${f(KX)}</td><td class="n">${f(KN)}</td></tr>`;
+ $("tCmp").innerHTML=`<thead><tr><th>Показатель (сценарий «${["осторожный","базовый","смелый"][sc]}»)</th><th class="n">MAX</th><th class="n">MIN</th></tr></thead><tbody>`+
+  cr("Нужно инвестиций, млн ₽",k=>f1(k.need))+cr("Завершение продукта, млн ₽",k=>f1(k.leftC))+cr("Затраты 2027, млн ₽",k=>f1(k.rows[0].cosT))+cr("Глубина отрицательного потока, млн ₽",k=>f1(-k.minC))+cr("Выручка 2031, млн ₽",k=>f1(k.rows[4].revT))+cr("Накопленный поток 2031, млн ₽",k=>f1(k.rows[4].cum))+cr("NPV, млн ₽",k=>f1(k.npv))+cr("IRR",k=>k.irr===null?"—":Math.round(k.irr*100)+"%")+cr("Окупаемость",k=>k.pay||"после 2031")+
+  `<tr class="tot"><td>Доля инвестора при доходной оценке</td><td class="n">${Math.round(KX.need/(Math.max(KX.npv,0)+KX.need)*100)}%</td><td class="n">${Math.round(KN.need/(Math.max(KN.npv,0)+KN.need)*100)}%</td></tr></tbody>`;
+ const CM=S.costMin,rowM=(t,k,u)=>`<tr><td>${t}</td><td class="mut">${u}</td>${CM[k].map((v,j)=>`<td class="n">${inp("costMin."+k+"."+j,v)}</td>`).join("")}</tr>`;
+ $("tMin").innerHTML=`<thead><tr><th>Затраты варианта MIN — допущения</th><th>Единица</th>${Y.map(y=>`<th class="n">${y}</th>`).join("")}</tr></thead><tbody>${rowM("Команда","fte","человек")}${rowM("Продвижение и продажи","promo","млн ₽")}${rowM("Инфраструктура","infra","млн ₽")}${rowM("Соответствие: НСПК, Visa/MC, ИБ","comp","млн ₽")}${rowM("Юристы","legal","млн ₽")}
+ <tr><td>Цена сессии «владелец + Claude Code» / коэффициент продаж MIN</td><td class="mut">₽ / доля</td><td class="n">${inp("minSess",S.minSess,1000)}</td><td class="n">${inp("minVol",S.minVol,0.05)}</td><td colspan="3"></td></tr></tbody>`;
+ $("json").value=JSON.stringify(S);draw();
+ try{localStorage.setItem("agInv5",JSON.stringify({S,sc,tax,vr}))}catch(e){}
+}
+function setK(k,v){const p=k.split(".");let o=S;for(let i=0;i<p.length-1;i++)o=o[isNaN(p[i])?p[i]:+p[i]];o[isNaN(p.at(-1))?p.at(-1):+p.at(-1)]=v}
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.k){const v=parseFloat(t.value);if(!isNaN(v)){setK(t.dataset.k,v);render()}}else if(["pDr","pMult","pRes"].includes(t.id))render()});
+document.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+ if(b.dataset.vr){vr=b.dataset.vr;render()}else if(b.dataset.sc){sc=+b.dataset.sc;render()}else if(b.dataset.tx){tax=+b.dataset.tx;render()}
+ else if(b.id=="bReset"){S=JSON.parse(JSON.stringify(DEF));render();$("msg").textContent="Исходные параметры возвращены"}
+ else if(b.id=="bLoad"){try{S=JSON.parse($("json").value);render();$("msg").textContent="Применено"}catch(x){$("msg").textContent="Не разобрал вставленное"}}
+ else if(b.id=="bCopy"){navigator.clipboard.writeText($("json").value).then(()=>$("msg").textContent="Скопировано",()=>$("msg").textContent="Выделите текст и скопируйте вручную")}});
+render();
+}
+</script>
+</body></html>
