@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КП «Стрими» для банка «Юнистрим» — v1.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: деловое предложение банку — спокойно, по пунктам, цифры заметны
+   IDEA: деловое письмо с героем — помощником «Стрими», акцент на денежные переводы
+   PICTURE: аватар Стрими рядом с заголовком; четыре сегмента переводов; этапы и платежи
+   COLOUR and TYPE: белый, тёмно-синий #0b1f35, фирменный жёлтый #ffcc00, синий #1d6fb8; Inter
+   LAYOUT: шапка-письмо, герой, сегменты переводов, что делает Стрими, этапы, оплата, условия, контакты */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0f12);--ink:light-dark(#0b1f35,#f2f3f5);--mut:light-dark(#5f6873,#9aa0a8);--card:light-dark(#f4f7f8,#1a1b1f);--line:light-dark(#e1e6e9,#2c2d33);--acc:#ffcc00;--acct:light-dark(#6b5000,#ffd84d);--warm:#1d6fb8;--tint:light-dark(#fff6dc,#2e2710)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Inter",system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:980px;margin:0 auto;padding:clamp(20px,4vw,48px) max(4vw,16px)}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:12px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:center;margin:28px 0 8px}
+@media(max-width:640px){.hero{grid-template-columns:minmax(0,1fr)}.hero .av{order:-1;width:150px}}
+.av svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 18px rgba(179,127,0,.25))}
+h1{font-weight:800;font-size:clamp(30px,4.6vw,46px);line-height:1.06;margin:0 0 12px;text-wrap:balance}
+h2{font-weight:800;font-size:clamp(22px,2.6vw,28px);line-height:1.15;margin:40px 0 12px}
+.lead{font-size:18px;max-width:62ch;margin:0}
+p{max-width:70ch}
+.name{background:var(--card);border-radius:16px;padding:16px 18px;border-left:5px solid var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}@media(max-width:640px){.g2{grid-template-columns:minmax(0,1fr)}}
+.c{background:var(--card);border-radius:14px;padding:14px 16px}.c b{display:block;margin-bottom:4px}.c span{font-size:15px;color:var(--mut)}
+.seg{border:1px solid var(--line);border-top:4px solid var(--warm);border-radius:14px;padding:14px 16px}.seg b{display:block;font-size:17px;margin-bottom:4px}.seg .who{font-size:14px;color:var(--mut)}.seg ul{margin:6px 0 0;padding-left:18px;font-size:15px}
+.seg .num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--warm);color:#fff;font-weight:800;font-size:14px;margin-right:6px}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}@media(max-width:700px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.f{background:var(--card);border-radius:14px;padding:12px 14px}.f b{display:block;font-size:clamp(24px,3.4vw,32px);font-weight:800;line-height:1.1;color:var(--acct);font-variant-numeric:tabular-nums}.f span{font-size:13px;color:var(--mut)}
+.steps{display:grid;gap:10px}
+.st{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.st .n{width:44px;height:44px;border-radius:50%;background:var(--acc);color:#0b1f35;display:grid;place-items:center;font-weight:800;font-size:18px}
+.st .t{font-weight:800;white-space:nowrap;text-align:right}
+@media(max-width:560px){.st{grid-template-columns:44px minmax(0,1fr)}.st .t{grid-column:2;text-align:left}}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mut);font-weight:600}td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700}
+.note{font-size:14px;color:var(--mut)}
+.sign{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}@media(max-width:600px){.sign{grid-template-columns:minmax(0,1fr)}}
+ul{padding-left:20px;margin:8px 0}li{margin:4px 0}
+.integ{margin-top:12px;border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:16px;padding:14px 16px}.ih{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}.ih span{font-size:13px;color:var(--mut)}.ic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:8px}@media(max-width:640px){.ic{grid-template-columns:minmax(0,1fr)}}h4{margin:0 0 4px;font-size:14px;color:var(--mut)}.ic ul{margin:0;padding-left:18px;font-size:15px}
+.opt{margin-top:12px;border:1px dashed var(--acc);border-radius:16px;padding:14px 16px}.opt b{display:block;margin-bottom:4px}.opt span{font-size:15px;color:var(--mut)}
+.warn{border:2px solid var(--acc);border-radius:12px;padding:12px 16px;background:var(--tint);margin:12px 0}.warn ul{margin:6px 0 0}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:600;margin:10px 0 0}.flow span{background:var(--card);border-radius:999px;padding:6px 12px;font-size:14px}.flow i{color:var(--acct);font-style:normal;font-weight:800}
+@media print{.wrap{padding:0}h2{break-after:avoid}.st,.c,.seg{break-inside:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="meta"><span>ИП Кузин Сергей Константинович</span><span>Москва, 26.11.2026 · КП v1.2</span></div>
+
+<div class="hero">
+ <div>
+  <p class="note" style="margin:0 0 6px">АО КБ «Юнистрим» · руководителю направления по работе с малым бизнесом и денежными переводами</p>
+  <h1>Коммерческое предложение: «Стрими» — помощник менеджера, который находит бизнес с потоком переводов и растит его в банке</h1>
+  <p class="lead">Каждое утро Стрими находит компании и ИП, зарегистрированные за последние дни, и выделяет тех, за кем стоит поток денежных переводов: работодателей с большим штатом приезжих работников, бизнес с выплатами физлицам, предпринимателей с расчётами в страны СНГ и Азии, торговые точки, которые могут стать пунктами переводов. Для каждого он готовит менеджеру, с чем идти и что предложить.</p>
+ </div>
+ <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Стрими — аватар помощника, v1.2">
+  <defs>
+    <radialGradient id="t-sky" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#e3f8ff"/><stop offset="1" stop-color="#bfe9f7"/></radialGradient>
+    <linearGradient id="t-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd60a"/><stop offset=".55" stop-color="#ffc300"/><stop offset="1" stop-color="#0b1f35"/></linearGradient>
+    <linearGradient id="t-up" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff59d"/><stop offset=".55" stop-color="#ffe03a"/><stop offset="1" stop-color="#ffcc00"/></linearGradient>
+    <linearGradient id="t-low" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5b400"/><stop offset="1" stop-color="#d99a00"/></linearGradient>
+    <linearGradient id="t-coin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".5" stop-color="#ffc233"/><stop offset="1" stop-color="#d99100"/></linearGradient>
+    <clipPath id="t-clip"><circle cx="120" cy="120" r="112"/></clipPath>
+  </defs>
+  <circle cx="120" cy="120" r="112" fill="url(#t-sky)"/>
+  <g clip-path="url(#t-clip)">
+    <!-- облака -->
+    <g fill="#ffffff"><ellipse cx="58" cy="62" rx="30" ry="12"/><ellipse cx="78" cy="54" rx="18" ry="12"/><ellipse cx="184" cy="190" rx="34" ry="12"/><ellipse cx="204" cy="182" rx="18" ry="11"/></g>
+    <!-- след перевода -->
+    <path d="M-6 232 C30 214 34 186 56 168 C70 156 84 156 96 150" stroke="#0b1f35" stroke-opacity=".55" stroke-width="4" stroke-dasharray="3 10" stroke-linecap="round" fill="none"/>
+    <circle cx="24" cy="214" r="9" fill="url(#t-coin)"/><circle cx="52" cy="176" r="7.5" fill="url(#t-coin)"/>
+  </g>
+  <circle cx="120" cy="120" r="112" fill="none" stroke="#ffcc00" stroke-width="7"/><circle cx="120" cy="120" r="116" fill="none" stroke="#0b1f35" stroke-width="2"/>
+  <!-- тень -->
+  <ellipse cx="128" cy="214" rx="56" ry="7" fill="#0b1f35" opacity=".15"/>
+  <!-- самолётик-персонаж -->
+  <g>
+    <path d="M100 154 L214 60 L130 198 Z" fill="url(#t-low)"/>
+    <path d="M100 154 L116 176 L130 198 Z" fill="#b37f00"/>
+    <path d="M26 118 L214 60 L100 154 Z" fill="url(#t-up)"/>
+    <path d="M100 154 L214 60" stroke="#ffffff" stroke-opacity=".75" stroke-width="2.5"/>
+    <path d="M44 116 L150 86" stroke="#ffffff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+    <!-- глаза -->
+    <ellipse cx="112" cy="116" rx="13" ry="15" fill="#fff"/><ellipse cx="146" cy="104" rx="13" ry="15" fill="#fff"/>
+    <circle cx="116" cy="118" r="7.5" fill="#0b1f35"/><circle cx="150" cy="106" r="7.5" fill="#0b1f35"/>
+    <circle cx="118.5" cy="114.5" r="2.8" fill="#fff"/><circle cx="152.5" cy="102.5" r="2.8" fill="#fff"/>
+    <path d="M100 98 Q110 92 120 96" stroke="#0b1f35" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M136 86 Q146 80 156 84" stroke="#0b1f35" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <!-- щёки и улыбка -->
+    <ellipse cx="100" cy="136" rx="7" ry="4.5" fill="#ffb4a2" opacity=".85"/><ellipse cx="166" cy="118" rx="7" ry="4.5" fill="#ffb4a2" opacity=".85"/>
+    <path d="M118 138 Q136 146 152 128" stroke="#0b1f35" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- искра -->
+  <path d="M196 132 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z" fill="#0b1f35"/>
+</svg></div>
+</div>
+
+<div class="name"><b>Почему «Стрими».</b> Имя выросло из названия банка и английского stream — поток: Стрими видит, где у бизнеса течёт поток денег, и направляет его в банк. Сам Стрими — живой бумажный самолётик: перевод, который всегда долетает до адресата. Золотой пунктир с монетами — деньги клиента в пути, небо и облака — лёгкость и скорость. Это не робот-ассистент, а летающий почтальон денег. Персонаж собственный, логотипа и фирменных знаков банка в нём нет, персонаж в фирменном жёлтом цвете банка, оттенки выравниваются по брендбуку. Использовать имя и аватар можно после согласования с маркетингом и юристами банка.
+<p class="note" style="margin:8px 0 0">⚠ Рассматривали имя «Юни» — отклонено: так зовут маскота другой российской компании (сервис рассылок Unisender), риск путаницы и спора о товарном знаке.</p></div>
+
+<h2>Почему это предложение для Юнистрима</h2>
+<div class="facts">
+ <div class="f"><b>205</b><span>офисов, топ-10 банков России по числу отделений (1 кв. 2026)</span></div>
+ <div class="f"><b>1 млн+</b><span>клиентов посетили сеть в 2025 году</span></div>
+ <div class="f"><b>330 тыс.+</b><span>человек сделали денежные переводы в 2025 году</span></div>
+ <div class="f"><b>1 день</b><span>открытие РКО для ИП и ООО; счёт бесплатно</span></div>
+</div>
+<p>Банк называет своей аудиторией приезжих работников и малый бизнес и ставит цель расти как розничный банк, а не только «банк переводов». Стрими соединяет эти две аудитории: <b>один новый клиент-работодатель приводит в сеть банка десятки и сотни отправителей переводов</b>, а сеть офисов рядом с работой и домом этих людей — главный довод в разговоре с работодателем.</p>
+<div class="flow"><span>Новый ИП или ООО</span><i>→</i><span>счёт в Юнистриме</span><i>→</i><span>зарплата работникам на карты банка</span><i>→</i><span>переводы работников через сеть банка</span><i>→</i><span>новые точки и рекомендации</span></div>
+<p class="note">Цифры — из интервью заместителя председателя правления банка (spark.ru, 2026) и описаний тарифов РКО на агрегаторе brobank.ru; при постановке сверяются с банком.</p>
+
+<h2>Четыре сегмента переводов, которые ищет Стрими</h2>
+<div class="g2">
+ <div class="seg"><b><span class="num">1</span>Работодатели с большим штатом приезжих работников</b><span class="who">Стройка и отделка, сельское хозяйство, склады и логистика, клининг, общепит, ЖКХ</span><ul><li>Счёт, зарплатный проект на карты банка</li><li>Работники отправляют переводы домой через сеть банка — рядом с объектом и общежитием</li><li>Самый большой поток переводов на одного клиента</li></ul></div>
+ <div class="seg"><b><span class="num">2</span>Бизнес с выплатами физлицам</b><span class="who">Курьерские службы, сервисы с самозанятыми, агентские сети, заготовка и приём вторсырья</span><ul><li>Массовые выплаты на карты и по номеру телефона</li><li>Получатели выплат — будущие клиенты банка</li><li>Набор продуктов уточняется на постановке</li></ul></div>
+ <div class="seg"><b><span class="num">3</span>Расчёты со странами СНГ и Азии</b><span class="who">Малый импорт и экспорт, торговля внутри ЕАЭС, оптовые рынки</span><ul><li>Расчёты с поставщиками и партнёрами за рубежом</li><li>Владельцы и сотрудники — отправители личных переводов</li><li>⚠ Объём и направления зависят от продуктов банка и санкционных ограничений — уточняется</li></ul></div>
+ <div class="seg"><b><span class="num">4</span>Будущие партнёры-точки</b><span class="who">Магазины у дома, салоны связи, мастерские, кафе — в районах, где живут и работают отправители переводов</span><ul><li>Точка становится пунктом приёма и выдачи переводов</li><li>Сеть банка растёт без затрат на новый офис</li><li>Сам владелец точки — клиент РКО</li></ul></div>
+</div>
+<p class="note">Сегменты определяются по видам деятельности бизнеса (ОКВЭД), размеру и месту регистрации. Сведения о гражданстве и национальности людей Стрими не собирает и не использует.</p>
+
+<h2>Что Стрими делает для менеджера</h2>
+<div class="grid">
+ <div class="c"><b>Находит новых</b><span>Ежедневная лента регистраций ЕГРЮЛ/ЕГРИП по региону, форме и отрасли; поиск по названию, ИНН, ОГРН, руководителю. Регионы — с учётом сети банка и новых офисов в Сибири и на Дальнем Востоке.</span></div>
+ <div class="c"><b>Видит поток переводов</b><span>Относит компанию к одному из четырёх сегментов и оценивает возможный поток: штат, выплаты, расчёты, место для точки.</span></div>
+ <div class="c"><b>Отсеивает риски</b><span>Массовые адреса и руководители, недостоверные сведения, признаки транзитных схем — помечаются «не привлекать» для менеджера и службы безопасности.</span></div>
+ <div class="c"><b>Расставляет приоритеты</b><span>Балл «к кому первым» с расшифровкой: свежесть регистрации, сегмент, потенциал переводов, близость к офису банка, риски.</span></div>
+ <div class="c"><b>Даёт аргументы</b><span>До пяти доводов под сегмент на продуктах банка: счёт за 1 день, зарплатные карты, переводы, офис рядом с объектом. Ответы на частые возражения.</span></div>
+ <div class="c"><b>Ведёт работу</b><span>Отметки «со слов клиента», статус, закрепление за менеджером и офисом, утренняя сводка.</span></div>
+</div>
+<div class="integ"><div class="ih"><b>Работает в связке с системой банка</b><span>двусторонняя интеграция</span></div><div class="ic"><div><h4>Получает от банка</h4><ul><li><b>Установки на поиск</b> — регионы и офисы, сегменты, приоритетные ОКВЭД, стоп-листы, план по привлечению</li><li><b>Специфику клиентов</b> — какие направления переводов и какие отрасли банк развивает сейчас</li><li><b>Рекомендации</b> — продукты, акции и аргументы этого периода</li></ul></div><div><h4>Передаёт в банк</h4><ul><li>Карточки компаний с сегментом, потенциалом переводов и приоритетом</li><li>Лиды для менеджеров и офисов, статусы работы</li><li>Результаты: открыл счёт, подключил зарплатный проект, стал точкой; отказ и причина; сработавшие аргументы</li></ul></div></div><p class="note" style="margin:8px 0 0">Установки банка сразу меняют работу Стрими: кого он ищет, в каком порядке показывает и какие аргументы предлагает.</p></div>
+<div class="opt"><b>Этап 2 (опционально): карта потоков — где искать клиентов и где открывать офисы</b><span>Места, где сосредоточены работодатели и отправители переводов: промзоны и стройки, оптовые рынки, складские комплексы, торговые центры, районы новых регистраций. Карта подсказывает менеджеру маршрут, а банку — места для новых офисов и партнёров-точек. Объём и стоимость этапа 2 определяются отдельно.</span></div>
+<p class="note">Демо-постановка помощника может быть собрана к встрече — по образцу уже готовой демо-постановки аналогичного помощника.</p>
+
+<h2>Особые условия</h2>
+<div class="warn"><b>⚠ Решить до начала работ</b><ul>
+<li><b>Санкционный контур.</b> Банк с июля 2023 года находится под санкциями США. Зарубежные облака и поставщики моделей ИИ могут отказать в обслуживании. Базовый вариант — модель и размещение в контуре банка или в российском облаке с российской моделью, допущенной банком. Это закладывается в архитектуру с первого дня.</li>
+<li><b>115-ФЗ и профиль переводов.</b> Переводной бизнес под повышенным вниманием регулятора. Критерии «не привлекать» задаёт комплаенс банка, Стрими только применяет их и объясняет флаг.</li>
+<li><b>Персональные данные.</b> ФИО и ИНН руководителей и ИП — персональные данные: нужен договор поручения обработки (ст. 6 152-ФЗ) и класс защищённости по требованиям банка.</li>
+<li><b>Каналы контакта (38-ФЗ ст. 18).</b> Стрими не звонит и не пишет клиентам, он готовит менеджера к разговору. Контакт — через каналы с согласием клиента или при встрече.</li>
+<li><b>Закупочные правила банка</b> могут не допустить аванс в том виде, как он записан ниже. Выяснить до подписания.</li>
+</ul></div>
+
+<h2>Этапы работ</h2>
+<div class="steps">
+ <div class="st"><span class="n">1</span><div><b>Постановка задачи</b><br>Интервью с менеджерами РКО, переводов и сети офисов, источники данных и доступы, требования безопасности, права и санкционного контура, двусторонняя интеграция с системой банка, правила отнесения к сегментам переводов, справочник продуктов и аргументов. Результат — утверждаемое техническое задание, прототип, оценка трудоёмкости, стоимость и план.</div><span class="t">3 рабочих дня</span></div>
+ <div class="st"><span class="n">2</span><div><b>Разработка и внедрение</b><br>Разработка помощника по утверждённой постановке, развёртывание в согласованном контуре, пилот с менеджерами 2–3 офисов, приёмка.</div><span class="t">по итогам этапа 1</span></div>
+</div>
+
+<h2>Порядок оплаты</h2>
+<table>
+<thead><tr><th>Платёж</th><th>Когда</th><th style="text-align:right">Сумма</th></tr></thead>
+<tbody>
+<tr><td><b>Аванс</b><br><span class="note">засчитывается в оплату полной стоимости работ</span></td><td>при подписании, до начала постановки</td><td class="n">300 000 ₽</td></tr>
+<tr><td><b>Второй платёж</b></td><td>после утверждения постановки задачи</td><td class="n">50% стоимости</td></tr>
+<tr><td><b>Окончательный расчёт</b></td><td>по приёмке работ</td><td class="n">остаток</td></tr>
+<tr><td><b>Поддержка после приёмки</b><br><span class="note">отдельно от стоимости разработки</span></td><td>ежемесячно, с месяца после приёмки</td><td class="n">по договору</td></tr>
+</tbody></table>
+<p class="note">Полная стоимость разработки и внедрения фиксируется в утверждённой постановке задачи.</p>
+
+<h2>Поддержка после приёмки</h2>
+<div class="grid">
+ <div class="c"><b>Что входит</b><span>Контроль ежедневного прогона и обмена с системой банка; обновление справочников ОКВЭД, сегментов, тарифов, продуктов и аргументов по установкам банка; исправление ошибок; консультации менеджеров и администраторов.</span></div>
+ <div class="c"><b>Доработки</b><span>Небольшие доработки — в пределах пакета часов в месяц. Крупные изменения оцениваются и согласуются отдельно.</span></div>
+ <div class="c"><b>Форма оплаты</b><span>Ежемесячная абонентская плата. Состав, пакет часов, время реакции и сумма фиксируются в постановке задачи и в договоре.</span></div>
+</div>
+<h2>Расходы на модель ИИ и инфраструктуру</h2>
+<p>Вычислительные ресурсы, использование модели ИИ, хранение данных, доступ к источникам сведений о компаниях. Кто несёт эти расходы, зависит от места размещения Стрими и определяется на постановке:</p>
+<div class="grid">
+ <div class="c"><b>Вариант А — контур банка</b><span>Стрими работает на ресурсах банка и с моделью ИИ, допущенной банком. Расходы на инфраструктуру, модель и источники данных несёт банк. С учётом санкционного контура — основной вариант.</span></div>
+ <div class="c"><b>Вариант Б — российское облако исполнителя</b><span>Размещение в согласованном с банком российском облаке с российской моделью. Расходы включаются в ежемесячную плату или выставляются по фактическому потреблению.</span></div>
+ <div class="c"><b>Источники данных</b><span>Доступ ФНС или поставщик сведений о компаниях оплачивает тот, на кого оформлен договор с источником. Обычно это банк.</span></div>
+</div>
+<p class="note">Выбранный вариант и порядок расчётов записываются в договор.</p>
+<h2>Что нужно от банка</h2>
+<div class="grid">
+ <div class="c"><b>Бизнес и продукт</b><span>Ответственный и 2–3 менеджера; целевые регионы и офисы, сегменты, ОКВЭД и план; стоп-листы; тарифы РКО, зарплатные карты, переводы, выплаты; разрешённые формулировки и возражения.</span></div>
+ <div class="c"><b>Переводы и сеть</b><span>Направления и продукты переводов для бизнеса и его работников; условия партнёрской (агентской) программы для точек; адреса офисов и планы открытий.</span></div>
+ <div class="c"><b>Клиенты и системы</b><span>Проверка по ИНН «уже клиент»; обратная связь по лидам; CRM и её API; канал установок и рекомендаций; вход сотрудников, роли, аудит; контур размещения.</span></div>
+ <div class="c"><b>Регламенты</b><span>Работа с малым бизнесом и лидами; открытие счетов; зарплатные проекты; переводы и агентская сеть; комплаенс и ПОД/ФТ; служба безопасности; санкционный комплаенс; маркетинг; ПДн; ИТ и ИБ; политика ИИ; закупки.</span></div>
+ <div class="c"><b>Безопасность и право</b><span>Требования ИБ; договор поручения обработки ПДн; решение о модели ИИ и месте обработки с учётом санкций; каналы с согласием клиентов (38-ФЗ); согласование имени и аватара.</span></div>
+ <div class="c"><b>Подробно</b><span>Полный чек-лист с привязкой к функциям и срокам — в приложении «Функционал, трудоёмкость, план».</span></div>
+</div>
+
+<h2>Контакты</h2>
+<div class="sign">
+ <div class="c"><b>ИП Кузин Сергей Константинович</b><span>Тел. +7 925 378-14-81 · Telegram @SergeyKKuzin<br>sergey.kuzin@list.ru</span></div>
+ <div class="c"><b>Срок действия предложения</b><span>30 календарных дней с даты КП. Реквизиты — в договоре.</span></div>
+</div>
+</div></body></html>

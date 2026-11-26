@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>«Стрими»: сценарий мультфильма и промпты Pollo — v1.2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0e0f12);--ink:light-dark(#0b1f35,#f2f3f5);--mut:light-dark(#5f6873,#9aa0a8);--card:light-dark(#f4f7f8,#1a1b1f);--line:light-dark(#e1e6e9,#2c2d33);--acc:#ffcc00;--acct:light-dark(#6b5000,#ffd84d);--warm:#1d6fb8;--tint:light-dark(#fff6dc,#2e2710)}
+*{box-sizing:border-box;min-width:0}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Inter",system-ui,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:clamp(18px,3.5vw,44px) max(4vw,14px)}
+h1{font-weight:800;font-size:clamp(26px,3.8vw,38px);line-height:1.1;margin:0 0 6px}h2{font-weight:800;font-size:clamp(20px,2.4vw,24px);margin:32px 0 10px}
+.mut{color:var(--mut);font-size:14px}
+.sc{border:1px solid var(--line);border-left:5px solid var(--acc);border-radius:14px;padding:12px 14px;margin:10px 0}
+.sc h3{margin:0 0 4px;font-size:17px}.sc .m{font-size:14px;color:var(--mut);margin:0 0 6px}
+pre{white-space:pre-wrap;background:var(--card);border-radius:10px;padding:10px 12px;font:13.5px/1.5 ui-monospace,Menlo,monospace;margin:6px 0 0}
+button{font:600 14px Inter,sans-serif;min-height:36px;padding:0 14px;border-radius:8px;border:1px solid var(--acc);background:transparent;color:var(--acct);cursor:pointer;margin-top:6px}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.warn{border:2px solid var(--acc);border-radius:12px;padding:10px 14px;background:var(--tint);margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mut)}
+</style></head><body><div class="wrap">
+<h1>«Стрими»: сценарий мультфильма и промпты для Pollo</h1>
+<p class="mut">Комплект для банка «Юнистрим» · v1.2 · 26.11.2026. Демо-фрагмент v1.2 (2D, 25 с) уже собран отдельным файлом; ниже — полная 3D-версия для генерации в Pollo.</p>
+
+<h2>Сюжет «Поток Стрими»</h2>
+<p>Каждое утро в городе загораются огоньки — это новые компании и ИП. Стрими пролетает над крышами и находит тех, за кем стоит поток денег. Бобр-прораб открывает счёт, и его бригада получает карты. Вечером работники отправляют переводы домой — бумажные самолётики летят через горы к родным окнам. Караван верблюда везёт товар из Азии, а оплата летит рядом. Ёжик открывает магазин у дома, и над ним загорается вывеска «переводы» — теперь сюда приходит весь район. В финале город сияет сетью огоньков-точек, а Стрими уже смотрит на новые утренние огоньки.</p>
+<table><thead><tr><th>№</th><th>Сцена</th><th>Смысл для банка</th></tr></thead><tbody>
+<tr><td>1</td><td>Огоньки над городом</td><td>Лента новых регистраций</td></tr>
+<tr><td>2</td><td>Стрими выбирает</td><td>Сегмент и потенциал переводов</td></tr>
+<tr><td>3</td><td>Бобр-прораб и бригада</td><td>Счёт работодателя + зарплатные карты (сегмент 1)</td></tr>
+<tr><td>4</td><td>Белка-курьер получает выплату</td><td>Массовые выплаты физлицам (сегмент 2)</td></tr>
+<tr><td>5</td><td>Самолётики домой</td><td>Переводы работников через сеть банка</td></tr>
+<tr><td>6</td><td>Караван верблюда</td><td>Расчёты со странами СНГ и Азии (сегмент 3)</td></tr>
+<tr><td>7</td><td>Лиса с фальшивой накладной</td><td>Отсев рисков (115-ФЗ)</td></tr>
+<tr><td>8</td><td>Магазин ёжика — новая точка</td><td>Партнёры-точки, сеть растёт (сегмент 4)</td></tr>
+</tbody></table>
+
+<div class="warn"><b>⚠ Генерация платная.</b> 8 сцен × 5 с на модели Pollo v1.6 ≈ 40 кредитов, на Veo 3.1 Lite ≈ 64. Сейчас на счёте Pollo 0 кредитов. Аватар Стрими загружается первым кадром (image2video), чтобы персонаж совпадал с образом. Логотипа и названия банка в промптах нет.</div>
+
+<h2>Общие блоки</h2>
+<div class="sc"><h3>Персонаж (в начало каждой сцены)</h3><pre id="p0">STRIMI: a friendly living paper airplane folded from glossy sunny-yellow paper (bright lemon-yellow upper wing, deeper amber-yellow lower wing, a white crease line), with two big expressive cartoon eyes with dark navy eyebrows, rosy cheeks and a wide smile on the wing; he flies, banks and flaps his wings, leaving a dotted golden trail with tiny coins. He is NOT a robot.</pre><button data-c="p0">Копировать</button></div>
+<div class="sc"><h3>Стиль (в конец каждой сцены)</h3><pre id="ps">Glossy 3D cartoon, Pixar-like, soft rim light, sunny yellow as the main color, with sky-blue and deep navy accents, airy clouds and flowing golden trails, cheerful family-friendly mood, smooth camera, 16:9, no text, no logos.</pre><button data-c="ps">Копировать</button></div>
+
+<h2>Сцены</h2>
+<div id="scenes"></div>
+<p class="mut">Сегменты в мультфильме — по видам бизнеса; персонажи-животные не обозначают национальность или происхождение людей.</p>
+</div>
+<script>
+const S=[
+['1. Огоньки над городом','Ночь сменяется рассветом, в окнах загораются бирюзовые огоньки','STRIMI comes alive, blinks, unfolds his wings and glides over a night city skyline at dawn. In many windows small pale-blue lights pop on one by one like new stars. STRIMI swoops across the rooftops; every light he passes turns sunny yellow. Slow tracking shot, sky turning from navy to peach.'],
+['2. Стрими выбирает','Стрими сам ведёт к потоку','STRIMI hovers above a glowing city map. Thin golden streams of light flow out of some buildings: a construction site, a courier depot, a warehouse with a camel caravan, a tiny corner shop. STRIMI smiles, does a loop and lands on the construction site. Camera pushes in.'],
+['3. Бобр-прораб и бригада','Счёт за день, карты бригаде','At a sunny construction site with a crane, a friendly beaver foreman in a yellow hard hat waves. STRIMI glides down and gives him a glowing yellow card that spins in the air. Then a line of cheerful sparrow builders in orange helmets each receives a small yellow card; they hop with joy. Bright daylight, playful bouncy animation.'],
+['4. Белка-курьер','Массовые выплаты физлицам','A fast squirrel courier on a tiny scooter finishes a delivery; STRIMI taps the air and a stream of golden coins flies into the squirrel\'s card, which glows. Other couriers — a hare and a hedgehog — receive their payouts too. Energetic city street, warm afternoon light.'],
+['5. Самолётики домой','Переводы работников через сеть банка','Evening. The sparrow builders stand by a small cozy office with a glowing yellow wave sign (no text). Each releases a small plain white paper airplane — STRIMI leads them like a flock; they fly over mountains and rivers, trailing golden coins, and land at distant village houses whose windows light up warm. A grandmother owl at a window smiles. Wide aerial shot, magical dusk.'],
+['6. Караван верблюда','Расчёты со странами СНГ и Азии','A camel carrying colorful boxes walks across golden dunes toward a city on the horizon; above the caravan STRIMI flies alongside, and a ribbon of golden coins streams from the city to the caravan. Sun low, long shadows, gentle wind with sand sparkles.'],
+['7. Лиса с фальшивой накладной','Отсев рисков','A sly fox in a fake courier cap holds out a glittering invoice to STRIMI. STRIMI narrows his eyes, spreads his wings into a glowing shield; the invoice dissolves into harmless confetti and the embarrassed fox tiptoes away. Comic, not scary.'],
+['8. Магазин ёжика — новая точка','Партнёр-точка, финал','A hedgehog opens a corner shop with a yellow-and-white awning at night. A glowing wave sign lights up over the door; sparrows, a squirrel and a beaver come in with small white paper airplanes. Camera pulls back: many such signs light up across the city like a constellation. STRIMI soars up, a golden star sparkles, he winks at the camera.']
+];
+document.getElementById('scenes').innerHTML=S.map((s,i)=>`<div class="sc"><h3>${s[0]}</h3><p class="m">${s[1]}</p><pre id="s${i}">${s[2]}</pre><button data-c="s${i}" data-full="1">Копировать с персонажем и стилем</button></div>`).join('');
+document.addEventListener('click',e=>{const b=e.target.closest('button[data-c]');if(!b)return;const g=id=>document.getElementById(id).textContent;let t=g(b.dataset.c);if(b.dataset.full)t=g('p0')+' '+t+' '+g('ps');navigator.clipboard?.writeText(t).then(()=>{b.textContent='Скопировано';setTimeout(()=>b.textContent=b.dataset.full?'Копировать с персонажем и стилем':'Копировать',1500)})});
+</script></body></html>

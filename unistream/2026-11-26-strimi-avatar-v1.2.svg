@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Стрими — аватар помощника, v1.2">
+  <defs>
+    <radialGradient id="t-sky" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#e3f8ff"/><stop offset="1" stop-color="#bfe9f7"/></radialGradient>
+    <linearGradient id="t-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd60a"/><stop offset=".55" stop-color="#ffc300"/><stop offset="1" stop-color="#0b1f35"/></linearGradient>
+    <linearGradient id="t-up" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff59d"/><stop offset=".55" stop-color="#ffe03a"/><stop offset="1" stop-color="#ffcc00"/></linearGradient>
+    <linearGradient id="t-low" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5b400"/><stop offset="1" stop-color="#d99a00"/></linearGradient>
+    <linearGradient id="t-coin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".5" stop-color="#ffc233"/><stop offset="1" stop-color="#d99100"/></linearGradient>
+    <clipPath id="t-clip"><circle cx="120" cy="120" r="112"/></clipPath>
+  </defs>
+  <circle cx="120" cy="120" r="112" fill="url(#t-sky)"/>
+  <g clip-path="url(#t-clip)">
+    <!-- облака -->
+    <g fill="#ffffff"><ellipse cx="58" cy="62" rx="30" ry="12"/><ellipse cx="78" cy="54" rx="18" ry="12"/><ellipse cx="184" cy="190" rx="34" ry="12"/><ellipse cx="204" cy="182" rx="18" ry="11"/></g>
+    <!-- след перевода -->
+    <path d="M-6 232 C30 214 34 186 56 168 C70 156 84 156 96 150" stroke="#0b1f35" stroke-opacity=".55" stroke-width="4" stroke-dasharray="3 10" stroke-linecap="round" fill="none"/>
+    <circle cx="24" cy="214" r="9" fill="url(#t-coin)"/><circle cx="52" cy="176" r="7.5" fill="url(#t-coin)"/>
+  </g>
+  <circle cx="120" cy="120" r="112" fill="none" stroke="#ffcc00" stroke-width="7"/><circle cx="120" cy="120" r="116" fill="none" stroke="#0b1f35" stroke-width="2"/>
+  <!-- тень -->
+  <ellipse cx="128" cy="214" rx="56" ry="7" fill="#0b1f35" opacity=".15"/>
+  <!-- самолётик-персонаж -->
+  <g>
+    <path d="M100 154 L214 60 L130 198 Z" fill="url(#t-low)"/>
+    <path d="M100 154 L116 176 L130 198 Z" fill="#b37f00"/>
+    <path d="M26 118 L214 60 L100 154 Z" fill="url(#t-up)"/>
+    <path d="M100 154 L214 60" stroke="#ffffff" stroke-opacity=".75" stroke-width="2.5"/>
+    <path d="M44 116 L150 86" stroke="#ffffff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+    <!-- глаза -->
+    <ellipse cx="112" cy="116" rx="13" ry="15" fill="#fff"/><ellipse cx="146" cy="104" rx="13" ry="15" fill="#fff"/>
+    <circle cx="116" cy="118" r="7.5" fill="#0b1f35"/><circle cx="150" cy="106" r="7.5" fill="#0b1f35"/>
+    <circle cx="118.5" cy="114.5" r="2.8" fill="#fff"/><circle cx="152.5" cy="102.5" r="2.8" fill="#fff"/>
+    <path d="M100 98 Q110 92 120 96" stroke="#0b1f35" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <path d="M136 86 Q146 80 156 84" stroke="#0b1f35" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    <!-- щёки и улыбка -->
+    <ellipse cx="100" cy="136" rx="7" ry="4.5" fill="#ffb4a2" opacity=".85"/><ellipse cx="166" cy="118" rx="7" ry="4.5" fill="#ffb4a2" opacity=".85"/>
+    <path d="M118 138 Q136 146 152 128" stroke="#0b1f35" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- искра -->
+  <path d="M196 132 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z" fill="#0b1f35"/>
+</svg>
