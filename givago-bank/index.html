@@ -1,0 +1,233 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026-11-27 КП «Жива» для Живаго Банка — v1.1</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: деловое предложение региональному банку — спокойно, по пунктам, цифры заметны
+   IDEA: помощник «Жива» растит клиента с нуля — по лестнице тарифов самого банка
+   PICTURE: аватар Живы с лейкой; лестница «Начни с нуля → Классический → Большие обороты»
+   COLOUR and TYPE: белый, тёмно-зелёный #0f2a1f, зелёный #2fae66, золотой акцент #e9a72a; Inter */
+:root{color-scheme:light dark;--bg:light-dark(#fff,#0b120f);--ink:light-dark(#0f2a1f,#eef5f0);--mut:light-dark(#5b6b62,#9cb0a5);--card:light-dark(#f2f7f3,#15201a);--line:light-dark(#dfe9e2,#26362d);--acc:#e9a72a;--grn:#2fae66}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Inter",system-ui,sans-serif;overflow-x:clip}
+.wrap{max-width:980px;margin:0 auto;padding:clamp(20px,4vw,48px) max(4vw,16px)}
+.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:12px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:center;margin:28px 0 8px}
+@media(max-width:640px){.hero{grid-template-columns:minmax(0,1fr)}.hero .av{order:-1;width:150px}}
+.av svg{width:100%;height:auto;display:block;filter:drop-shadow(0 10px 18px rgba(47,174,102,.3))}
+h1{font-weight:800;font-size:clamp(30px,4.6vw,46px);line-height:1.06;margin:0 0 12px;text-wrap:balance}
+h2{font-weight:800;font-size:clamp(22px,2.6vw,28px);line-height:1.15;margin:40px 0 12px}
+.lead{font-size:18px;max-width:62ch;margin:0}
+p{max-width:70ch}
+.name{background:var(--card);border-radius:16px;padding:16px 18px;border-left:5px solid var(--acc)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.grid,.g2{grid-template-columns:minmax(0,1fr)}}
+.c{background:var(--card);border-radius:14px;padding:14px 16px}.c b{display:block;margin-bottom:4px}.c span{font-size:15px;color:var(--mut)}
+.src{border:1px solid var(--line);border-top:4px solid var(--grn);border-radius:14px;padding:14px 16px}
+.src .k{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--grn)}
+.src b{display:block;margin:2px 0 6px;font-size:17px}.src span{font-size:15px;color:var(--mut)}
+.src .pr{display:block;margin-top:8px;font-size:14px;color:var(--ink)}
+.lad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px;align-items:end}
+.lad div{background:var(--card);border-radius:14px;padding:12px 14px;border-bottom:5px solid var(--grn)}
+.lad div:nth-child(1){min-height:150px}.lad div:nth-child(2){min-height:180px}.lad div:nth-child(3){min-height:210px;border-bottom-color:var(--acc)}
+.lad .t{font-size:13px;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.04em}
+.lad b{display:block;font-size:19px;margin:2px 0 4px}.lad small{color:var(--mut);font-size:14px;display:block}
+@media(max-width:600px){.lad{grid-template-columns:minmax(0,1fr)}.lad div{min-height:0!important}}
+.calc{margin-top:12px;border:1px dashed var(--acc);border-radius:16px;padding:14px 16px}
+.calc .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:6px 0}
+.calc label{font-size:14px;color:var(--mut)}
+.calc input{width:150px;font:600 16px Inter,sans-serif;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.calc .out{font-weight:800;font-size:18px}
+.steps{display:grid;gap:10px}
+.st{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:start;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.st .n{width:44px;height:44px;border-radius:50%;background:var(--grn);color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px}
+.st .t{font-weight:800;white-space:nowrap;text-align:right}
+@media(max-width:560px){.st{grid-template-columns:44px minmax(0,1fr)}.st .t{grid-column:2;text-align:left}}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--mut);font-weight:600}td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700}
+.tw{overflow-x:auto}
+.note{font-size:14px;color:var(--mut)}
+.sign{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:12px}@media(max-width:600px){.sign{grid-template-columns:minmax(0,1fr)}}
+ul{padding-left:20px;margin:8px 0}li{margin:4px 0}
+.integ{margin-top:12px;border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:16px;padding:14px 16px}.ih{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}.ih span{font-size:13px;color:var(--mut)}.ic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:8px}@media(max-width:640px){.ic{grid-template-columns:minmax(0,1fr)}}h4{margin:0 0 4px;font-size:14px;color:var(--mut)}.ic ul{margin:0;padding-left:18px;font-size:15px}
+.opt{margin-top:12px;border:1px dashed var(--grn);border-radius:16px;padding:14px 16px}.opt b{display:block;margin-bottom:4px}.opt span{font-size:15px;color:var(--mut)}
+@media print{.wrap{padding:0}h2{break-after:avoid}.st,.c,.src{break-inside:avoid}}
+</style></head>
+<body><div class="wrap">
+<div class="meta"><span>ИП Кузин Сергей Константинович</span><span>Москва, 27.11.2026 · КП v1.1</span></div>
+
+<div class="hero">
+ <div>
+  <p class="note" style="margin:0 0 6px">ООО «ЖИВАГО БАНК» · руководителю корпоративного бизнеса</p>
+  <h1>Коммерческое предложение: «Жива» — помощник менеджера, который растит корпоративного клиента с первого дня</h1>
+  <p class="lead">Каждое утро Жива находит компании, ИП и ТСЖ, зарегистрированные за последние дни в Рязанской области, а также рядом с офисами банка в Москве и Санкт-Петербурге. По кодам ОКВЭД помощник определяет, что каждому нужно: счёт «с нуля», кредит по госпрограмме, инкассация или обслуживание дома. Менеджер получает список: к кому идти первым, что предложить и какими доводами.</p>
+ </div>
+ <div class="av"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Жива — аватар помощника, v1.0">
+  <defs>
+    <linearGradient id="zTile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#123d2b"/><stop offset="1" stop-color="#071f16"/></linearGradient>
+    <linearGradient id="zRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd76a"/><stop offset=".55" stop-color="#e9a72a"/><stop offset="1" stop-color="#6fe0a0"/></linearGradient>
+    <radialGradient id="zGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd76a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd76a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="zBody" x1=".2" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#9af0be"/><stop offset=".5" stop-color="#2fae66"/><stop offset="1" stop-color="#0e6b3a"/></linearGradient>
+    <linearGradient id="zVisor" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d3a2e"/><stop offset=".6" stop-color="#06120d"/><stop offset="1" stop-color="#173528"/></linearGradient>
+    <radialGradient id="zEye" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#fff1c4"/><stop offset="1" stop-color="#f2b632"/></radialGradient>
+    <linearGradient id="zLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8f5a0"/><stop offset="1" stop-color="#3fae4a"/></linearGradient>
+    <linearGradient id="zCan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c8"/><stop offset=".5" stop-color="#f2b632"/><stop offset="1" stop-color="#b9781a"/></linearGradient>
+    <clipPath id="zClip"><rect x="4" y="4" width="232" height="232" rx="54"/></clipPath>
+  </defs>
+  <rect x="4" y="4" width="232" height="232" rx="54" fill="url(#zTile)"/>
+  <g clip-path="url(#zClip)">
+    <circle cx="190" cy="52" r="70" fill="url(#zGlow)"/>
+    <path d="M0 214 Q60 200 120 210 T240 204 L240 240 L0 240 Z" fill="#1f6b43"/>
+    <path d="M0 224 Q60 212 120 222 T240 216" stroke="#9af0be" stroke-opacity=".45" stroke-width="3" fill="none"/>
+    <!-- лестница роста: семечко, росток, деревце -->
+    <ellipse cx="24" cy="212" rx="5" ry="3.5" fill="#f2b632"/>
+    <path d="M44 214 v-12" stroke="#7ad36e" stroke-width="3"/><path d="M44 204 q-8 -2 -9 -9 q8 1 9 9 z M44 204 q8 -3 9 -10 q-8 1 -9 10 z" fill="#7ad36e"/>
+    <path d="M214 214 v-26" stroke="#8a5a2b" stroke-width="4"/><circle cx="214" cy="182" r="14" fill="#3fae4a"/><circle cx="206" cy="188" r="9" fill="#2f9a40"/><circle cx="222" cy="186" r="9" fill="#58c35a"/>
+  </g>
+  <rect x="4" y="4" width="232" height="232" rx="54" fill="none" stroke="url(#zRim)" stroke-width="5"/>
+  <!-- антенна-росток -->
+  <path d="M120 58 C120 46 118 40 120 30" stroke="#5fbf5a" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M120 34 C106 32 98 22 100 12 C112 14 120 22 120 34 Z" fill="url(#zLeaf)"/>
+  <path d="M120 38 C134 38 144 28 144 18 C132 18 122 26 120 38 Z" fill="url(#zLeaf)"/>
+  <ellipse cx="116" cy="198" rx="50" ry="7" fill="#000" opacity=".35"/>
+  <!-- корпус -->
+  <rect x="46" y="56" width="140" height="140" rx="56" fill="url(#zBody)"/>
+  <path d="M66 84 Q84 62 122 62" stroke="#fff" stroke-opacity=".55" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <!-- визор -->
+  <rect x="60" y="96" width="112" height="48" rx="24" fill="url(#zVisor)"/>
+  <rect x="60" y="96" width="112" height="48" rx="24" fill="none" stroke="#ffd76a" stroke-opacity=".45" stroke-width="2"/>
+  <ellipse cx="94" cy="120" rx="10" ry="11" fill="url(#zEye)"/><ellipse cx="138" cy="120" rx="10" ry="11" fill="url(#zEye)"/>
+  <circle cx="97" cy="116" r="3" fill="#fff"/><circle cx="141" cy="116" r="3" fill="#fff"/>
+  <path d="M100 162 Q116 174 132 162" stroke="#08402a" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <circle cx="74" cy="152" r="6" fill="#ff9e8a" opacity=".5"/><circle cx="158" cy="152" r="6" fill="#ff9e8a" opacity=".5"/>
+  <!-- лейка: Жива растит клиента -->
+  <path d="M168 150 h34 a6 6 0 0 1 6 6 v22 a8 8 0 0 1 -8 8 h-30 a8 8 0 0 1 -8 -8 v-22 a6 6 0 0 1 6 -6 z" fill="url(#zCan)"/>
+  <path d="M174 150 q11 -16 22 0" stroke="#b9781a" stroke-width="4" fill="none"/>
+  <path d="M166 160 L142 176 L146 182 L168 170 Z" fill="#e9a72a"/>
+  <circle cx="140" cy="186" r="2.6" fill="#9be3ff"/><circle cx="134" cy="194" r="2.2" fill="#9be3ff"/><circle cx="144" cy="196" r="2" fill="#9be3ff"/>
+  <path d="M176 164 l4 0 m-2 -2 l0 4" stroke="#fff" stroke-width="2"/>
+  <!-- искра -->
+  <path d="M38 58 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z" fill="#ffd76a" opacity=".95"/>
+</svg>
+</div>
+</div>
+
+<div class="name"><b>Почему «Жива».</b> Имя созвучно названию банка и значит «живая»: клиент растёт, банк рядом с первых дней. Его легко произносить в команде («спроси у Живы»). Аватар — зелёный робот с антенной-ростком и лейкой. Жива находит новые компании и помогает им расти, а решения принимает менеджер. За спиной у Живы три растения: семечко, росток и деревце. Это лестница тарифов банка. Персонаж придуман для этого проекта. Логотипа и фирменных цветов банка в нём нет, палитру можно подстроить под бренд. Использовать имя и аватар в банке можно после согласования с маркетингом и юристами банка.</div>
+
+<h2>Что мы увидели на сайте банка</h2>
+<div class="grid">
+ <div class="c"><b>Свой банк Рязани с 1992 года</b><span>Банк делает ставку на индивидуальный подход и гибкость. Офисы есть в Рязани, Москве и Санкт-Петербурге. Сила банка — близость к местному бизнесу.</span></div>
+ <div class="c"><b>Вход «с нуля»</b><span>На тарифе «Начни с нуля» ведение и открытие счёта стоят 0 ₽. Через 12 месяцев клиент автоматически переходит на «Классический». Банк помогает зарегистрировать бизнес: он уже рассчитывает на тех, кто только начинает.</span></div>
+ <div class="c"><b>Лестница тарифов</b><span>«Начни с нуля» → «Классический» → «Большие обороты». Клиенту есть куда расти, не уходя из банка.</span></div>
+ <div class="c"><b>Кредиты МСП</b><span>Банк даёт кредиты до 60 млн ₽ на срок до 60 месяцев, ставка от 19%. Есть льготная госпрограмма для МСП и поручительства по кредитам малого и среднего бизнеса.</span></div>
+ <div class="c"><b>Наличные и эквайринг</b><span>Банк инкассирует выручку и пересчитывает наличные. Эквайринг можно подключить без счёта в банке: оборудование и обучение бесплатные, деньги зачисляются за один рабочий день.</span></div>
+ <div class="c"><b>ВЭД с Китаем и СНГ</b><span>У банка прямые корреспондентские счета в юанях (в банке континентального Китая), тенге, манатах и драмах. Есть платежи в долларах и евро в страны Средней Азии, Грузию, Монголию, Сербию, Беларусь. Валютный контроль «под ключ», экспертиза контрактов бесплатна.</span></div>
+ <div class="c"><b>ТСЖ, СНТ, ГСК</b><span>Для новых товариществ есть отдельный тариф: открытие бесплатно, ведение через интернет-банк 299 ₽ в месяц, первые полгода бесплатно. Переводы физлицам до 500 000 ₽ в месяц без комиссии.</span></div>
+ <div class="c"><b>Зарплата и сервисы</b><span>Зарплатный проект на картах «Мир» без депонирования, есть дополнительные карты для семьи. Проверка контрагентов «Светофор» в интернет-банке, «Клик сервис», помощь в подборе персонала.</span></div>
+</div>
+<p class="note">Сведения взяты с сайта zhivagobank.ru и из «Сборника тарифов с 01.08.2026» на 27.11.2026. Ставки эквайринга и комиссии ВЭД банк устанавливает индивидуально, они уточняются на постановке.</p>
+
+<h2>Главная мысль: вырастить клиента на тарифах самого банка</h2>
+<p>Крупные банки берут нового клиента массовой рекламой. У Живаго Банка другая сила: он знает местный бизнес и даёт ему расти по ступеням. Жива находит компанию в первые дни после регистрации, приводит её на «Начни с нуля» и следит за ростом. Когда клиенту становится выгоднее «Классический» или «Большие обороты», менеджер узнаёт об этом первым и предлагает переход сам. Особенно важен 12-й месяц: «Начни с нуля» автоматически переходит в «Классический» с платой 1 500 ₽ в месяц. Жива заранее предупреждает менеджера, и тот объясняет клиенту выгоду, пока клиент не начал искать бесплатный тариф в другом банке.</p>
+<div class="lad">
+ <div><span class="t">Ступень 1 · семечко</span><b>«Начни с нуля»</b><small>0 ₽ ведение и открытие · поступления 1% · внешний платёж 75 ₽</small><small>Первые 12 месяцев для новых клиентов</small></div>
+ <div><span class="t">Ступень 2 · росток</span><b>«Классический»</b><small>1 500 ₽/мес · поступления резидентов 0 ₽ · внешний платёж 45 ₽</small><small>Когда поступления растут</small></div>
+ <div><span class="t">Ступень 3 · деревце</span><b>«Большие обороты»</b><small>6 000 ₽/мес · внешние платежи 0 ₽</small><small>Когда платежей становится много</small></div>
+</div>
+<div class="calc">
+ <b>Когда Жива подскажет переход: расчёт по тарифам с сайта</b>
+ <div class="row"><label>Поступления на счёт в месяц, ₽ <input id="inc" type="number" value="200000" min="0" step="10000"></label><label>Внешних платежей в месяц <input id="pay" type="number" value="40" min="0" step="5"></label></div>
+ <div class="row"><span>Выгоднее всего: <span class="out" id="best">—</span></span></div>
+ <div class="note" id="cmp"></div>
+ <p class="note" style="margin:6px 0 0">Переход с «Начни с нуля» на «Классический» окупается с поступлений около 150 000 ₽ в месяц. Переход на «Большие обороты» окупается примерно со 100 платежей в месяц. Подключение интернет-банка в расчёт не входит. Платежи внутри банка и переводы физлицам до 300 000 ₽ в месяц на всех трёх тарифах бесплатны.</p>
+</div>
+
+<h2>Пять видов клиентов, которых ищет Жива</h2>
+<div class="grid g2">
+ <div class="src"><span class="k">Источник 1</span><b>Новый бизнес: ИП и ООО в первые недели</b><span>Ежедневные регистрации ЕГРЮЛ/ЕГРИП. Жива проверяет каждую по ОКВЭД, адресу и признакам риска. Приоритет у Рязани и области, затем районы рядом с офисами в Москве и Санкт-Петербурге.</span><span class="pr">Что предложить: «Начни с нуля» за 0 ₽ на 12 месяцев, бесплатное открытие, корпоративную карту «Мир», интернет-банк, проверку контрагентов через «Светофор», помощь в подборе персонала.</span></div>
+ <div class="src"><span class="k">Источник 2</span><b>Новые ТСЖ, ТСН, ЖСК, СНТ и ГСК</b><span>В новостройках создают товарищества собственников, за городом — садовые товарищества, во дворах — гаражные кооперативы. Жива находит их по организационно-правовой форме и ОКВЭД. Тариф банка рассчитан только на тех, кто приходит впервые, поэтому важно найти товарищество в первые недели после регистрации.</span><span class="pr">Что предложить: тариф «ТСЖ» — открытие бесплатно, ведение 299 ₽ в месяц, первые полгода бесплатно, переводы физлицам до 500 000 ₽ в месяц без комиссии. Ещё приём платежей жителей и размещение свободных средств. Каждый дом или посёлок даёт банку десятки и сотни будущих частных клиентов.</span></div>
+ <div class="src"><span class="k">Источник 3</span><b>Розница, общепит и сервис с наличной выручкой</b><span>Магазины, кафе, аптеки, АЗС, рынки, бытовые услуги. Жива выделяет их по ОКВЭД розничной торговли и общепита и по адресу точки.</span><span class="pr">Что предложить: начать с эквайринга — он подключается без счёта в банке, оборудование бесплатное, зачисление за один рабочий день. Затем инкассацию выручки, пересчёт наличных и счёт на «Классическом», когда выручка вырастет.</span></div>
+ <div class="src"><span class="k">Источник 4</span><b>МСП, которому нужен кредит для роста</b><span>Производство, строительство, сельское хозяйство и переработка, транспорт. В Рязанской области это основа экономики. Жива находит молодые и растущие компании, которым подходят льготные программы.</span><span class="pr">Что предложить: кредит по госпрограмме льготного кредитования МСП, поручительство по кредиту, кредит на индивидуальных условиях: до 60 млн ₽, до 60 месяцев, от 19%. Цели — оборотные средства, оборудование, транспорт, недвижимость, участие в торгах.</span></div>
+ <div class="src" style="grid-column:1/-1"><span class="k">Источник 5</span><b>Импортёры и экспортёры: Китай, Казахстан, Закавказье, Средняя Азия</b><span>Оптовая торговля, импорт оборудования, запчастей, стройматериалов, товаров для маркетплейсов, грузоперевозки. Жива выделяет их по ОКВЭД оптовой торговли и перевозок, учредителям и руководителям.</span><span class="pr">Что предложить: платежи в юанях через прямой корреспондентский счёт в банке континентального Китая, расчёты с поставщиками из провинций, где банк уже работает. Платежи в тенге, манатах и драмах, в долларах и евро — в страны Средней Азии, Грузию, Сербию, Беларусь. Валютный контроль «под ключ» и бесплатную экспертизу контракта. Рабочие направления Жива берёт из системы банка.</span></div>
+</div>
+
+<h2>Что Жива делает для менеджера</h2>
+<div class="grid">
+ <div class="c"><b>Находит новых</b><span>Каждый день собирает ленту регистраций ЕГРЮЛ/ЕГРИП по региону, форме и отрасли. Ищет по названию, ИНН, ОГРН и руководителю.</span></div>
+ <div class="c"><b>Составляет образ клиента</b><span>По ОКВЭД, форме и адресу определяет, что нужно клиенту: счёт, касса, кредит, обслуживание дома, ВЭД. Ставит одну из пяти меток: «новый бизнес», «ТСЖ», «наличная выручка», «кредит», «ВЭД».</span></div>
+ <div class="c"><b>Отсеивает риски</b><span>Проверяет массовые адреса и руководителей, недостоверные сведения, признаки транзита и обналичивания. Такие компании помечаются «не привлекать». Логика проверки та же, что у «Светофора» банка.</span></div>
+ <div class="c"><b>Ведёт по ступеням</b><span>Следит за ростом оборотов клиента. Подсказывает менеджеру переход на следующий тариф и заранее предупреждает об окончании 12 месяцев на «Начни с нуля», пока клиент сам не начал искать другой банк.</span></div>
+ <div class="c"><b>Даёт аргументы</b><span>Готовит до пяти доводов на продуктах и тарифах банка под образ клиента. Добавляет готовые ответы на возражения и расчёт выгоды тарифа.</span></div>
+ <div class="c"><b>Подсказывает кредит</b><span>Отбирает клиентов, которые подходят под условия льготной программы МСП и поручительства. Отбор строится по отрасли, сроку работы и размеру компании. Решение о кредите принимает банк.</span></div>
+ <div class="c"><b>Ведёт работу</b><span>Хранит отметки «со слов клиента» и статус «в работе». Закрепляет компанию за менеджером. Каждое утро присылает сводку.</span></div>
+ <div class="c"><b>Растит клиента</b><span>После открытия счёта подсказывает следующий шаг: зарплатный проект, эквайринг, инкассацию, кредит, вклады для владельца и работников.</span></div>
+ <div class="c"><b>Считает результат</b><span>Показывает, какие отрасли и районы дают клиентов, которые остаются и растут. По этим данным банк выбирает, кого привлекать.</span></div>
+</div>
+<div class="integ"><div class="ih"><b>Работает в связке с системой банка</b><span>двусторонняя интеграция</span></div><div class="ic"><div><h4>Получает от банка</h4><ul><li><b>Установки на поиск</b>: регионы и районы у офисов, сегменты, приоритетные ОКВЭД, стоп-листы, план по привлечению</li><li><b>Тарифы и продукты</b>: действующий сборник тарифов, условия кредитных программ и поручительств, рабочие направления ВЭД и корреспондентские счета, акции</li><li><b>Рекомендации</b>: продукты, акции и аргументы, которые банк продвигает в этот период</li></ul></div><div><h4>Передаёт в банк</h4><ul><li>Карточки найденных компаний с образом клиента, ступенью тарифа и приоритетом</li><li>Лиды для менеджеров и статусы работы</li><li>Результаты: кто открыл счёт, кто перешёл на следующую ступень, какие аргументы сработали</li></ul></div></div><p class="note" style="margin:8px 0 0">Установки банка сразу меняют работу Живы. От них зависит, кого помощник ищет, в каком порядке показывает и какие продукты и аргументы предлагает.</p></div>
+<div class="opt"><b>Этап 2 (опционально): где ждать клиента</b><span>Карта мест, где появляются будущие клиенты: новостройки и новые ТСЖ, торговые центры и рынки, промзоны и агрокомплексы Рязанской области, деловые кварталы у офисов в Москве и Санкт-Петербурге. Подсказки строятся по адресам и ОКВЭД новых регистраций. Объём и стоимость этапа 2 определяются отдельно.</span></div>
+<p class="note">На встрече можем показать демо-постановку помощника. Она собрана по образцу уже готового демо.</p>
+
+<h2>Этапы работ</h2>
+<div class="steps">
+ <div class="st"><span class="n">1</span><div><b>Постановка задачи</b><br>Интервью с менеджерами корпоративного бизнеса. Разбор источников данных и доступов, требований безопасности и права. Двусторонняя интеграция с системой банка: установки поиска, тарифы, рекомендации. Справочник продуктов, тарифов и аргументов, правила перехода по ступеням тарифов. Результат — утверждаемое техническое задание, прототип, оценка трудоёмкости, стоимость и план.</div><span class="t">3 рабочих дня</span></div>
+ <div class="st"><span class="n">2</span><div><b>Разработка и внедрение</b><br>Разработка помощника по утверждённой постановке, развёртывание в согласованном контуре, пилот с менеджерами, приёмка.</div><span class="t">по итогам этапа 1</span></div>
+</div>
+
+<h2>Порядок оплаты</h2>
+<div class="tw"><table>
+<thead><tr><th>Платёж</th><th>Когда</th><th style="text-align:right">Сумма</th></tr></thead>
+<tbody>
+<tr><td><b>Аванс</b><br><span class="note">засчитывается в оплату полной стоимости работ</span></td><td>при подписании, до начала постановки</td><td class="n">300 000 ₽</td></tr>
+<tr><td><b>Второй платёж</b></td><td>после утверждения постановки задачи</td><td class="n">50% стоимости</td></tr>
+<tr><td><b>Окончательный расчёт</b></td><td>по приёмке работ</td><td class="n">остаток</td></tr>
+<tr><td><b>Поддержка после приёмки</b><br><span class="note">отдельно от стоимости разработки</span></td><td>ежемесячно, с месяца после приёмки</td><td class="n">по договору</td></tr>
+</tbody></table></div>
+<p class="note">Полная стоимость разработки и внедрения фиксируется в утверждённой постановке задачи.</p>
+
+<h2>Поддержка после приёмки</h2>
+<div class="grid">
+ <div class="c"><b>Что входит</b><span>Контроль ежедневного прогона и обмена с системой банка. Обновление справочников ОКВЭД, тарифов, продуктов и аргументов по установкам банка. Исправление ошибок. Консультации менеджеров и администраторов.</span></div>
+ <div class="c"><b>Доработки</b><span>Небольшие доработки — в пределах пакета часов в месяц. Крупные изменения оцениваются и согласуются отдельно.</span></div>
+ <div class="c"><b>Форма оплаты</b><span>Ежемесячная абонентская плата. Состав, пакет часов, время реакции и сумма фиксируются в постановке задачи и в договоре.</span></div>
+</div>
+<h2>Расходы на модель ИИ и инфраструктуру</h2>
+<p>Сюда входят вычислительные ресурсы, использование модели ИИ, хранение данных и доступ к источникам сведений о компаниях. Кто несёт эти расходы, зависит от того, где будет работать Жива. Это решается на постановке:</p>
+<div class="grid">
+ <div class="c"><b>Вариант А — контур банка</b><span>Жива работает на ресурсах банка и с моделью ИИ, допущенной банком. Расходы на инфраструктуру, модель и источники данных несёт банк. Исполнитель отвечает за работу Живы в рамках поддержки.</span></div>
+ <div class="c"><b>Вариант Б — инфраструктура исполнителя</b><span>Жива размещается у исполнителя в облаке, согласованном с банком. Расходы на инфраструктуру и модель включаются в ежемесячную плату или выставляются по фактическому потреблению.</span></div>
+ <div class="c"><b>Источники данных</b><span>Доступ к данным ФНС или к поставщику сведений о компаниях оплачивает тот, на кого оформлен договор с источником. Обычно это банк.</span></div>
+</div>
+<p class="note">Выбранный вариант и порядок расчётов записываются в договор.</p>
+
+<h2>Что нужно от банка</h2>
+<div class="grid">
+ <div class="c"><b>Бизнес и продукт</b><span>Ответственный и 2–3 менеджера. Целевые регионы и районы у офисов, сегменты, ОКВЭД и план. Стоп-листы. Действующий сборник тарифов, условия тарифа «ТСЖ», кредитных программ и поручительств. Акции, разрешённые формулировки и возражения. Текущая конверсия.</span></div>
+ <div class="c"><b>Клиенты и системы</b><span>Проверка по ИНН «уже клиент». Обратная связь по лидам. CRM и её API. Обезличенные обороты клиентов для подсказок о переходе по ступеням, если банк допустит. Вход сотрудников, роли, аудит. Контур размещения.</span></div>
+ <div class="c"><b>Регламенты</b><span>Корпоративный бизнес и открытие счетов, кредитование МСП и поручительства, кассовое обслуживание и инкассация, комплаенс и ПОД/ФТ, валютный контроль, служба безопасности, маркетинг, защита ПДн, ИТ и ИБ, политика ИИ, закупки и договорная работа.</span></div>
+ <div class="c"><b>Безопасность и право</b><span>Требования ИБ. Договор поручения обработки персональных данных. Решение о модели ИИ и месте обработки. Каналы, на которые клиенты дали согласие (38-ФЗ). Согласование имени и аватара.</span></div>
+ <div class="c"><b>Государственные каналы</b><span>Поток регистраций ЕГРЮЛ/ЕГРИП: доступ ФНС или поставщик банка. Открытые данные ФНС для проверки рисков. Итоговый флаг платформы ЦБ «Знай своего клиента», если банк допустит. Классификатор ОКВЭД. Реестры лицензий и сведения о программах поддержки МСП.</span></div>
+ <div class="c"><b>Связь с сервисами банка</b><span>Порядок передачи карточек в «Светофор» и «Клик сервис». Условия услуги регистрации бизнеса через банк. Сведения о точках инкассации.</span></div>
+</div>
+
+<h2>Контакты</h2>
+<div class="sign">
+ <div class="c"><b>ИП Кузин Сергей Константинович</b><span>Тел. +7 925 378-14-81 · Telegram @SergeyKKuzin<br>sergey.kuzin@list.ru</span></div>
+ <div class="c"><b>Срок действия предложения</b><span>30 календарных дней с даты КП. Реквизиты — в договоре.</span></div>
+</div>
+</div>
+<script>
+const T=[["«Начни с нуля»",0,75,.01],["«Классический»",1500,45,0],["«Большие обороты»",6000,0,0]];
+const f=n=>Math.round(n).toLocaleString('ru-RU')+' ₽';
+function calc(){const inc=+document.getElementById('inc').value||0,pay=+document.getElementById('pay').value||0;
+const r=T.map(([n,m,p,k])=>[n,m+p*pay+k*inc]);const b=r.reduce((a,x)=>x[1]<a[1]?x:a);
+document.getElementById('best').textContent=b[0]+' — '+f(b[1])+' в месяц';
+document.getElementById('cmp').textContent=r.map(x=>x[0]+': '+f(x[1])).join(' · ');}
+['inc','pay'].forEach(i=>document.getElementById(i).addEventListener('input',calc));calc();
+</script>
+</body></html>
+
+</body></html>
