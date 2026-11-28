@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Agentic — инвестпроект v1.3</title>
+<title>Agentic — инвестпроект v1.6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -46,9 +46,34 @@ textarea{width:100%;min-height:120px;font:13px/1.4 ui-monospace,monospace;backgr
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--mut)}.stack td:empty{display:none}}
 </style><script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script></head><body>
 
+<section class="band" id="market" aria-labelledby="mH">
+ <p class="mut">Анализ рынка · 28.11.2026 · по открытым данным, ссылки внизу раздела</p>
+ <h2 id="mH" style="font-size:clamp(26px,3vw,36px);line-height:1.08;margin-bottom:10px">Расходы на ИИ в США и России выросли за год в пять раз. Россия отстаёт от США на полтора-два года и растёт с низкой базы быстрее</h2>
+ <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+  <div class="kpi hot"><b>177 млрд $</b><span>США · корпоративные расходы на ИИ, 2026, ×5,4 за год</span></div>
+  <div class="kpi"><b>+40–46% в год</b><span>США · прогноз роста рынка ИИ-агентов</span></div>
+  <div class="kpi"><b>58 млрд ₽</b><span>Россия · генеративный ИИ, 2025, ×5 за год</span></div>
+  <div class="kpi hot"><b>до 778 млрд ₽</b><span>Россия · прогноз рынка генеративного ИИ к 2030</span></div>
+ </div>
+ <div class="scroll"><table class="stack"><thead><tr><th>Рынок</th><th>Факт</th><th>Прогноз</th><th>Источник</th></tr></thead><tbody>
+ <tr><td>США · корпоративные расходы на ИИ</td><td>33 млрд $ (2025) → 177 млрд $ (2026), ×5,4</td><td>рост ускоряется: ×5,4 против ×3,9 годом раньше</td><td>Menlo Ventures</td></tr>
+ <tr><td>США · ИИ-приложения и агенты</td><td>19 млрд $ (2025) → 77 млрд $ (2026)</td><td>рынок ИИ-агентов: 10–15 млрд $ в 2026, рост 40–46% в год</td><td>Menlo Ventures; Precedence Research, Fortune Business Insights</td></tr>
+ <tr><td>Россия · генеративный ИИ</td><td>13 млрд ₽ (2024) → 58 млрд ₽ (2025), ×5</td><td>от 180 млрд ₽ (Yandex Cloud) до 778 млрд ₽ (рост 68% в год) к 2030</td><td>Коммерсантъ, Сбер, Yandex Cloud</td></tr>
+ <tr><td>Россия · продажи через ИИ-агентов</td><td>начало: агенты помогают выбрать товар, до корзины доходит около трети случаев</td><td>400–850 млрд ₽ в 2028–2029 (2–4% e-commerce); 2–3 трлн ₽ к 2032 (7–11%)</td><td>Data Insight</td></tr>
+ </tbody></table></div>
+ <p class="mut">Прогнозы — оценки аналитических агентств, приведены как есть.
+ Источники: <a href="https://menlovc.com/wp-content/uploads/2026/11/menlo_ventures_enterprise_ai_report-2026-110326.pdf">Menlo Ventures, 2026</a> ·
+ <a href="https://www.precedenceresearch.com/ai-agents-market">Precedence Research</a> ·
+ <a href="https://www.fortunebusinessinsights.com/ki-agentenmarkt-111574">Fortune Business Insights</a> ·
+ <a href="https://kommersant.ru/doc/8270177">Коммерсантъ</a> ·
+ <a href="https://sber.pro/publication/dvigatel-ekonomiki-generativni-ii-ot-azhiotazha-k-promishlennomu-standartu/">Сбер</a> ·
+ <a href="https://yandex.cloud/ru/blog/ai-market-2026-global-trends-russia-agents">Yandex Cloud</a> ·
+ <a href="https://adindex.ru/publication/analitics/search/2026/08/24/348282.phtml">AdIndex / Data Insight</a></p>
+</section>
+
 <div class="band top">
  <div>
-  <p class="mut">Инвестиционный проект · версия 1.3 · 24.11.2026 · модель для обсуждения с инвестором</p>
+  <p class="mut">Инвестиционный проект · версия 1.6 · 28.11.2026 · модель для обсуждения с инвестором</p>
   <h1 id="verdict">Agentic Commerce: агентная коммерция для банков, торговцев и людей</h1>
   <p id="lead"></p>
   <div class="ctl" role="group" aria-label="Сценарий">
@@ -70,7 +95,7 @@ textarea{width:100%;min-height:120px;font:13px/1.4 ui-monospace,monospace;backgr
  </div>
 </div>
 
-<nav class="scroll" aria-label="Разделы"><a href="#agent">Что за агент</a><a href="#mandates">Мандаты</a><a href="#struct">Продукты и доходы</a><a href="#done">Сделанное</a><a href="#rev">Допущения доходов</a><a href="#cost">Затраты</a><a href="#flow">Денежный поток</a><a href="#deal">Сделка с инвестором</a><a href="#risk">Риски и условия</a></nav>
+<nav class="scroll" aria-label="Разделы"><a href="#market">Рынок</a><a href="#agent">Что за агент</a><a href="#mandates">Мандаты</a><a href="#struct">Продукты и доходы</a><a href="#done">Сделанное</a><a href="#rev">Допущения доходов</a><a href="#cost">Затраты</a><a href="#flow">Денежный поток</a><a href="#deal">Сделка с инвестором</a><a href="#risk">Риски и условия</a></nav>
 
 <section class="band" id="agent">
  <h2>Что за агент сделан</h2>
